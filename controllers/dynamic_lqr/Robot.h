@@ -18,10 +18,11 @@
 #include <webots/PositionSensor.hpp>
 #include <iostream>
 #include <fstream>
-#include "MyDefine.h"
-#include "Pid.h"
 #include <math.h>
 #include <Eigen>
+#include "MyDefine.h"
+#include "Pid.h"
+#include "Leg.h"
 
 using namespace Eigen;
 using namespace webots;
@@ -33,26 +34,6 @@ using namespace std;
 #define Link3 200
 #define Link4 180
 #define Link5 120
-
-class LegClass
-{
-public:
-    // 长度
-    float angle0, angle1, angle2, angle3, angle4;
-    float L0_now;
-    float L0_set;
-    // 坐标
-    float xa, ya;
-    float xb, yb;
-    float xc, yc;
-    float xd, yd;
-    float xe, ye;
-    // 力与力矩
-    float TL_now, TR_now, TWheel_now; // 左腿看左视图，右腿看右视图
-    float TL_set, TR_set, TWheel_set;
-    float F_set;  // 根据腿长PD控制得到， 初值为上层机构重力
-    float Tp_set; // 根据状态反馈矩阵得到
-};
 
 class MyRobot : public Robot
 {
@@ -83,9 +64,6 @@ private:
     float yaw_get, yaw_get_last;
 
     u8 stop_flag;
-    void Zjie(LegStruct *leg);
-    void Njie(LegStruct *leg);
-    Matrix<float, 2, 1> VMC();
 
 public:
     MyRobot();
