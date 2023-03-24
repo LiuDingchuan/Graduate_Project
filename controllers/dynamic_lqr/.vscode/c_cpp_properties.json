@@ -1,0 +1,27 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}",
+                "D:\\Webots2020\\include\\controller\\cpp",
+                "D:\\Webots2020\\include\\controller\\c",
+                "D:\\Eigen-C++\\eigen-3.4.0\\Eigen"
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": "${default}",
+                "path": [
+                    "${workspaceFolder}",
+                    "D:\\Webots2020\\lib\\controller"
+                ]
+            },
+            "intelliSenseMode": "${default}",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "compilerPath": "${default}",
+            "configurationProvider": "ms-vscode.makefile-tools"
+        }
+    ],
+    "version": 4
+}
