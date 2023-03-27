@@ -1,4 +1,4 @@
-build/release/Robot.o: Robot.cpp Robot.h \
+build/release/main.o: main.cpp Robot.h \
  D:\Webots2020/include/controller/cpp/webots/Robot.hpp \
  D:\Webots2020/include/controller/cpp/webots/Motor.hpp \
  D:\Webots2020/include/controller/cpp/webots/Device.hpp \

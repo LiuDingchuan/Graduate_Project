@@ -1,16 +1,4 @@
-build/release/Robot.o: Robot.cpp Robot.h \
- D:\Webots2020/include/controller/cpp/webots/Robot.hpp \
- D:\Webots2020/include/controller/cpp/webots/Motor.hpp \
- D:\Webots2020/include/controller/cpp/webots/Device.hpp \
- D:/Webots2020/include/controller/c/webots/types.h \
- D:\Webots2020/include/controller/cpp/webots/Keyboard.hpp \
- D:\Webots2020/include/controller/cpp/webots/InertialUnit.hpp \
- D:\Webots2020/include/controller/cpp/webots/Gyro.hpp \
- D:\Webots2020/include/controller/cpp/webots/Camera.hpp \
- D:/Webots2020/include/controller/c/webots/camera_recognition_object.h \
- D:\Webots2020/include/controller/cpp/webots/GPS.hpp \
- D:\Webots2020/include/controller/cpp/webots/PositionSensor.hpp \
- D:/Eigen-C++/eigen-3.4.0/Eigen/Eigen \
+build/release/Leg.o: Leg.cpp Leg.h D:/Eigen-C++/eigen-3.4.0/Eigen/Eigen \
  D:/Eigen-C++/eigen-3.4.0/Eigen/Dense D:/Eigen-C++/eigen-3.4.0/Eigen/Core \
  D:/Eigen-C++/eigen-3.4.0/Eigen/src/Core/util/DisableStupidWarnings.h \
  D:/Eigen-C++/eigen-3.4.0/Eigen/src/Core/util/Macros.h \
@@ -273,4 +261,4 @@ build/release/Robot.o: Robot.cpp Robot.h \
  D:/Eigen-C++/eigen-3.4.0/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h \
  D:/Eigen-C++/eigen-3.4.0/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h \
  D:/Eigen-C++/eigen-3.4.0/Eigen/src/IterativeLinearSolvers/IncompleteCholesky.h \
- MyDefine.h Pid.h Leg.h
+ MyDefine.h

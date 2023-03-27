@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:19:53
- * @LastEditTime: 2023-03-24 20:08:43
+ * @LastEditTime: 2023-03-27 15:41:34
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.cpp
  */
 #include "Leg.h"
@@ -26,7 +26,7 @@ void LegClass::Njie(float xc, float yc)
 {
     this->xc = xc;
     this->yc = yc;
-    
+
     float m, n, b, x1, y1;
     float A, B, C;
 
@@ -94,9 +94,11 @@ void LegClass::Zjie(float angle1, float angle4, float pitch)
     angle0 = atan2(cor_XY_then(0, 0), cor_XY_then(0, 1));
 }
 /**
- * @brief: VMC算法
+ * @brief: VMC（虚拟力算法）
  * @author: Dandelion
- * @Date: 2023-03-24 19:41:20
+ * @Date: 2023-03-27 15:27:06
+ * @param {float} F 沿杆方向的受力
+ * @param {float} Tp 杆所受的力矩
  * @return {*}
  */
 Matrix<float, 2, 1> LegClass::VMC(float F, float Tp)
@@ -105,8 +107,13 @@ Matrix<float, 2, 1> LegClass::VMC(float F, float Tp)
     this->Tp_set = Tp;
 
     Matrix<float, 2, 2> Trans;
-    Trans << l1 * cos(angle0 - angle3) * sin(angle1 - angle2) / sin(angle2 - angle3),
-        l1 * sin(angle0 - angle3) * sin(angle1 - angle2) / (L0_now * sin(angle2 - angle3)),
-        l4 * cos(angle0 - angle2) * sin(angle3 - angle4) / sin(angle2 - angle3),
-        l4 * sin(angle0 - angle2) * sin(angle3 - angle4) / (L0_now * sin(angle2 - angle3));
+    Matrix<float, 2, 1> VirtualF;
+    Matrix<float, 2, 1> ActualF;
+    Trans << l1 * sin(angle0 + angle3) * sin(angle1 - angle2) / sin(angle2 - angle3),
+        l1 * cos(angle0 + angle3) * sin(angle1 - angle2) / (L0_now * sin(angle2 - angle3)),
+        l4 * sin(angle0 + angle2) * sin(angle3 - angle4) / sin(angle2 - angle3),
+        l4 * cos(angle0 + angle2) * sin(angle3 - angle4) / (L0_now * sin(angle2 - angle3));
+    VirtualF << F, Tp;
+    ActualF = Trans * ActualF;
+    return VirtualF;
 }
