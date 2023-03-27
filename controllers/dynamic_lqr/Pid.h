@@ -12,23 +12,25 @@
 
 using namespace std;
 
-class Pid
+class PID_Controller
 {
 private:
     /* data */
     float kp, ki, kd;
     float err_now, err_last, err_sum;
-    float max_output;
+    float output, max_output, max_sum;
 
     float a_Filter; // 滤波
     float err_lowout;
 
 public:
-    Pid(float _p, float _i, float _d, float _max_out);
-    ~Pid();
+    PID_Controller() : kp(0), ki(0), kd(0), err_sum(0), output(0), max_sum(0), max_output(0){};
+    PID_Controller(float _p, float _i, float _d, float _max_out);
+    ~PID_Controller();
 
     float compute(float set, float real, float angle_w);
     float compute(float set, float encoder);
+    float compute(const float target, const float d_target, const float input, const float d_input, const float dt);
 
     void clear();
     void update(float _p, float _i, float _d, float _max_out);

@@ -56,12 +56,12 @@ typedef const uint8_t uc8;   /*!< Read Only */
 #define ABS(x) ((x) > 0 ? (x) : -(x))                                                         // 绝对值；括号x的括号不能丢
 #define SIGN(x) ((x) > 0 ? 1 : ((x) < 0 ? -1 : 0))                                            // 获取数据正负号
 #define SQUARE(x) ((x) * (x))                                                                 // 平方
-#define HYPOT(x, y) (sqrt((x) * (x) + (y) * (y)))                                             //斜边
+#define HYPOT(x, y) (sqrt((x) * (x) + (y) * (y)))                                             // 斜边
 #define BELONG(x, min, max) ((x) >= (MIN(min, max)) && (x) <= (MAX(min, max)) ? True : False) // if x in [min, max] return True
 #define MAX(x, y) (((x) >= (y)) ? (x) : (y))                                                  // 两个数的最大值
 #define MIN(x, y) (((x) >= (y)) ? (y) : (x))                                                  // 两个数的最小值
-#define rad_2_deg(X) ((X) / PI * 180.0)                                                       // 角度转换                                                   // 角度转换
-#define deg_2_rad(X) ((X) / 180.0 * PI)
+#define rad2deg(X) ((X) / PI * 180.0)                                                         // 角度转换                                                   // 角度转换
+#define deg2rad(X) ((X) / 180.0 * PI)
 #define Limit(x, max, min) ((x) > (MAX(min, max)) ? (MAX(min, max)) : ((x) < (MIN(min, max)) ? (MIN(min, max)) : (x)))
 
 /* 两点间距离 */

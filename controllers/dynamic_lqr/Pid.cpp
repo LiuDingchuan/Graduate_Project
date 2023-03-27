@@ -2,18 +2,18 @@
  * @CreatedTime   2022-04-23 19:57:04
  * @LastEditors   未定义
  * @LastEditTime  2022-04-24 20:16:23
- * @FilePath      \bishe\Pid.cpp
+ * @FilePath      \bishe\PID_Controller.cpp
  */
 /***
  * @CreatedTime   2022-04-23 19:57:04
  * @LastEditors   未定义
  * @LastEditTime  2022-04-23 20:07:20
- * @FilePath      \bishe\Pid.cpp
+ * @FilePath      \bishe\PID_Controller.cpp
  */
 
 #include "Pid.h"
 
-Pid::Pid(float _p, float _i, float _d, float _max_out)
+PID_Controller::PID_Controller(float _p, float _i, float _d, float _max_out)
     : kp(_p), ki(_i), kd(_d), max_output(_max_out)
 {
     if (0 == _max_out)
@@ -24,21 +24,29 @@ Pid::Pid(float _p, float _i, float _d, float _max_out)
     clear();
 }
 
-Pid::~Pid()
+PID_Controller::~PID_Controller()
 {
 }
 
-void Pid::clear()
+void PID_Controller::clear()
 {
     err_sum = 0, err_now = 0, err_last = 0, err_lowout = 0;
 }
 
-void Pid::update(float _p, float _i, float _d, float _max_out)
+void PID_Controller::update(float _p, float _i, float _d, float _max_out)
 {
     kp = _p, ki = _i, kd = _d, max_output = _max_out;
 }
-
-float Pid::compute(float set, float real, float angle_w)
+/**
+ * @brief:
+ * @author: Dandelion
+ * @Date: 2023-03-27 15:53:25
+ * @param {float} set
+ * @param {float} real
+ * @param {float} angle_w 微分项
+ * @return {*}
+ */
+float PID_Controller::compute(float set, float real, float angle_w)
 {
     err_now = set - real;
     float out = kp * err_now - kd * angle_w;
@@ -46,7 +54,7 @@ float Pid::compute(float set, float real, float angle_w)
     return out;
 }
 
-float Pid::compute(float set, float encoder)
+float PID_Controller::compute(float set, float encoder)
 {
     err_now = set - encoder;
     err_lowout = (1 - a_Filter) * err_now + a_Filter * err_last;
@@ -63,4 +71,23 @@ float Pid::compute(float set, float encoder)
     float out = kp * err_lowout + ki * err_sum + kd * (err_lowout - err_last);
     out = Limit(out, max_output, -max_output);
     return -out;
+}
+
+float PID_Controller::compute(const float target, const float d_target, const float input, const float d_input, const float dt)
+{
+    float output,
+        err = target - input,
+        d_err = d_target - d_input;
+
+    output = this->kp * err + this->kd * d_err;
+    if (this->ki)
+    {
+        this->err_sum += this->ki * err * dt;
+        Limit(this->err_sum, this->max_sum, -this->max_sum);
+        output += this->err_sum;
+    }
+
+    Limit(output, this->max_sum, -this->max_sum);
+    this->output = output;
+    return output;
 }

@@ -51,6 +51,8 @@ private:
     Keyboard *mkeyboard;
 
     LegClass leg_L, leg_R;
+    PID_Controller turn_pid;
+    PID_Controller split_pid;
 
     Matrix<float, 2, 6> K_L, K_R; // 反馈矩阵
     Matrix<float, 6, 1> X_L, X_R; // 状态矩阵，[theta, theta_dot, x, x_dot, phi, phi_dot]
@@ -78,7 +80,7 @@ public:
     }
 
     u8 jump(float t_clk, float *leg_L, float *leg_R);
-    void update();
+    void status_update();
     void MyStep();
     void Wait(int ms);
     void run();

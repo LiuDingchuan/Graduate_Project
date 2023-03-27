@@ -19,8 +19,7 @@ MyRobot::MyRobot() : balance_angle(-0.0064)
     gyro = getGyro("gyro"), gyro->enable(time_step);
     imu = getInertialUnit("imu"), imu->enable(time_step);
     gps = getGPS("gps"), gps->enable(time_step);
-    encoder_L = getPositionSensor("encoder_L"),
-    encoder_L->enable(time_step);
+    encoder_L = getPositionSensor("encoder_L"), encoder_L->enable(time_step);
     encoder_R = getPositionSensor("encoder_R"), encoder_R->enable(time_step);
     L_Wheelmotor = getMotor("L_Motor"), BL_legmotor = getMotor("BL_Motor"), FL_legmotor = getMotor("FL_Motor");
     R_Wheelmotor = getMotor("R_Motor"), BR_legmotor = getMotor("BR_Motor"), FR_legmotor = getMotor("FR_Motor");
@@ -30,6 +29,9 @@ MyRobot::MyRobot() : balance_angle(-0.0064)
 
     BL_legmotor->enableTorqueFeedback(time_step), BR_legmotor->enableTorqueFeedback(time_step), FL_legmotor->enableTorqueFeedback(time_step), FL_legmotor->enableTorqueFeedback(time_step);
     L_Wheelmotor->enableTorqueFeedback(time_step), R_Wheelmotor->enableTorqueFeedback(time_step);
+    // 调参
+    turn_pid.update(1.0, 0.0, 0.01, 0);
+    split_pid.update(1.0, 0.0, 0.01, 0);
 }
 
 MyRobot::~MyRobot()
@@ -41,7 +43,13 @@ void MyRobot::MyStep()
     if (step(time_step) == -1)
         exit(EXIT_SUCCESS);
 }
-
+/**
+ * @brief: 毫秒级延时
+ * @author: Dandelion
+ * @Date: 2023-03-27 16:35:24
+ * @param {int} ms
+ * @return {*}
+ */
 void MyRobot::Wait(int ms)
 {
     float start_time = getTime();
@@ -50,14 +58,18 @@ void MyRobot::Wait(int ms)
         MyStep();
 }
 
+void MyRobot::status_update()
+{
+}
+
 void MyRobot::run()
 {
     static int last_key;
 
-    static Pid vertical_pid(9, 0, 1, 60);
-    static Pid velocity_pid(0.13, 0.003, 0.02, 1.0);
-    static Pid turn_pid(12, 0, 0.3, 0);
-    static Pid roll_pid(0.18, 0, 0.02, 0);
+    static PID_Controller vertical_pid(9, 0, 1, 60);
+    static PID_Controller velocity_pid(0.13, 0.003, 0.02, 1.0);
+    static PID_Controller turn_pid(12, 0, 0.3, 0);
+    static PID_Controller roll_pid(0.18, 0, 0.02, 0);
 
     pitch = imu->getRollPitchYaw()[1];
     pitch_w = gyro->getValues()[2];

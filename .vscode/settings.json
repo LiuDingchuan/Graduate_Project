@@ -1,5 +1,11 @@
 {
     "files.associations": {
-        "eigen": "cpp"
+        "eigen": "cpp",
+        "*.tcc": "cpp",
+        "limits": "cpp",
+        "streambuf": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp"
     }
 }
