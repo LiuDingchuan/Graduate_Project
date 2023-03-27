@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:20:36
- * @LastEditTime: 2023-03-27 19:56:48
+ * @LastEditTime: 2023-03-27 21:36:11
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.h
  */
 #ifndef _LEG_H
@@ -18,8 +18,9 @@ private:
     float l1, l2, l3, l4, l5; // 单位是mm
 
 public:
-    // 长度
+    // data
     float angle0, angle1, angle2, angle3, angle4; // 弧度制
+    float angle0_dot;
     float L0_now;
     float L0_set;
     // 坐标(五连杆坐标系下的，原点在五连杆的中垂线上)
@@ -35,7 +36,7 @@ public:
     float Tp_set; // 根据状态反馈矩阵得到
 
     Matrix<float, 2, 6> K; // 反馈矩阵
-    Matrix<float, 6, 1> X; // 状态矩阵，[theta, theta_dot, x, x_dot, phi, phi_dot]
+    Matrix<float, 6, 1> X, Xd; // 状态矩阵，[theta, theta_dot, x, x_dot, phi, phi_dot]
 
     LegClass();
     void Zjie(float angle1, float angle4, float pitch);

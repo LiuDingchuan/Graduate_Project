@@ -10,9 +10,6 @@
 
 MyRobot::MyRobot() : balance_angle(-0.0064)
 {
-    leg_L.xc = 60, leg_L.yc = 288.17, leg_R.xc = 60, leg_R.yc = 288.17;
-    leg_L.angle1 = 0, leg_L.angle2 = 0, leg_R.angle1 = 0, leg_R.angle2 = 0;
-
     time_step = getBasicTimeStep();
     mkeyboard = getKeyboard(), mkeyboard->enable(time_step);
     camera = getCamera("camera"), camera->enable(time_step);
@@ -61,13 +58,58 @@ void MyRobot::Wait(int ms)
     while (s + start_time >= getTime())
         MyStep();
 }
-
+/**
+ * @brief:状态矩阵更新
+ * @author: Dandelion
+ * @Date: 2023-03-27 20:51:44
+ * @param {LegClass} *leg
+ * @param {PositionSensor} *encoder_L 这里是正视五连杆图形的left和right
+ * @param {PositionSensor} *encoder_R 这里是正式五连杆图形的left和right
+ * @param {PositionSensor} *encoder_Wheel
+ * @param {float} dis
+ * @param {float} dis_dot
+ * @param {float} pitch
+ * @return {*}
+ */
 void MyRobot::status_update(LegClass *leg,
                             PositionSensor *encoder_L, PositionSensor *encoder_R, PositionSensor *encoder_Wheel,
-                            float dis, float dis_dot)
+                            float dis, float dis_dot, float pitch, float pitch_w, float dt,
+                            float v_set)
 {
-    leg->angle1 = encoder_R->getValue();
-    leg->angle4 = encoder_L->getValue();
+    static float dis_desire;
+    static Matrix<float, 12, 4> K_coeff;
+    K_coeff << -56.2657122197288, 110.955449839554, -158.932304773749, -13.2108628940147,
+        124.121829405397, -115.781173481685, 26.3894368897019, 20.9758944326806,
+        19.3122283093215, -28.1143514447985, -19.7975177682733, -0.665103815173968,
+        27.7750019873454, -31.6416911517429, 15.3899867915492, 1.57561475576218,
+        -33.2736580172453, 43.9057047808111, -21.0290308785676, -18.4179466672356,
+        -101.744952999825, 161.913767522745, -98.5903891501989, 28.7533856041495,
+        -18.0941404528499, 30.5738085289490, -27.0370386156508, -12.3401523210168,
+        -47.5172565035432, 83.9660076041746, -55.9012364768479, 19.5060587585273,
+        -160.872896199552, 256.008145196585, -155.885092637028, 45.4630944836172,
+        210.441091502134, -277.684059389342, 132.999269320722, 116.485322563444,
+        -11.3405133550703, 16.1543094417432, -8.97298973283048, 2.45814399283596,
+        11.1745266351310, -14.5626418795488, 6.91332413437057, 3.36393511857054;
+    leg->angle1 = -encoder_R->getValue() + 2 / 3 * PI;
+    leg->angle4 = encoder_L->getValue() + 1 / 3 * PI;
+    float angle0_before = leg->angle0;
+    float pitch_before = pitch;
+    leg->Zjie(leg->angle1, leg->angle4, pitch);
+    leg->angle0_dot = (leg->angle0 - angle0_before) / dt;
+    for (size_t col = 0; col < 6; col++)
+    {
+        /* code */
+        for (size_t row = 0; row < 2; row++)
+        {
+            /* code */
+            int num = col * 2 + row;
+            leg->K(row, col) = K_coeff(num, 0) * pow(leg->L0_now, 3) +
+                               K_coeff(num, 1) * pow(leg->L0_now, 2) +
+                               K_coeff(num, 2) * leg->L0_now +
+                               K_coeff(num, 3);
+        }
+    }
+    leg->X << leg->angle0, leg->angle0_dot, dis, dis_dot, pitch, pitch_w;
 }
 
 void MyRobot::run()

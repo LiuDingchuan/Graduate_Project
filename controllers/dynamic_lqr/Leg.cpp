@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:19:53
- * @LastEditTime: 2023-03-27 20:32:27
+ * @LastEditTime: 2023-03-27 21:02:54
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.cpp
  */
 #include "Leg.h"
@@ -15,6 +15,14 @@ LegClass::LegClass()
     l3 = 200;
     l4 = 180;
     l5 = 120;
+
+    xc = 0, yc = 288.17;
+    angle1 = PI / 3 * 2;
+    angle4 = PI / 3;
+    Zjie(angle1, angle4, 0);
+    K << -51.1430, -8.2427, -21.6281, -18.0255, 17.9514, 0.9425,
+        21.9362, 4.0477, 11.3535, 9.2326, 136.7881, 4.4142;
+    X << 0, 0, 0, 0, 0, 0;
 }
 /**
  * @brief: 运动学逆解

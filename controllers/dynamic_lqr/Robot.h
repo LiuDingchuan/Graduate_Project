@@ -79,7 +79,8 @@ public:
     u8 jump(float t_clk, float *leg_L, float *leg_R);
     void status_update(LegClass *leg,
                        PositionSensor *encoder_L, PositionSensor *encoder_R, PositionSensor *encoder_Wheel,
-                       float dis, float dis_dot);
+                       float dis, float dis_dot, float pitch, float pitch_w, float dt,
+                       float v_set);
     void MyStep();
     void Wait(int ms);
     void run();
