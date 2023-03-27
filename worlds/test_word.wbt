@@ -39,6 +39,9 @@ Robot {
             axis 0 0 1
           }
           device [
+            PositionSensor {
+              name "encoder_BR"
+            }
             RotationalMotor {
               name "BR_Motor"
               maxTorque 15
@@ -77,7 +80,7 @@ Robot {
                               }
                               device [
                                 PositionSensor {
-                                  name "encoder_R"
+                                  name "encoder_wheelR"
                                 }
                                 RotationalMotor {
                                   name "R_Motor"
@@ -189,6 +192,9 @@ Robot {
             axis 0 0 1
           }
           device [
+            PositionSensor {
+              name "encoder_FR"
+            }
             RotationalMotor {
               name "FR_Motor"
               maxTorque 15
@@ -286,6 +292,9 @@ Robot {
             axis 0 0 1
           }
           device [
+            PositionSensor {
+              name "encoder_BL"
+            }
             RotationalMotor {
               name "BL_Motor"
               maxTorque 15
@@ -324,7 +333,7 @@ Robot {
                               }
                               device [
                                 PositionSensor {
-                                  name "encoder_L"
+                                  name "encoder_wheelL"
                                 }
                                 RotationalMotor {
                                   name "L_Motor"
@@ -433,6 +442,9 @@ Robot {
             axis 0 0 1
           }
           device [
+            PositionSensor {
+              name "encoder_FL"
+            }
             RotationalMotor {
               name "FL_Motor"
               maxTorque 15
@@ -560,5 +572,5 @@ Robot {
   physics Physics {
     density 2700
   }
-  controller "shiyan10425"
+  controller "dynamic_lqr"
 }

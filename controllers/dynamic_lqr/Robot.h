@@ -46,16 +46,13 @@ private:
     Gyro *gyro;
     InertialUnit *imu;
     GPS *gps;
-    PositionSensor *encoder_L, *encoder_R;
+    PositionSensor *encoder_wheelL, *encoder_wheelR, *encoder_BL, *encoder_BR, *encoder_FL, *encoder_FR;
     Motor *BL_legmotor, *BR_legmotor, *FL_legmotor, *FR_legmotor, *L_Wheelmotor, *R_Wheelmotor;
     Keyboard *mkeyboard;
 
     LegClass leg_L, leg_R;
     PID_Controller turn_pid;
     PID_Controller split_pid;
-
-    Matrix<float, 2, 6> K_L, K_R; // 反馈矩阵
-    Matrix<float, 6, 1> X_L, X_R; // 状态矩阵，[theta, theta_dot, x, x_dot, phi, phi_dot]
 
     float velocity_set, yaw_set, roll_set;
     float velocity_out, vertical_out, turn_out, leg_out;
@@ -80,7 +77,9 @@ public:
     }
 
     u8 jump(float t_clk, float *leg_L, float *leg_R);
-    void status_update();
+    void status_update(LegClass *leg,
+                       PositionSensor *encoder_L, PositionSensor *encoder_R, PositionSensor *encoder_Wheel,
+                       float dis, float dis_dot);
     void MyStep();
     void Wait(int ms);
     void run();

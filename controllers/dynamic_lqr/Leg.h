@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:20:36
- * @LastEditTime: 2023-03-24 19:47:18
+ * @LastEditTime: 2023-03-27 19:56:48
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.h
  */
 #ifndef _LEG_H
@@ -33,6 +33,9 @@ public:
     float TL_set, TR_set, TWheel_set;
     float F_set;  // 根据腿长PD控制得到， 初值为上层机构重力
     float Tp_set; // 根据状态反馈矩阵得到
+
+    Matrix<float, 2, 6> K; // 反馈矩阵
+    Matrix<float, 6, 1> X; // 状态矩阵，[theta, theta_dot, x, x_dot, phi, phi_dot]
 
     LegClass();
     void Zjie(float angle1, float angle4, float pitch);

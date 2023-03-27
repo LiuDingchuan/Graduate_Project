@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:19:53
- * @LastEditTime: 2023-03-27 15:41:34
+ * @LastEditTime: 2023-03-27 20:32:27
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.cpp
  */
 #include "Leg.h"
@@ -52,9 +52,6 @@ void LegClass::Njie(float xc, float yc)
     C = l3 * l3 + 2 * l5 * x1 - l4 * l4 - l5 * l5 - x1 * x1 - y1 * y1;
     angle4 = 2 * atan((A - sqrt(A * A + B * B - C * C)) / (B - C));
     // nije_5((void *)0, &angle2, x1, y1, l1, l2, l3, l4, l5);        //计算c4 ,
-
-    angle1 -= PI * 2 / 3; // 计算坐标系与运动起始位置的差值
-    angle4 -= PI / 3;
 }
 /**
  * @brief:
