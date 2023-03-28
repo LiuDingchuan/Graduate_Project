@@ -140,8 +140,8 @@ void MyRobot::run()
     if (time == 0)
         yaw_set = yaw;
 
-    encoderL_now = encoder_wheelL->getValue();
-    encoderR_now = encoder_wheelR->getValue();
+    disL = encoder_wheelL->getValue() * 0.05;
+    disR = encoder_wheelR->getValue() * 0.05;
 
     time = getTime();
 
@@ -197,12 +197,13 @@ void MyRobot::run()
         key = mkeyboard->getKey();
     }
 
-    float L_speed = (encoderL_now - encoderL_last) * 50 / time_step, R_speed = (encoderR_now - encoderR_last) * 50 / time_step; // m/s
+    disL_dot = (disL - disL_last) * 1000 / time_step;
+    disR_dot = (disR - disR_last) * 1000 / time_step; // m/s
     velocity_set = Limit(velocity_set, 3, -3);
-    velocity_out = velocity_pid.compute(velocity_set, (L_speed + R_speed) / 2);
+    velocity_out = velocity_pid.compute(velocity_set, (disL_dot + disR_dot) / 2);
     float pitch_set = velocity_out + balance_angle;
-    encoderL_last = encoderL_now;
-    encoderR_last = encoderR_now;
+    disL_last = disL;
+    disR_last = disR;
 
     vertical_out += vertical_pid.compute(pitch_set, pitch, pitch_w);
 
@@ -233,13 +234,13 @@ void MyRobot::run()
     L_Wheelmotor->setVelocity(Limit(vertical_out - turn_out, 60, -60));
     R_Wheelmotor->setVelocity(Limit(vertical_out + turn_out, 60, -60));
 
-    // printf("pitch_set:%f, pitch:%f, L_speed:%f, yaw:%f, L_y:%f, R_y:%f, leg_L.TL_now:%f, L_Torque:%f\n",
-    //        pitch_set, pitch, L_speed, yaw, leg_L.yc, leg_R.yc, leg_L.TL_now, L_Torque);
+    // printf("pitch_set:%f, pitch:%f, disL_dot:%f, yaw:%f, L_y:%f, R_y:%f, leg_L.TL_now:%f, L_Torque:%f\n",
+    //        pitch_set, pitch, disL_dot, yaw, leg_L.yc, leg_R.yc, leg_L.TL_now, L_Torque);
 
-    printf("BackLeft:%f, FrontLeft:%f\n",
-           encoder_BL->getValue(), encoder_FL->getValue());
+    printf("BackLeft:%f, FrontLeft:%f, LeftSpeed:%f, RightSpeed:%f\n",
+           encoder_BL->getValue(), encoder_FL->getValue(), disL_dot, disR_dot);
     // ofstream outfile;
     // outfile.open("data2.dat", ios::trunc);
-    // outfile << time << ' ' << pitch << ' ' << L_speed << ' ' << robot_x << ' ' << L_Torque << endl;
+    // outfile << time << ' ' << pitch << ' ' << disL_dot << ' ' << robot_x << ' ' << L_Torque << endl;
     // outfile.close();
 }

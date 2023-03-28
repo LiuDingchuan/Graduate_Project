@@ -56,7 +56,7 @@ private:
 
     float velocity_set, yaw_set, roll_set;
     float velocity_out, vertical_out, turn_out, leg_out;
-    float encoderL_last, encoderR_last, encoderL_now, encoderR_now;
+    float disL_last, disR_last;
     float disL, disR;
     float disL_dot, disR_dot;
     float pitch, roll, yaw, pitch_w, roll_w, yaw_w;
