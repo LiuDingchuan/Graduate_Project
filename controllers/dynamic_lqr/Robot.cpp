@@ -193,12 +193,12 @@ void MyRobot::run()
             velocity_set = 0;
             break;
         case 'W':
-            leg_L.yc += 2.f;
-            leg_R.yc += 2.f;
+            leg_L.yc += 0.002f;
+            leg_R.yc += 0.002f;
             break;
         case 'S':
-            leg_L.yc -= 2.f;
-            leg_R.yc -= 2.f;
+            leg_L.yc -= 0.002f;
+            leg_R.yc -= 0.002f;
             break;
         case 'A':
             roll_set -= 0.02f;
@@ -227,8 +227,8 @@ void MyRobot::run()
     float leg_out = 0;
     // leg_out = roll_pid.compute(roll_set, roll, roll_dot);
 
-    leg_L.yc = Limit(leg_L.yc + leg_out, 370, 120);
-    leg_R.yc = Limit(leg_R.yc - leg_out, 370, 120);
+    leg_L.yc = Limit(leg_L.yc + leg_out, 0.37, 0.120);
+    leg_R.yc = Limit(leg_R.yc - leg_out, 0.37, 0.120);
 
     leg_L.Njie(leg_L.xc, leg_L.yc);
     leg_R.Njie(leg_R.xc, leg_R.yc);

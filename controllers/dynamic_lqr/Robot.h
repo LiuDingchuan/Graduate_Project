@@ -28,13 +28,6 @@ using namespace Eigen;
 using namespace webots;
 using namespace std;
 
-#define NMOTORS 6
-#define Link1 180
-#define Link2 200
-#define Link3 200
-#define Link4 180
-#define Link5 120
-
 class MyRobot : public Robot
 {
 private:
