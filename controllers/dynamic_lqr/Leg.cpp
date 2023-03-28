@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:19:53
- * @LastEditTime: 2023-03-27 21:02:54
+ * @LastEditTime: 2023-03-28 15:22:40
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.cpp
  */
 #include "Leg.h"
@@ -39,8 +39,8 @@ void LegClass::Njie(float xc, float yc)
     float A, B, C;
 
     A = 2 * l1 * yc;
-    B = 2 * l1 * xc;
-    C = l2 * l2 - l1 * l1 - xc * xc - yc * yc;
+    B = 2 * l1 * (xc + l5 / 2);
+    C = l2 * l2 - l1 * l1 - xc * xc - yc * yc - l5 * l5 / 4;
     angle1 = 2 * atan((A + sqrt(A * A + B * B - C * C)) / (B - C));
     if (angle1 < 0)
         angle1 += 2 * PI;
@@ -55,9 +55,9 @@ void LegClass::Njie(float xc, float yc)
     y1 = ((xc - m) * sin(b) + (yc - n) * cos(b)) + n; // 得到闭链五杆端点的坐标
 
     A = 2 * y1 * l4;
-    B = 2 * l4 * (x1 - l5);
+    B = 2 * l4 * (x1 - l5 / 2);
     // c = l3 * l3 + 2 * l5 * x1 - l4 * l4 - l5 * l5 - x1 * x1 - y1 * y1;
-    C = l3 * l3 + 2 * l5 * x1 - l4 * l4 - l5 * l5 - x1 * x1 - y1 * y1;
+    C = l3 * l3 + 2 * l5 * x1 - l4 * l4 - l5 * l5 / 4 - x1 * x1 - y1 * y1;
     angle4 = 2 * atan((A - sqrt(A * A + B * B - C * C)) / (B - C));
     // nije_5((void *)0, &angle2, x1, y1, l1, l2, l3, l4, l5);        //计算c4 ,
 }
