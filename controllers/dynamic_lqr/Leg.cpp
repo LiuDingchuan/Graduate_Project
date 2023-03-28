@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:19:53
- * @LastEditTime: 2023-03-28 15:22:40
+ * @LastEditTime: 2023-03-28 15:38:44
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.cpp
  */
 #include "Leg.h"
@@ -62,9 +62,11 @@ void LegClass::Njie(float xc, float yc)
     // nije_5((void *)0, &angle2, x1, y1, l1, l2, l3, l4, l5);        //计算c4 ,
 }
 /**
- * @brief:
+ * @brief: 运动学正解
  * @author: Dandelion
  * @Date: 2023-03-24 19:50:04
+ * @param {float} angle1
+ * @param {float} angle4
  * @param {float} pitch %rad
  * @return {*}
  */
