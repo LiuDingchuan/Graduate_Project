@@ -31,6 +31,7 @@ MyRobot::MyRobot() : balance_angle(-0.0064)
     BL_legmotor->enableTorqueFeedback(time_step), BR_legmotor->enableTorqueFeedback(time_step), FL_legmotor->enableTorqueFeedback(time_step), FL_legmotor->enableTorqueFeedback(time_step);
     L_Wheelmotor->enableTorqueFeedback(time_step), R_Wheelmotor->enableTorqueFeedback(time_step);
     // 调参
+    velocity_set = 0;
     turn_pid.update(1.0, 0.0, 0.01, 0);
     split_pid.update(1.0, 0.0, 0.01, 0);
 }
@@ -98,6 +99,7 @@ void MyRobot::status_update(LegClass *leg,
     float pitch_before = pitch;
     leg->Zjie(leg->angle1, leg->angle4, pitch);
     leg->angle0_dot = (leg->angle0 - angle0_before) / dt;
+    printf("K: ");
     for (size_t col = 0; col < 6; col++)
     {
         /* code */
@@ -109,15 +111,21 @@ void MyRobot::status_update(LegClass *leg,
                                K_coeff(num, 1) * pow(leg->L0_now, 2) +
                                K_coeff(num, 2) * leg->L0_now +
                                K_coeff(num, 3);
+            printf("%f ", leg->K(row, col));
         }
     }
+    printf("\n");
     // 状态更新
     leg->dis_desire += v_set * dt;
+    printf("Xd:%f\n", leg->dis_desire);
     leg->Xd << 0, 0, leg->dis_desire, 0, 0, 0;
     leg->X << leg->angle0, leg->angle0_dot, leg->dis, leg->dis_dot, pitch, pitch_dot;
+    cout << leg->angle0 << " " << leg->angle0_dot << " " << leg->dis << " " << leg->dis_dot << " " << pitch << " " << pitch_dot << endl;
     u = leg->K * (leg->Xd - leg->X);
     leg->TWheel_set = u(0, 0);
+    printf("Twheel:%f\n", leg->TWheel_set);
     leg->Tp_set = u(0, 1);
+    printf("Tp:%f\n", leg->Tp_set);
     leg->L0_dot = (leg->L0_now - leg->L0_last) / dt;
     leg->L0_last = leg->L0_now;
     leg->F_set += leg->supportF_pid.compute(leg->L0_set, 0, leg->L0_now, leg->L0_dot, dt);
@@ -216,23 +224,24 @@ void MyRobot::run()
     }
 
     velocity_set = Limit(velocity_set, 3, -3);
-    velocity_out = velocity_pid.compute(velocity_set, (leg_L.dis_dot + leg_R.dis_dot) / 2);
-    float pitch_set = velocity_out + balance_angle;
+    // velocity_out = velocity_pid.compute(velocity_set, (leg_L.dis_dot + leg_R.dis_dot) / 2);
+    // float pitch_set = velocity_out + balance_angle;
 
-    vertical_out += vertical_pid.compute(pitch_set, pitch, pitch_dot);
+    // vertical_out += vertical_pid.compute(pitch_set, pitch, pitch_dot);
 
-    turn_out = turn_pid.compute(yaw_set, yaw, yaw_dot);
+    // turn_out = turn_pid.compute(yaw_set, yaw, yaw_dot);
 
-    roll_set = Limit(roll_set, 0.35, -0.35);
-    float leg_out = 0;
-    // leg_out = roll_pid.compute(roll_set, roll, roll_dot);
+    // roll_set = Limit(roll_set, 0.35, -0.35);
+    // float leg_out = 0;
+    // // leg_out = roll_pid.compute(roll_set, roll, roll_dot);
 
-    leg_L.yc = Limit(leg_L.yc + leg_out, 0.37, 0.120);
-    leg_R.yc = Limit(leg_R.yc - leg_out, 0.37, 0.120);
+    // leg_L.yc = Limit(leg_L.yc + leg_out, 0.37, 0.120);
+    // leg_R.yc = Limit(leg_R.yc - leg_out, 0.37, 0.120);
 
-    leg_L.Njie(leg_L.xc, leg_L.yc);
-    leg_R.Njie(leg_R.xc, leg_R.yc);
-
+    // leg_L.Njie(leg_L.xc, leg_L.yc);
+    // leg_R.Njie(leg_R.xc, leg_R.yc);
+    status_update(&leg_L, encoder_FL, encoder_BL, encoder_wheelL, pitch, pitch_dot, time_step / 1000, velocity_set);
+    status_update(&leg_R, encoder_FR, encoder_BR, encoder_wheelR, pitch, pitch_dot, time_step / 1000, velocity_set);
     leg_L.TL_now = BL_legmotor->getTorqueFeedback();
     leg_L.TR_now = FL_legmotor->getTorqueFeedback();
     leg_R.TL_now = BR_legmotor->getTorqueFeedback();
@@ -240,19 +249,23 @@ void MyRobot::run()
     float L_Torque = L_Wheelmotor->getTorqueFeedback();
     float R_Torque = R_Wheelmotor->getTorqueFeedback();
 
-    BL_legmotor->setPosition(-(leg_L.angle1 - PI * 2 / 3)); // 懒得管正方向怎么看了，就这样吧，反正顺负逆正
-    FL_legmotor->setPosition(leg_L.angle4 - PI / 3);
-    BR_legmotor->setPosition(-(leg_R.angle1 - PI * 2 / 3));
-    FR_legmotor->setPosition(leg_R.angle4 - PI / 3);
-
-    L_Wheelmotor->setVelocity(Limit(vertical_out - turn_out, 60, -60));
-    R_Wheelmotor->setVelocity(Limit(vertical_out + turn_out, 60, -60));
-
+    // BL_legmotor->setPosition(-(leg_L.angle1 - PI * 2 / 3)); // 懒得管正方向怎么看了，就这样吧，反正顺负逆正
+    // FL_legmotor->setPosition(leg_L.angle4 - PI / 3);
+    // BR_legmotor->setPosition(-(leg_R.angle1 - PI * 2 / 3));
+    // FR_legmotor->setPosition(leg_R.angle4 - PI / 3);
+    // L_Wheelmotor->setVelocity(Limit(vertical_out - turn_out, 60, -60));
+    // R_Wheelmotor->setVelocity(Limit(vertical_out + turn_out, 60, -60));
+    BL_legmotor->setTorque(leg_L.TR_set);
+    FL_legmotor->setTorque(leg_L.TL_set);
+    BR_legmotor->setTorque(leg_R.TL_set);
+    FL_legmotor->setTorque(leg_R.TR_set);
+    L_Wheelmotor->setTorque(leg_L.TWheel_set);
+    L_Wheelmotor->setTorque(leg_R.TWheel_set);
     // printf("pitch_set:%f, pitch:%f, disL_dot:%f, yaw:%f, L_y:%f, R_y:%f, leg_L.TL_now:%f, L_Torque:%f\n",
     //        pitch_set, pitch, disL_dot, yaw, leg_L.yc, leg_R.yc, leg_L.TL_now, L_Torque);
 
-    printf("dt:%d, BackLeft:%f, FrontLeft:%f, LeftSpeed:%f, RightSpeed:%f\n",
-           time_step, leg_L.angle1, leg_L.angle4, leg_L.dis_dot, leg_R.dis_dot);
+    printf("dt:%d, BackLeft:%f, FrontLeft:%f, BackRight:%f, FrontLeft:%f, L0_set:%f, L0_now:%f, angle2:%f, angle3:%f\n",
+           time_step, leg_L.TR_set, leg_L.TL_set, leg_R.TL_set, leg_R.TR_set, leg_L.L0_set, leg_L.L0_now, leg_L.angle2, leg_L.angle3);
     // ofstream outfile;
     // outfile.open("data2.dat", ios::trunc);
     // outfile << time << ' ' << pitch << ' ' << disL_dot << ' ' << robot_x << ' ' << L_Torque << endl;

@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:19:53
- * @LastEditTime: 2023-03-28 17:50:00
+ * @LastEditTime: 2023-03-28 20:57:59
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.cpp
  */
 #include "Leg.h"
@@ -16,11 +16,15 @@ LegClass::LegClass()
     l4 = 0.180;
     l5 = 0.120;
     F_set = 15.245 / 2 * 9.8;
+    dis = dis_desire = dis_dot = dis_last = 0;
 
     xc = 0, yc = 0.28817;
+    angle0 = 0;
     angle1 = PI / 3 * 2;
     angle4 = PI / 3;
     Zjie(angle1, angle4, 0);
+    cout << xc << " " << yc << " " << angle0 << endl;
+    L0_set = L0_now; // 初值
     K << -46.9417, -8.1097, -21.5150, -17.8734, 19.2631, 1.2306,
         22.3368, 4.1576, 12.1831, 9.7243, 136.0725, 4.2612;
     X << 0, 0, 0, 0, 0, 0;
