@@ -59,7 +59,7 @@ private:
     float disL_last, disR_last;
     float disL, disR;
     float disL_dot, disR_dot;
-    float pitch, roll, yaw, pitch_w, roll_w, yaw_w;
+    float pitch, roll, yaw, pitch_dot, roll_dot, yaw_dot;
     float yaw_get, yaw_get_last;
 
     u8 stop_flag;
@@ -79,7 +79,7 @@ public:
     u8 jump(float t_clk, float *leg_L, float *leg_R);
     void status_update(LegClass *leg,
                        PositionSensor *encoder_L, PositionSensor *encoder_R, PositionSensor *encoder_Wheel,
-                       float dis, float dis_dot, float pitch, float pitch_w, float dt,
+                       float dis, float dis_dot, float pitch, float pitch_dot, float dt,
                        float v_set);
     void MyStep();
     void Wait(int ms);

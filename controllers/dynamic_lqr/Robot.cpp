@@ -73,10 +73,10 @@ void MyRobot::Wait(int ms)
  */
 void MyRobot::status_update(LegClass *leg,
                             PositionSensor *encoder_L, PositionSensor *encoder_R, PositionSensor *encoder_Wheel,
-                            float dis, float dis_dot, float pitch, float pitch_w, float dt,
+                            float dis, float dis_dot, float pitch, float pitch_dot, float dt,
                             float v_set)
 {
-    static float dis_desire;
+    // 计算K矩阵数据，根据l0_now拟合得到
     static Matrix<float, 12, 4> K_coeff;
     K_coeff << -56.2657122197288, 110.955449839554, -158.932304773749, -13.2108628940147,
         124.121829405397, -115.781173481685, 26.3894368897019, 20.9758944326806,
@@ -109,7 +109,8 @@ void MyRobot::status_update(LegClass *leg,
                                K_coeff(num, 3);
         }
     }
-    leg->X << leg->angle0, leg->angle0_dot, dis, dis_dot, pitch, pitch_w;
+    // 状态更新
+    leg->X << leg->angle0, leg->angle0_dot, dis, dis_dot, pitch, pitch_dot;
 }
 
 void MyRobot::run()
@@ -122,11 +123,11 @@ void MyRobot::run()
     static PID_Controller roll_pid(0.18, 0, 0.02, 0);
 
     pitch = imu->getRollPitchYaw()[1];
-    pitch_w = gyro->getValues()[2];
+    pitch_dot = gyro->getValues()[2];
     roll = imu->getRollPitchYaw()[0];
-    roll_w = gyro->getValues()[0];
+    roll_dot = gyro->getValues()[0];
     yaw_get = imu->getRollPitchYaw()[2];
-    yaw_w = gyro->getValues()[1];
+    yaw_dot = gyro->getValues()[1];
     float robot_x = gps->getValues()[0];
 
     if (yaw_get - yaw_get_last > 1.5 * PI)
@@ -205,13 +206,13 @@ void MyRobot::run()
     disL_last = disL;
     disR_last = disR;
 
-    vertical_out += vertical_pid.compute(pitch_set, pitch, pitch_w);
+    vertical_out += vertical_pid.compute(pitch_set, pitch, pitch_dot);
 
-    turn_out = turn_pid.compute(yaw_set, yaw, yaw_w);
+    turn_out = turn_pid.compute(yaw_set, yaw, yaw_dot);
 
     roll_set = Limit(roll_set, 0.35, -0.35);
     float leg_out = 0;
-    // leg_out = roll_pid.compute(roll_set, roll, roll_w);
+    // leg_out = roll_pid.compute(roll_set, roll, roll_dot);
 
     leg_L.yc = Limit(leg_L.yc + leg_out, 370, 120);
     leg_R.yc = Limit(leg_R.yc - leg_out, 370, 120);
