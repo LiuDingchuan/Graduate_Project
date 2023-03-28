@@ -73,23 +73,25 @@ void MyRobot::Wait(int ms)
  */
 void MyRobot::status_update(LegClass *leg,
                             PositionSensor *encoder_L, PositionSensor *encoder_R, PositionSensor *encoder_Wheel,
-                            float dis, float dis_dot, float pitch, float pitch_dot, float dt,
+                            float pitch, float pitch_dot, float dt,
                             float v_set)
 {
     // 计算K矩阵数据，根据l0_now拟合得到
     static Matrix<float, 12, 4> K_coeff;
-    K_coeff << -56.2657122197288, 110.955449839554, -158.932304773749, -13.2108628940147,
-        124.121829405397, -115.781173481685, 26.3894368897019, 20.9758944326806,
-        19.3122283093215, -28.1143514447985, -19.7975177682733, -0.665103815173968,
-        27.7750019873454, -31.6416911517429, 15.3899867915492, 1.57561475576218,
-        -33.2736580172453, 43.9057047808111, -21.0290308785676, -18.4179466672356,
-        -101.744952999825, 161.913767522745, -98.5903891501989, 28.7533856041495,
-        -18.0941404528499, 30.5738085289490, -27.0370386156508, -12.3401523210168,
-        -47.5172565035432, 83.9660076041746, -55.9012364768479, 19.5060587585273,
-        -160.872896199552, 256.008145196585, -155.885092637028, 45.4630944836172,
-        210.441091502134, -277.684059389342, 132.999269320722, 116.485322563444,
-        -11.3405133550703, 16.1543094417432, -8.97298973283048, 2.45814399283596,
-        11.1745266351310, -14.5626418795488, 6.91332413437057, 3.36393511857054;
+    static Matrix<float, 2, 1> u;
+    static Matrix<float, 2, 1> Torque;
+    K_coeff << -30.0057580368924, 81.3092898190280, -145.828385040219, -10.9522353053103,
+        136.426623977700, -131.552480427351, 33.5578606664500, 20.3260604190136,
+        24.1982856179160, -32.6932677997384, -17.6818917638554, -0.878455527748953,
+        27.0486702586637, -31.0891534934619, 15.3288195003590, 1.67468799124106,
+        -37.2355355977631, 49.4011820693908, -23.8105497659121, -17.8648006582999,
+        -101.579601654688, 164.987166617278, -102.419700398579, 30.4272821330273,
+        -16.9488359075399, 30.1655008912384, -27.2979840399293, -12.1063693072014,
+        -45.6512382152932, 83.2911821378878, -56.8830620278166, 20.2920005458905,
+        -160.611452379952, 260.867615465139, -161.939765220186, 48.1097572694910,
+        235.498204840030, -312.440508969351, 150.591139232877, 112.986920046435,
+        -13.7311460656841, 19.5101617300023, -10.9129076662892, 3.08375932518035,
+        16.6177907266046, -21.8147791954040, 10.4756720156239, 2.65629390051965;
     leg->angle1 = -encoder_R->getValue() + 2 / 3 * PI;
     leg->angle4 = encoder_L->getValue() + 1 / 3 * PI;
     float angle0_before = leg->angle0;
@@ -110,7 +112,18 @@ void MyRobot::status_update(LegClass *leg,
         }
     }
     // 状态更新
-    leg->X << leg->angle0, leg->angle0_dot, dis, dis_dot, pitch, pitch_dot;
+    leg->dis_desire += v_set * dt;
+    leg->Xd << 0, 0, leg->dis_desire, 0, 0, 0;
+    leg->X << leg->angle0, leg->angle0_dot, leg->dis, leg->dis_dot, pitch, pitch_dot;
+    u = leg->K * (leg->Xd - leg->X);
+    leg->TWheel_set = u(0, 0);
+    leg->Tp_set = u(0, 1);
+    leg->L0_dot = (leg->L0_now - leg->L0_last) / dt;
+    leg->L0_last = leg->L0_now;
+    leg->F_set += leg->supportF_pid.compute(leg->L0_set, 0, leg->L0_now, leg->L0_dot, dt);
+    Torque = leg->VMC(leg->F_set, leg->Tp_set);
+    leg->TR_set = Torque(0, 0);
+    leg->TL_set = Torque(0, 1);
 }
 
 void MyRobot::run()
@@ -141,9 +154,13 @@ void MyRobot::run()
     if (time == 0)
         yaw_set = yaw;
 
-    disL = encoder_wheelL->getValue() * 0.05;
-    disR = encoder_wheelR->getValue() * 0.05;
-
+    leg_L.dis = encoder_wheelL->getValue() * 0.05;
+    leg_R.dis = encoder_wheelR->getValue() * 0.05;
+    leg_L.dis_dot = (leg_L.dis - leg_R.dis_last) * 1000 / time_step;
+    leg_R.dis_dot = (leg_R.dis - leg_R.dis_last) * 1000 / time_step;
+    leg_L.dis_last = leg_L.dis;
+    leg_R.dis_last = leg_R.dis;
+    // 时序更新
     time = getTime();
 
     int key = mkeyboard->getKey();
@@ -198,13 +215,9 @@ void MyRobot::run()
         key = mkeyboard->getKey();
     }
 
-    disL_dot = (disL - disL_last) * 1000 / time_step;
-    disR_dot = (disR - disR_last) * 1000 / time_step; // m/s
     velocity_set = Limit(velocity_set, 3, -3);
-    velocity_out = velocity_pid.compute(velocity_set, (disL_dot + disR_dot) / 2);
+    velocity_out = velocity_pid.compute(velocity_set, (leg_L.dis_dot + leg_R.dis_dot) / 2);
     float pitch_set = velocity_out + balance_angle;
-    disL_last = disL;
-    disR_last = disR;
 
     vertical_out += vertical_pid.compute(pitch_set, pitch, pitch_dot);
 
@@ -238,8 +251,8 @@ void MyRobot::run()
     // printf("pitch_set:%f, pitch:%f, disL_dot:%f, yaw:%f, L_y:%f, R_y:%f, leg_L.TL_now:%f, L_Torque:%f\n",
     //        pitch_set, pitch, disL_dot, yaw, leg_L.yc, leg_R.yc, leg_L.TL_now, L_Torque);
 
-    printf("BackLeft:%f, FrontLeft:%f, LeftSpeed:%f, RightSpeed:%f\n",
-           encoder_BL->getValue(), encoder_FL->getValue(), disL_dot, disR_dot);
+    printf("dt:%d, BackLeft:%f, FrontLeft:%f, LeftSpeed:%f, RightSpeed:%f\n",
+           time_step, leg_L.angle1, leg_L.angle4, leg_L.dis_dot, leg_R.dis_dot);
     // ofstream outfile;
     // outfile.open("data2.dat", ios::trunc);
     // outfile << time << ' ' << pitch << ' ' << disL_dot << ' ' << robot_x << ' ' << L_Torque << endl;

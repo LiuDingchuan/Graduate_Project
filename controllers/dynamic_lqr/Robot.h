@@ -39,8 +39,8 @@ class MyRobot : public Robot
 {
 private:
     /* data */
-    u8 time_step;
-    float time;
+    u8 time_step; // 毫秒
+    float time;   // 秒
 
     Camera *camera;
     Gyro *gyro;
@@ -51,14 +51,12 @@ private:
     Keyboard *mkeyboard;
 
     LegClass leg_L, leg_R;
+
     PID_Controller turn_pid;
     PID_Controller split_pid;
 
     float velocity_set, yaw_set, roll_set;
     float velocity_out, vertical_out, turn_out, leg_out;
-    float disL_last, disR_last;
-    float disL, disR;
-    float disL_dot, disR_dot;
     float pitch, roll, yaw, pitch_dot, roll_dot, yaw_dot;
     float yaw_get, yaw_get_last;
 
@@ -79,7 +77,7 @@ public:
     u8 jump(float t_clk, float *leg_L, float *leg_R);
     void status_update(LegClass *leg,
                        PositionSensor *encoder_L, PositionSensor *encoder_R, PositionSensor *encoder_Wheel,
-                       float dis, float dis_dot, float pitch, float pitch_dot, float dt,
+                       float pitch, float pitch_dot, float dt,
                        float v_set);
     void MyStep();
     void Wait(int ms);
