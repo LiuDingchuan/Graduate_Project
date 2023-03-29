@@ -85,6 +85,7 @@ Robot {
                                 RotationalMotor {
                                   name "R_Motor"
                                   maxVelocity 80
+                                  maxTorque 50
                                 }
                               ]
                               endPoint DEF 车轮 Solid {
@@ -333,6 +334,7 @@ Robot {
                                 RotationalMotor {
                                   name "L_Motor"
                                   maxVelocity 80
+                                  maxTorque 50
                                 }
                               ]
                               endPoint DEF 车轮 Solid {

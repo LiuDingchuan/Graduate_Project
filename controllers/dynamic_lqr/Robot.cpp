@@ -28,7 +28,7 @@ MyRobot::MyRobot() : balance_angle(-0.0064)
     L_Wheelmotor->setPosition(INFINITY), R_Wheelmotor->setPosition(INFINITY);
     BL_legmotor->setPosition(0), BR_legmotor->setPosition(0), FL_legmotor->setPosition(0), FR_legmotor->setPosition(0);
 
-    BL_legmotor->enableTorqueFeedback(time_step), BR_legmotor->enableTorqueFeedback(time_step), FL_legmotor->enableTorqueFeedback(time_step), FL_legmotor->enableTorqueFeedback(time_step);
+    BL_legmotor->enableTorqueFeedback(time_step), BR_legmotor->enableTorqueFeedback(time_step), FL_legmotor->enableTorqueFeedback(time_step), FR_legmotor->enableTorqueFeedback(time_step);
     L_Wheelmotor->enableTorqueFeedback(time_step), R_Wheelmotor->enableTorqueFeedback(time_step);
     // 调参
     velocity_set = 0;
@@ -246,8 +246,9 @@ void MyRobot::run()
     leg_R.TR_now = FR_legmotor->getTorqueFeedback();
     float L_Torque = L_Wheelmotor->getTorqueFeedback();
     float R_Torque = R_Wheelmotor->getTorqueFeedback();
-
+    cout << "左腿更新：" << endl;
     status_update(&leg_L, encoder_FL, encoder_BL, encoder_wheelL, pitch, pitch_dot, time_step / 1000.f, velocity_set);
+    cout << "右腿更新：" << endl;
     status_update(&leg_R, encoder_FR, encoder_BR, encoder_wheelR, pitch, pitch_dot, time_step / 1000.f, velocity_set);
 
     cout << "L_TL " << leg_L.TL_now << " L_TR " << leg_L.TR_now << " R_TL " << leg_R.TL_now << " R_TR " << leg_R.TR_now << endl;

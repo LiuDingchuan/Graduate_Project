@@ -12,9 +12,11 @@ int main(int argc, char **argv)
     ofstream outfile;
     outfile.close();
     remove("data2.dat");
-    MyRobot::get()->Wait(1000);
+    MyRobot::get()->Wait(500);
+    static int i = 0;
     while (True)
     {
+        cout << "第" << i++ << "次循环" << endl;
         MyRobot::get()->MyStep();
         MyRobot::get()->run();
         outfile.open("data2.dat", ios::app);
