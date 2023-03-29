@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:19:53
- * @LastEditTime: 2023-03-28 20:57:59
+ * @LastEditTime: 2023-03-29 15:53:23
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.cpp
  */
 #include "Leg.h"
@@ -23,7 +23,6 @@ LegClass::LegClass()
     angle1 = PI / 3 * 2;
     angle4 = PI / 3;
     Zjie(angle1, angle4, 0);
-    cout << xc << " " << yc << " " << angle0 << endl;
     L0_set = L0_now; // 初值
     K << -46.9417, -8.1097, -21.5150, -17.8734, 19.2631, 1.2306,
         22.3368, 4.1576, 12.1831, 9.7243, 136.0725, 4.2612;
@@ -36,7 +35,7 @@ LegClass::LegClass()
  * @Date: 2023-03-24 19:17:01
  * @return {*}
  */
-void LegClass::Njie(float xc, float yc)
+void LegClass::Njie(const float xc, const float yc)
 {
     this->xc = xc;
     this->yc = yc;
@@ -76,7 +75,7 @@ void LegClass::Njie(float xc, float yc)
  * @param {float} pitch %rad
  * @return {*}
  */
-void LegClass::Zjie(float angle1, float angle4, float pitch)
+void LegClass::Zjie(const float angle1, const float angle4, const float pitch)
 {
     this->angle1 = angle1;
     this->angle4 = angle4;
@@ -104,7 +103,9 @@ void LegClass::Zjie(float angle1, float angle4, float pitch)
         sin(pitch), cos(pitch);
     cor_XY << xc, yc;
     cor_XY_then = matrix_R * cor_XY;
-    angle0 = atan2(cor_XY_then(0, 0), cor_XY_then(0, 1));
+    angle0 = atan(cor_XY_then(0, 0) / cor_XY_then(1, 0));
+    if(angle0 < 0.01f & angle0 > -0.01f)//限幅
+        angle0 = 0.0f;
 }
 /**
  * @brief: VMC（虚拟力算法）
@@ -126,7 +127,7 @@ Matrix<float, 2, 1> LegClass::VMC(float F, float Tp)
         l1 * cos(angle0 + angle3) * sin(angle1 - angle2) / (L0_now * sin(angle2 - angle3)),
         l4 * sin(angle0 + angle2) * sin(angle3 - angle4) / sin(angle2 - angle3),
         l4 * cos(angle0 + angle2) * sin(angle3 - angle4) / (L0_now * sin(angle2 - angle3));
-    VirtualF << F, Tp;
-    ActualF = Trans * ActualF;
-    return VirtualF;
+    VirtualF << this->F_set, this->Tp_set;
+    ActualF = Trans * VirtualF;
+    return ActualF;
 }

@@ -93,8 +93,9 @@ void MyRobot::status_update(LegClass *leg,
         235.498204840030, -312.440508969351, 150.591139232877, 112.986920046435,
         -13.7311460656841, 19.5101617300023, -10.9129076662892, 3.08375932518035,
         16.6177907266046, -21.8147791954040, 10.4756720156239, 2.65629390051965;
-    leg->angle1 = -encoder_R->getValue() + 2 / 3 * PI;
-    leg->angle4 = encoder_L->getValue() + 1 / 3 * PI;
+    leg->angle1 = 2.0 / 3.0 * PI - encoder_R->getValue();
+    leg->angle4 = 1.0 / 3.0 * PI + encoder_L->getValue();
+    cout << "angle1: " << leg->angle1 << " angle4: " << leg->angle4 << endl;
     float angle0_before = leg->angle0;
     float pitch_before = pitch;
     leg->Zjie(leg->angle1, leg->angle4, pitch);
@@ -120,18 +121,17 @@ void MyRobot::status_update(LegClass *leg,
     printf("Xd:%f\n", leg->dis_desire);
     leg->Xd << 0, 0, leg->dis_desire, 0, 0, 0;
     leg->X << leg->angle0, leg->angle0_dot, leg->dis, leg->dis_dot, pitch, pitch_dot;
-    cout << leg->angle0 << " " << leg->angle0_dot << " " << leg->dis << " " << leg->dis_dot << " " << pitch << " " << pitch_dot << endl;
+    cout << leg->angle0 << " " << angle0_before << " " << leg->angle0_dot << " " << leg->dis << " " << leg->dis_dot << " " << pitch << " " << pitch_dot << endl;
     u = leg->K * (leg->Xd - leg->X);
     leg->TWheel_set = u(0, 0);
-    printf("Twheel:%f\n", leg->TWheel_set);
-    leg->Tp_set = u(0, 1);
-    printf("Tp:%f\n", leg->Tp_set);
+    leg->Tp_set = u(1, 0);
     leg->L0_dot = (leg->L0_now - leg->L0_last) / dt;
     leg->L0_last = leg->L0_now;
     leg->F_set += leg->supportF_pid.compute(leg->L0_set, 0, leg->L0_now, leg->L0_dot, dt);
+    cout << "F_set: " << leg->F_set << endl;
     Torque = leg->VMC(leg->F_set, leg->Tp_set);
-    leg->TR_set = Torque(0, 0);
-    leg->TL_set = Torque(0, 1);
+    leg->TR_set = -Torque(0, 0);
+    leg->TL_set = -Torque(1, 0);
 }
 
 void MyRobot::run()
@@ -164,8 +164,8 @@ void MyRobot::run()
 
     leg_L.dis = encoder_wheelL->getValue() * 0.05;
     leg_R.dis = encoder_wheelR->getValue() * 0.05;
-    leg_L.dis_dot = (leg_L.dis - leg_R.dis_last) * 1000 / time_step;
-    leg_R.dis_dot = (leg_R.dis - leg_R.dis_last) * 1000 / time_step;
+    leg_L.dis_dot = (leg_L.dis - leg_R.dis_last) * 1000.f / time_step;
+    leg_R.dis_dot = (leg_R.dis - leg_R.dis_last) * 1000.f / time_step;
     leg_L.dis_last = leg_L.dis;
     leg_R.dis_last = leg_R.dis;
     // 时序更新
@@ -240,8 +240,6 @@ void MyRobot::run()
 
     // leg_L.Njie(leg_L.xc, leg_L.yc);
     // leg_R.Njie(leg_R.xc, leg_R.yc);
-    status_update(&leg_L, encoder_FL, encoder_BL, encoder_wheelL, pitch, pitch_dot, time_step / 1000, velocity_set);
-    status_update(&leg_R, encoder_FR, encoder_BR, encoder_wheelR, pitch, pitch_dot, time_step / 1000, velocity_set);
     leg_L.TL_now = BL_legmotor->getTorqueFeedback();
     leg_L.TR_now = FL_legmotor->getTorqueFeedback();
     leg_R.TL_now = BR_legmotor->getTorqueFeedback();
@@ -249,6 +247,10 @@ void MyRobot::run()
     float L_Torque = L_Wheelmotor->getTorqueFeedback();
     float R_Torque = R_Wheelmotor->getTorqueFeedback();
 
+    status_update(&leg_L, encoder_FL, encoder_BL, encoder_wheelL, pitch, pitch_dot, time_step / 1000.f, velocity_set);
+    status_update(&leg_R, encoder_FR, encoder_BR, encoder_wheelR, pitch, pitch_dot, time_step / 1000.f, velocity_set);
+
+    cout << "L_TL " << leg_L.TL_now << " L_TR " << leg_L.TR_now << " R_TL " << leg_R.TL_now << " R_TR " << leg_R.TR_now << endl;
     // BL_legmotor->setPosition(-(leg_L.angle1 - PI * 2 / 3)); // 懒得管正方向怎么看了，就这样吧，反正顺负逆正
     // FL_legmotor->setPosition(leg_L.angle4 - PI / 3);
     // BR_legmotor->setPosition(-(leg_R.angle1 - PI * 2 / 3));
@@ -264,8 +266,8 @@ void MyRobot::run()
     // printf("pitch_set:%f, pitch:%f, disL_dot:%f, yaw:%f, L_y:%f, R_y:%f, leg_L.TL_now:%f, L_Torque:%f\n",
     //        pitch_set, pitch, disL_dot, yaw, leg_L.yc, leg_R.yc, leg_L.TL_now, L_Torque);
 
-    printf("dt:%d, BackLeft:%f, FrontLeft:%f, BackRight:%f, FrontLeft:%f, L0_set:%f, L0_now:%f, angle2:%f, angle3:%f\n",
-           time_step, leg_L.TR_set, leg_L.TL_set, leg_R.TL_set, leg_R.TR_set, leg_L.L0_set, leg_L.L0_now, leg_L.angle2, leg_L.angle3);
+    printf("dt:%d, BackLeft:%f, FrontLeft:%f, BackRight:%f, FrontRight:%f, WheelL:%f, WheelR:%f, L0_set:%f, L0_now:%f, angle2:%f, angle3:%f\n",
+           time_step, leg_L.TR_set, leg_L.TL_set, leg_R.TL_set, leg_R.TR_set, leg_L.TWheel_set, leg_R.TWheel_set, leg_L.L0_set, leg_L.L0_now, leg_L.angle2, leg_L.angle3);
     // ofstream outfile;
     // outfile.open("data2.dat", ios::trunc);
     // outfile << time << ' ' << pitch << ' ' << disL_dot << ' ' << robot_x << ' ' << L_Torque << endl;

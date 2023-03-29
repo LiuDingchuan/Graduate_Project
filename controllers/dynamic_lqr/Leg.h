@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:20:36
- * @LastEditTime: 2023-03-28 17:32:09
+ * @LastEditTime: 2023-03-29 14:36:21
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.h
  */
 #ifndef _LEG_H
@@ -45,8 +45,8 @@ public:
     PID_Controller supportF_pid;
 
     LegClass();
-    void Zjie(float angle1, float angle4, float pitch);
-    void Njie(float xc, float yc);
+    void Zjie(const float angle1, const float angle4, const float pitch);
+    void Njie(const float xc, const float yc);
     Matrix<float, 2, 1> VMC(float F, float Tp);
 };
 

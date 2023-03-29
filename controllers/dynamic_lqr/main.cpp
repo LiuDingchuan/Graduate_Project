@@ -12,6 +12,7 @@ int main(int argc, char **argv)
     ofstream outfile;
     outfile.close();
     remove("data2.dat");
+    MyRobot::get()->Wait(1000);
     while (True)
     {
         MyRobot::get()->MyStep();
