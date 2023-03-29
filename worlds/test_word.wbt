@@ -107,8 +107,7 @@ Robot {
                                 name "solid_wheel(1)"
                                 boundingObject USE 车轮
                                 physics Physics {
-                                  density -1
-                                  mass 0.001
+                                  density 2700
                                 }
                               }
                             }
@@ -141,8 +140,7 @@ Robot {
                       name "solid(1)"
                       boundingObject USE 小腿
                       physics Physics {
-                        density -1
-                        mass 0.001
+                        density 2700
                       }
                     }
                   }
@@ -176,8 +174,7 @@ Robot {
             name "solid(4)"
             boundingObject USE 大腿
             physics Physics {
-              density -1
-              mass 0.001
+              density 2700
             }
           }
         }
@@ -242,8 +239,7 @@ Robot {
                       name "solid_xiaotui"
                       boundingObject USE 小腿
                       physics Physics {
-                        density -1
-                        mass 0.001
+                        density 2700
                       }
                     }
                   }
@@ -277,8 +273,7 @@ Robot {
             name "solid(3)"
             boundingObject USE 大腿
             physics Physics {
-              density -1
-              mass 0.001
+              density 2700
             }
           }
         }
@@ -357,8 +352,7 @@ Robot {
                                 name "solid_wheel(1)"
                                 boundingObject USE 车轮
                                 physics Physics {
-                                  density -1
-                                  mass 0.001
+                                  density 2700
                                 }
                               }
                             }
@@ -391,8 +385,7 @@ Robot {
                       name "solid(1)"
                       boundingObject USE 小腿
                       physics Physics {
-                        density -1
-                        mass 0.001
+                        density 2700
                       }
                     }
                   }
@@ -426,8 +419,7 @@ Robot {
             name "solid(2)"
             boundingObject USE 大腿
             physics Physics {
-              density -1
-              mass 0.001
+              density 2700
             }
           }
         }
@@ -492,8 +484,7 @@ Robot {
                       name "solid_xiaotui2"
                       boundingObject USE 小腿
                       physics Physics {
-                        density -1
-                        mass 0.001
+                        density 2700
                       }
                     }
                   }
@@ -527,8 +518,7 @@ Robot {
             name "solid(1)"
             boundingObject USE 大腿
             physics Physics {
-              density -1
-              mass 0.001
+              density 2700
             }
           }
         }
@@ -563,14 +553,14 @@ Robot {
       ]
       boundingObject USE body
       physics Physics {
-        density -1
-        mass 0.001
+        density 2700
       }
     }
   ]
   boundingObject USE body
   physics Physics {
-    density 2700
+    density -1
+    mass 0.001
   }
   controller "dynamic_lqr"
 }
