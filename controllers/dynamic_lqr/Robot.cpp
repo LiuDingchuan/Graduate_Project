@@ -97,7 +97,6 @@ void MyRobot::status_update(LegClass *leg,
     leg->angle4 = 1.0 / 3.0 * PI + encoder_L->getValue();
     cout << "angle1: " << leg->angle1 << " angle4: " << leg->angle4 << endl;
     float angle0_before = leg->angle0;
-    float pitch_before = pitch;
     leg->Zjie(leg->angle1, leg->angle4, pitch);
     leg->angle0_dot = (leg->angle0 - angle0_before) / dt;
     printf("K: ");
@@ -138,10 +137,10 @@ void MyRobot::run()
 {
     static int last_key;
 
-    static PID_Controller vertical_pid(9, 0, 1, 60);
-    static PID_Controller velocity_pid(0.13, 0.003, 0.02, 1.0);
-    static PID_Controller turn_pid(12, 0, 0.3, 0);
-    static PID_Controller roll_pid(0.18, 0, 0.02, 0);
+    // static PID_Controller vertical_pid(9, 0, 1, 60);
+    // static PID_Controller velocity_pid(0.13, 0.003, 0.02, 1.0);
+    // static PID_Controller turn_pid(12, 0, 0.3, 0);
+    // static PID_Controller roll_pid(0.18, 0, 0.02, 0);
 
     pitch = imu->getRollPitchYaw()[1];
     pitch_dot = gyro->getValues()[2];
@@ -262,10 +261,10 @@ void MyRobot::run()
     FL_legmotor->setTorque(leg_L.TL_set);
     BR_legmotor->setTorque(leg_R.TL_set);
     FL_legmotor->setTorque(leg_R.TR_set);
-    L_Wheelmotor->setTorque(leg_L.TWheel_set);
-    L_Wheelmotor->setTorque(leg_R.TWheel_set);
-    // printf("pitch_set:%f, pitch:%f, disL_dot:%f, yaw:%f, L_y:%f, R_y:%f, leg_L.TL_now:%f, L_Torque:%f\n",
-    //        pitch_set, pitch, disL_dot, yaw, leg_L.yc, leg_R.yc, leg_L.TL_now, L_Torque);
+    L_Wheelmotor->setPosition(0);
+    R_Wheelmotor->setPosition(0);
+    // L_Wheelmotor->setTorque(leg_L.TWheel_set);
+    // L_Wheelmotor->setTorque(leg_R.TWheel_set);
 
     printf("dt:%d, BackLeft:%f, FrontLeft:%f, BackRight:%f, FrontRight:%f, WheelL:%f, WheelR:%f, L0_set:%f, L0_now:%f, angle2:%f, angle3:%f\n",
            time_step, leg_L.TR_set, leg_L.TL_set, leg_R.TL_set, leg_R.TR_set, leg_L.TWheel_set, leg_R.TWheel_set, leg_L.L0_set, leg_L.L0_now, leg_L.angle2, leg_L.angle3);

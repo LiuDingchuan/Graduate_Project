@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:19:53
- * @LastEditTime: 2023-03-29 15:53:23
+ * @LastEditTime: 2023-03-29 21:11:24
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.cpp
  */
 #include "Leg.h"
@@ -124,9 +124,9 @@ Matrix<float, 2, 1> LegClass::VMC(float F, float Tp)
     Matrix<float, 2, 1> VirtualF;
     Matrix<float, 2, 1> ActualF;
     Trans << l1 * sin(angle0 + angle3) * sin(angle1 - angle2) / sin(angle2 - angle3),
-        l1 * cos(angle0 + angle3) * sin(angle1 - angle2) / (L0_now * sin(angle2 - angle3)),
+        -l1 * cos(angle0 + angle3) * sin(angle1 - angle2) / (L0_now * sin(angle2 - angle3)),
         l4 * sin(angle0 + angle2) * sin(angle3 - angle4) / sin(angle2 - angle3),
-        l4 * cos(angle0 + angle2) * sin(angle3 - angle4) / (L0_now * sin(angle2 - angle3));
+        -l4 * cos(angle0 + angle2) * sin(angle3 - angle4) / (L0_now * sin(angle2 - angle3));
     VirtualF << this->F_set, this->Tp_set;
     ActualF = Trans * VirtualF;
     return ActualF;
