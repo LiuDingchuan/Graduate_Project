@@ -20,7 +20,7 @@ int main(int argc, char **argv)
         MyRobot::get()->MyStep();
         MyRobot::get()->run();
         outfile.open("data2.dat", ios::app);
-        outfile << MyRobot::get()->getVelNow() << ' ' << MyRobot::get()->getVelSet() << endl;
+        outfile << MyRobot::get()->leg_L.TWheel_set << " " << MyRobot::get()->leg_R.TWheel_set << endl;
         outfile.close();
     }
     return 0;

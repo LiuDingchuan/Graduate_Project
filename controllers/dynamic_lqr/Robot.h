@@ -43,8 +43,6 @@ private:
     Motor *BL_legmotor, *BR_legmotor, *FL_legmotor, *FR_legmotor, *L_Wheelmotor, *R_Wheelmotor;
     Keyboard *mkeyboard;
 
-    LegClass leg_L, leg_R;
-
     PID_Controller turn_pid;
     PID_Controller split_pid;
 
@@ -59,6 +57,8 @@ public:
     MyRobot();
     ~MyRobot();
 
+    LegClass leg_L, leg_R, leg_simplified;
+
     float balance_angle;
 
     static MyRobot *get()
@@ -68,15 +68,17 @@ public:
     }
 
     u8 jump(float t_clk, float *leg_L, float *leg_R);
-    void status_update(LegClass *leg,
-                       PositionSensor *encoder_L, PositionSensor *encoder_R, PositionSensor *encoder_Wheel,
+    void status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
                        float pitch, float pitch_dot, float dt,
                        float v_set);
     void MyStep();
     void Wait(int ms);
     void run();
+    float balance_yaw(float yaw_set, float yaw_now);
     double getVelNow() { return gps->getSpeed(); };
     double getVelSet() { return velocity_set; };
+    double getWheelLeftTorque() { return L_Wheelmotor->getTorqueFeedback(); };
+    double getWheelRightTorque() { return R_Wheelmotor->getTorqueFeedback(); };
 };
 
 #endif

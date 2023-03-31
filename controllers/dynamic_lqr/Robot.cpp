@@ -60,45 +60,43 @@ void MyRobot::Wait(int ms)
         MyStep();
 }
 /**
- * @brief:状态矩阵更新
+ * @brief:
  * @author: Dandelion
- * @Date: 2023-03-27 20:51:44
- * @param {LegClass} *leg
- * @param {PositionSensor} *encoder_L 这里是正视五连杆图形的left和right
- * @param {PositionSensor} *encoder_R 这里是正式五连杆图形的left和right
- * @param {PositionSensor} *encoder_Wheel
- * @param {float} dis
- * @param {float} dis_dot
+ * @Date: 2023-04-01 00:10:38
+ * @param {LegClass} *leg_sim
+ * @param {LegClass} *leg_L
+ * @param {LegClass} *leg_R
  * @param {float} pitch
+ * @param {float} pitch_dot
+ * @param {float} dt
+ * @param {float} v_set
  * @return {*}
  */
-void MyRobot::status_update(LegClass *leg,
-                            PositionSensor *encoder_L, PositionSensor *encoder_R, PositionSensor *encoder_Wheel,
-                            float pitch, float pitch_dot, float dt,
-                            float v_set)
+void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
+                            float pitch, float pitch_dot, float dt, float v_set)
 {
     // 计算K矩阵数据，根据l0_now拟合得到
     static Matrix<float, 12, 4> K_coeff;
     static Matrix<float, 2, 1> u;
     static Matrix<float, 2, 1> Torque;
-    K_coeff << -48.3578297094021, 99.4391082676018, -151.098509943708, -10.6093866201375,
-        127.382026021665, -116.319461714723, 25.7279684392863, 19.3237308555322,
-        19.8415282211839, -28.3576259499835, -18.5921516614469, -0.761833591197567,
-        27.1651432633777, -29.7523525168759, 13.6912914043980, 1.58363529978878,
-        -35.3861503900243, 46.3899531354965, -21.9858255106694, -18.3151686294010,
-        -108.413953830503, 171.738764445491, -103.375093625442, 29.3440473413196,
-        -16.4870951038320, 28.7879316242635, -26.1080774512925, -12.4355677345694,
-        -51.6659797173326, 90.2324381076307, -58.8821294900972, 19.6344297549442,
-        -171.417512262013, 271.542829228076, -163.450374637231, 46.3970126877041,
-        223.801666199529, -293.395825377058, 139.050569853286, 115.835297182280,
-        -14.2423528810533, 19.9718044212901, -10.9859578203368, 3.02373014454550,
-        15.5221184878357, -20.2022763379686, 9.58265639212468, 2.86271459832131;
-    leg->angle1 = 2.0 / 3.0 * PI - encoder_R->getValue();
-    leg->angle4 = 1.0 / 3.0 * PI + encoder_L->getValue();
-    cout << "angle1: " << leg->angle1 << " angle4: " << leg->angle4 << endl;
-    float angle0_before = leg->angle0;
-    leg->Zjie(leg->angle1, leg->angle4, pitch);
-    leg->angle0_dot = (leg->angle0 - angle0_before) / dt;
+    K_coeff << -99.0512848225234, 161.375030514160, -156.389621410455, -10.0590062880495,
+        63.9928715566516, -46.4720626070421, -6.92353815607583, 26.1259067572226,
+        11.5441042370362, -14.8597922303923, -19.3625779434887, -0.299053916534314,
+        19.3165893080792, -23.0045086815708, 10.9657841994598, 2.24279288946326,
+        -32.6142934810401, 41.5073390771139, -19.0900634077401, -6.61000745160173,
+        -81.5303433266699, 118.703731238366, -67.0637667898665, 17.9908215640236,
+        -37.1793756145752, 50.2424056321152, -28.6464352051342, -8.20377989047164,
+        -89.8958812316146, 132.980675257207, -76.7425492354827, 22.0219844113493,
+        -40.7651716632755, 59.3518656190949, -33.5318833948964, 8.99541078200716,
+        65.2285869732094, -83.0146781649621, 38.1801268189101, 13.2200149028407,
+        -7.00458321609559, 9.95334225805404, -5.55431360604017, 1.53156019003240,
+        11.6338020785579, -14.8445886620617, 6.88039672819413, 1.30268222126150;
+    leg_sim->angle1 = (leg_L->angle4 + PI - leg_R->angle1) / 2;
+    leg_sim->angle4 = (leg_R->angle4 + PI - leg_L->angle1) / 2;
+    cout << "angle1: " << leg_sim->angle1 << " angle4: " << leg_sim->angle4 << endl;
+    float angle0_before = leg_sim->angle0;
+    leg_sim->Zjie(leg_sim->angle1, leg_sim->angle4, pitch);
+    leg_sim->angle0_dot = (leg_sim->angle0 - angle0_before) / dt;
     printf("K: ");
     for (size_t col = 0; col < 6; col++)
     {
@@ -107,30 +105,45 @@ void MyRobot::status_update(LegClass *leg,
         {
             /* code */
             int num = col * 2 + row;
-            leg->K(row, col) = K_coeff(num, 0) * pow(leg->L0_now, 3) +
-                               K_coeff(num, 1) * pow(leg->L0_now, 2) +
-                               K_coeff(num, 2) * leg->L0_now +
-                               K_coeff(num, 3);
-            printf("%f ", leg->K(row, col));
+            leg_sim->K(row, col) = K_coeff(num, 0) * pow(leg_sim->L0_now, 3) +
+                                   K_coeff(num, 1) * pow(leg_sim->L0_now, 2) +
+                                   K_coeff(num, 2) * leg_sim->L0_now +
+                                   K_coeff(num, 3);
+            printf("%f ", leg_sim->K(row, col));
         }
     }
     printf("\n");
     // 状态更新
-    leg->dis_desire += v_set * dt;
-    printf("Xd:%f\n", leg->dis_desire);
-    leg->Xd << 0, 0, leg->dis_desire, 0, 0, 0;
-    leg->X << leg->angle0, leg->angle0_dot, leg->dis, leg->dis_dot, pitch, pitch_dot;
-    cout << leg->angle0 << " " << angle0_before << " " << leg->angle0_dot << " " << leg->dis << " " << leg->dis_dot << " " << pitch << " " << pitch_dot << endl;
-    u = leg->K * (leg->Xd - leg->X);
-    leg->TWheel_set = u(0, 0);
-    leg->Tp_set = u(1, 0);
-    leg->L0_dot = (leg->L0_now - leg->L0_last) / dt;
-    leg->L0_last = leg->L0_now;
-    leg->F_set += leg->supportF_pid.compute(leg->L0_set, 0, leg->L0_now, leg->L0_dot, dt);
-    cout << "F_set: " << leg->F_set << endl;
-    Torque = leg->VMC(leg->F_set, leg->Tp_set);
-    leg->TR_set = -Torque(0, 0);
-    leg->TL_set = -Torque(1, 0);
+    leg_sim->dis_desire += v_set * dt;
+    printf("Xd:%f\n", leg_sim->dis_desire);
+    leg_sim->Xd << 0, 0, leg_sim->dis_desire, 0, 0, 0;
+    leg_sim->X << leg_sim->angle0, leg_sim->angle0_dot, leg_sim->dis, leg_sim->dis_dot, pitch, pitch_dot;
+    cout << leg_sim->angle0 << " " << angle0_before << " " << leg_sim->angle0_dot << " " << leg_sim->dis << " " << leg_sim->dis_dot << " " << pitch << " " << pitch_dot << endl;
+    u = leg_sim->K * (leg_sim->Xd - leg_sim->X);
+    leg_sim->TWheel_set = u(0, 0);
+    leg_sim->Tp_set = u(1, 0);
+
+    leg_L->TWheel_set = leg_sim->TWheel_set / 2.0;
+    leg_R->TWheel_set = leg_sim->TWheel_set / 2.0;
+
+    leg_L->Tp_set = leg_sim->Tp_set / 2.0;
+    leg_R->Tp_set = leg_sim->Tp_set / 2.0;
+    // 左腿VMC解算
+    leg_L->L0_dot = (leg_L->L0_now - leg_L->L0_last) / dt;
+    leg_L->L0_last = leg_L->L0_now;
+    leg_L->F_set += leg_L->supportF_pid.compute(leg_L->L0_set, 0, leg_L->L0_now, leg_L->L0_dot, dt);
+    cout << "F_set: " << leg_L->F_set << endl;
+    Torque = leg_L->VMC(leg_L->F_set, leg_L->Tp_set);
+    leg_L->TR_set = -Torque(0, 0);
+    leg_L->TL_set = -Torque(1, 0);
+    // 右腿VMC解算
+    leg_R->L0_dot = (leg_R->L0_now - leg_R->L0_last) / dt;
+    leg_R->L0_last = leg_R->L0_now;
+    leg_R->F_set += leg_R->supportF_pid.compute(leg_R->L0_set, 0, leg_R->L0_now, leg_R->L0_dot, dt);
+    cout << "F_set: " << leg_R->F_set << endl;
+    Torque = leg_R->VMC(leg_R->F_set, leg_R->Tp_set);
+    leg_R->TR_set = -Torque(0, 0);
+    leg_R->TL_set = -Torque(1, 0);
 }
 
 void MyRobot::run()
@@ -160,13 +173,27 @@ void MyRobot::run()
     yaw_get_last = yaw_get;
     if (time == 0)
         yaw_set = yaw;
-
+    // 获取当前机器人状态信息
     leg_L.dis = encoder_wheelL->getValue() * 0.05;
     leg_R.dis = encoder_wheelR->getValue() * 0.05;
     leg_L.dis_dot = (leg_L.dis - leg_R.dis_last) * 1000.f / time_step;
     leg_R.dis_dot = (leg_R.dis - leg_R.dis_last) * 1000.f / time_step;
     leg_L.dis_last = leg_L.dis;
     leg_R.dis_last = leg_R.dis;
+    leg_L.TL_now = BL_legmotor->getTorqueFeedback();
+    leg_L.TR_now = FL_legmotor->getTorqueFeedback();
+    leg_R.TL_now = BR_legmotor->getTorqueFeedback();
+    leg_R.TR_now = FR_legmotor->getTorqueFeedback();
+    leg_L.TWheel_now = L_Wheelmotor->getTorqueFeedback();
+    leg_R.TWheel_now = L_Wheelmotor->getTorqueFeedback();
+    // 角度更新
+    leg_L.angle1 = 2.0 / 3.0 * PI - encoder_FL->getValue();
+    leg_L.angle4 = 1.0 / 3.0 * PI + encoder_BL->getValue();
+    leg_L.Zjie(leg_L.angle1, leg_L.angle4, pitch);
+    leg_R.angle1 = 2.0 / 3.0 * PI - encoder_FR->getValue();
+    leg_R.angle4 = 1.0 / 3.0 * PI + encoder_BR->getValue();
+    leg_R.Zjie(leg_R.angle1, leg_R.angle4, pitch);
+
     // 时序更新
     time = getTime();
 
@@ -239,32 +266,26 @@ void MyRobot::run()
 
     // leg_L.Njie(leg_L.xc, leg_L.yc);
     // leg_R.Njie(leg_R.xc, leg_R.yc);
-    leg_L.TL_now = BL_legmotor->getTorqueFeedback();
-    leg_L.TR_now = FL_legmotor->getTorqueFeedback();
-    leg_R.TL_now = BR_legmotor->getTorqueFeedback();
-    leg_R.TR_now = FR_legmotor->getTorqueFeedback();
-    float L_Torque = L_Wheelmotor->getTorqueFeedback();
-    float R_Torque = R_Wheelmotor->getTorqueFeedback();
     cout << "左腿更新：" << endl;
-    status_update(&leg_L, encoder_FL, encoder_BL, encoder_wheelL, pitch, pitch_dot, time_step / 1000.f, velocity_set);
-    cout << "右腿更新：" << endl;
-    status_update(&leg_R, encoder_FR, encoder_BR, encoder_wheelR, pitch, pitch_dot, time_step / 1000.f, velocity_set);
+    status_update(&leg_simplified, &leg_L, &leg_R, pitch, pitch_dot, time_step / 1000.f, velocity_set);
+    // cout << "右腿更新：" << endl;
+    // status_update(&leg_R, encoder_FR, encoder_BR, encoder_wheelR, pitch, pitch_dot, time_step / 1000.f, velocity_set);
 
-    cout << "L_TL " << leg_L.TL_now << " L_TR " << leg_L.TR_now << " R_TL " << leg_R.TL_now << " R_TR " << leg_R.TR_now << endl;
+    cout << "L_TL " << leg_L.TL_now << " L_TR " << leg_L.TR_now << " R_TL " << leg_R.TL_now << " R_TR " << leg_R.TR_now << " L_Wheel" << leg_L.TWheel_now << "R_Wheel" << leg_R.TWheel_now << endl;
     // BL_legmotor->setPosition(-(leg_L.angle1 - PI * 2 / 3)); // 懒得管正方向怎么看了，就这样吧，反正顺负逆正
     // FL_legmotor->setPosition(leg_L.angle4 - PI / 3);
     // BR_legmotor->setPosition(-(leg_R.angle1 - PI * 2 / 3));
     // FR_legmotor->setPosition(leg_R.angle4 - PI / 3);
     // L_Wheelmotor->setVelocity(Limit(vertical_out - turn_out, 60, -60));
     // R_Wheelmotor->setVelocity(Limit(vertical_out + turn_out, 60, -60));
-    // BL_legmotor->setTorque(-leg_L.TR_set);
+    // BL_legmotor->setTorque(leg_L.TR_set);
     // FL_legmotor->setTorque(leg_L.TL_set);
     // BR_legmotor->setTorque(leg_R.TL_set);
     // FL_legmotor->setTorque(leg_R.TR_set);
-    // // // L_Wheelmotor->setPosition(0);
-    // // // R_Wheelmotor->setPosition(0);
-    // L_Wheelmotor->setTorque(leg_L.TWheel_set);
-    // L_Wheelmotor->setTorque(leg_R.TWheel_set);
+    // // // // L_Wheelmotor->setPosition(0);
+    // // // // R_Wheelmotor->setPosition(0);
+    L_Wheelmotor->setTorque(leg_L.TWheel_set);
+    L_Wheelmotor->setTorque(leg_R.TWheel_set);
 
     printf("dt:%d, BackLeft:%f, FrontLeft:%f, BackRight:%f, FrontRight:%f, WheelL:%f, WheelR:%f, L0_set:%f, L0_now:%f, angle2:%f, angle3:%f\n",
            time_step, leg_L.TR_set, leg_L.TL_set, leg_R.TL_set, leg_R.TR_set, leg_L.TWheel_set, leg_R.TWheel_set, leg_L.L0_set, leg_L.L0_now, leg_L.angle2, leg_L.angle3);

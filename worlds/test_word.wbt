@@ -3,8 +3,8 @@ WorldInfo {
   basicTimeStep 20
 }
 Viewpoint {
-  orientation -0.9187233204024797 0.39234976039630864 0.04482327593562866 0.2474297020433946
-  position 0.16167563091522055 0.7067477033194195 1.3782930921696541
+  orientation 0.08179933444584511 0.9961622139065608 -0.031140206630590733 0.7300607276294754
+  position 1.288694254923758 0.18633942252562052 1.1995740358266744
   follow "robot"
 }
 TexturedBackground {
@@ -12,6 +12,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 UnevenTerrain {
+  translation 0 -0.01 0
   size 50 0 50
   appearance Grass {
   }
@@ -561,8 +562,7 @@ Robot {
   ]
   boundingObject USE body
   physics Physics {
-    density -1
-    mass 18
+    density 0.001
   }
   controller "dynamic_lqr"
 }
