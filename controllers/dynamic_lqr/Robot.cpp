@@ -193,7 +193,6 @@ void MyRobot::run()
     leg_R.angle1 = 2.0 / 3.0 * PI - encoder_FR->getValue();
     leg_R.angle4 = 1.0 / 3.0 * PI + encoder_BR->getValue();
     leg_R.Zjie(leg_R.angle1, leg_R.angle4, pitch);
-
     // 时序更新
     time = getTime();
 
