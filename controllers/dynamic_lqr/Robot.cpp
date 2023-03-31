@@ -81,18 +81,18 @@ void MyRobot::status_update(LegClass *leg,
     static Matrix<float, 12, 4> K_coeff;
     static Matrix<float, 2, 1> u;
     static Matrix<float, 2, 1> Torque;
-    K_coeff << -30.0057580368924, 81.3092898190280, -145.828385040219, -10.9522353053103,
-        136.426623977700, -131.552480427351, 33.5578606664500, 20.3260604190136,
-        24.1982856179160, -32.6932677997384, -17.6818917638554, -0.878455527748953,
-        27.0486702586637, -31.0891534934619, 15.3288195003590, 1.67468799124106,
-        -37.2355355977631, 49.4011820693908, -23.8105497659121, -17.8648006582999,
-        -101.579601654688, 164.987166617278, -102.419700398579, 30.4272821330273,
-        -16.9488359075399, 30.1655008912384, -27.2979840399293, -12.1063693072014,
-        -45.6512382152932, 83.2911821378878, -56.8830620278166, 20.2920005458905,
-        -160.611452379952, 260.867615465139, -161.939765220186, 48.1097572694910,
-        235.498204840030, -312.440508969351, 150.591139232877, 112.986920046435,
-        -13.7311460656841, 19.5101617300023, -10.9129076662892, 3.08375932518035,
-        16.6177907266046, -21.8147791954040, 10.4756720156239, 2.65629390051965;
+    K_coeff << -48.3578297094021, 99.4391082676018, -151.098509943708, -10.6093866201375,
+        127.382026021665, -116.319461714723, 25.7279684392863, 19.3237308555322,
+        19.8415282211839, -28.3576259499835, -18.5921516614469, -0.761833591197567,
+        27.1651432633777, -29.7523525168759, 13.6912914043980, 1.58363529978878,
+        -35.3861503900243, 46.3899531354965, -21.9858255106694, -18.3151686294010,
+        -108.413953830503, 171.738764445491, -103.375093625442, 29.3440473413196,
+        -16.4870951038320, 28.7879316242635, -26.1080774512925, -12.4355677345694,
+        -51.6659797173326, 90.2324381076307, -58.8821294900972, 19.6344297549442,
+        -171.417512262013, 271.542829228076, -163.450374637231, 46.3970126877041,
+        223.801666199529, -293.395825377058, 139.050569853286, 115.835297182280,
+        -14.2423528810533, 19.9718044212901, -10.9859578203368, 3.02373014454550,
+        15.5221184878357, -20.2022763379686, 9.58265639212468, 2.86271459832131;
     leg->angle1 = 2.0 / 3.0 * PI - encoder_R->getValue();
     leg->angle4 = 1.0 / 3.0 * PI + encoder_L->getValue();
     cout << "angle1: " << leg->angle1 << " angle4: " << leg->angle4 << endl;
@@ -137,10 +137,10 @@ void MyRobot::run()
 {
     static int last_key;
 
-    // static PID_Controller vertical_pid(9, 0, 1, 60);
-    // static PID_Controller velocity_pid(0.13, 0.003, 0.02, 1.0);
-    // static PID_Controller turn_pid(12, 0, 0.3, 0);
-    // static PID_Controller roll_pid(0.18, 0, 0.02, 0);
+    static PID_Controller vertical_pid(9, 0, 1, 60);
+    static PID_Controller velocity_pid(0.13, 0.003, 0.02, 1.0);
+    static PID_Controller turn_pid(12, 0, 0.3, 0);
+    static PID_Controller roll_pid(0.18, 0, 0.02, 0);
 
     pitch = imu->getRollPitchYaw()[1];
     pitch_dot = gyro->getValues()[2];
@@ -257,12 +257,12 @@ void MyRobot::run()
     // FR_legmotor->setPosition(leg_R.angle4 - PI / 3);
     // L_Wheelmotor->setVelocity(Limit(vertical_out - turn_out, 60, -60));
     // R_Wheelmotor->setVelocity(Limit(vertical_out + turn_out, 60, -60));
-    BL_legmotor->setTorque(leg_L.TR_set);
-    FL_legmotor->setTorque(leg_L.TL_set);
-    BR_legmotor->setTorque(leg_R.TL_set);
-    FL_legmotor->setTorque(leg_R.TR_set);
-    L_Wheelmotor->setPosition(0);
-    R_Wheelmotor->setPosition(0);
+    // BL_legmotor->setTorque(-leg_L.TR_set);
+    // FL_legmotor->setTorque(leg_L.TL_set);
+    // BR_legmotor->setTorque(leg_R.TL_set);
+    // FL_legmotor->setTorque(leg_R.TR_set);
+    // // // L_Wheelmotor->setPosition(0);
+    // // // R_Wheelmotor->setPosition(0);
     // L_Wheelmotor->setTorque(leg_L.TWheel_set);
     // L_Wheelmotor->setTorque(leg_R.TWheel_set);
 
