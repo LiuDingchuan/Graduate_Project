@@ -70,3 +70,4 @@ typedef const uint8_t uc8;   /*!< Read Only */
 /* 数量积 */
 #define InnerProduct(vector1, vector2) \
     (float)(vector1.x * vector2.x + vector1.y * vector2.y)
+#define Deadzone(input, threshold) ((fabs(input) < threshold) ? 0 : input)

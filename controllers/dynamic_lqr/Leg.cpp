@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:19:53
- * @LastEditTime: 2023-04-01 00:04:29
+ * @LastEditTime: 2023-04-06 16:27:57
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.cpp
  */
 #include "Leg.h"
@@ -31,7 +31,7 @@ LegClass::LegClass()
     supportF_pid.update(1.0, 0.0, 0.01, 0);
 }
 /**
- * @brief: 
+ * @brief:
  * @author: Dandelion
  * @Date: 2023-03-31 23:50:02
  * @param {float} xc
@@ -107,8 +107,6 @@ void LegClass::Zjie(const float angle1, const float angle4, const float pitch)
     cor_XY << xc, yc;
     cor_XY_then = matrix_R * cor_XY;
     angle0 = atan(cor_XY_then(0, 0) / cor_XY_then(1, 0));
-    if(angle0 < 0.01f & angle0 > -0.01f)//限幅
-        angle0 = 0.0f;
 }
 /**
  * @brief: VMC（虚拟力算法）

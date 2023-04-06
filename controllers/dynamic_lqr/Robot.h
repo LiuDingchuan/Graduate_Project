@@ -45,6 +45,7 @@ private:
 
     PID_Controller turn_pid;
     PID_Controller split_pid;
+    Matrix<float, 12, 4> K_coeff;
 
     float velocity_set, yaw_set, roll_set;
     float velocity_out, vertical_out, turn_out, leg_out;

@@ -1,10 +1,10 @@
 #VRML_SIM R2020a utf8
 WorldInfo {
-  basicTimeStep 20
+  basicTimeStep 5
 }
 Viewpoint {
-  orientation -0.04210505419003331 0.9991061639825648 0.003746665677458867 0.17765796418025956
-  position 0.4442290178181354 0.3013936711255493 1.5033291775503317
+  orientation -0.7067682306049451 0.7067682306040357 0.03094085351756658 0.12372394233264382
+  position 0.2793907400140454 0.44472201822026197 1.485999846596035
   follow "robot"
 }
 TexturedBackground {
@@ -86,11 +86,11 @@ Robot {
                                 RotationalMotor {
                                   name "R_Motor"
                                   maxVelocity 80
-                                  maxTorque 50
                                 }
                               ]
                               endPoint DEF 车轮 Solid {
-                                rotation 0 -1 0 0
+                                translation -0.0025424667025388706 -2.961220368691286e-06 -6.726536987844683e-06
+                                rotation 0.031190896720021687 0.9687824899031462 0.24594230058869807 4.693274422891038e-07
                                 children [
                                   GPS {
                                     translation 0 0.05 0
@@ -110,7 +110,7 @@ Robot {
                                 boundingObject USE 车轮
                                 physics Physics {
                                   density -1
-                                  mass 0.406
+                                  mass 3
                                 }
                               }
                             }
@@ -144,7 +144,7 @@ Robot {
                       boundingObject USE 小腿
                       physics Physics {
                         density -1
-                        mass 0.124
+                        mass 1.24
                       }
                     }
                   }
@@ -179,7 +179,7 @@ Robot {
             boundingObject USE 大腿
             physics Physics {
               density -1
-              mass 0.28
+              mass 2.8
             }
           }
         }
@@ -245,7 +245,7 @@ Robot {
                       boundingObject USE 小腿
                       physics Physics {
                         density -1
-                        mass 0.124
+                        mass 1.24
                       }
                     }
                   }
@@ -280,7 +280,7 @@ Robot {
             boundingObject USE 大腿
             physics Physics {
               density -1
-              mass 0.28
+              mass 2.8
             }
           }
         }
@@ -340,11 +340,11 @@ Robot {
                                 RotationalMotor {
                                   name "L_Motor"
                                   maxVelocity 80
-                                  maxTorque 50
                                 }
                               ]
                               endPoint DEF 车轮 Solid {
-                                rotation 0 -1 0 0
+                                translation -0.0025431804722263283 -2.9260230063055115e-06 -6.5827141941248325e-06
+                                rotation 0.0330280333790675 0.9665825314928167 0.25421911577229866 4.4404460268471747e-07
                                 children [
                                   DEF 车轮 Shape {
                                     appearance PBRAppearance {
@@ -361,7 +361,7 @@ Robot {
                                 boundingObject USE 车轮
                                 physics Physics {
                                   density -1
-                                  mass 0.406
+                                  mass 3
                                 }
                               }
                             }
@@ -395,7 +395,7 @@ Robot {
                       boundingObject USE 小腿
                       physics Physics {
                         density -1
-                        mass 0.124
+                        mass 1.24
                       }
                     }
                   }
@@ -496,7 +496,7 @@ Robot {
                       boundingObject USE 小腿
                       physics Physics {
                         density -1
-                        mass 0.124
+                        mass 1.24
                       }
                     }
                   }
@@ -531,7 +531,7 @@ Robot {
             boundingObject USE 大腿
             physics Physics {
               density -1
-              mass 0.28
+              mass 2.8
             }
           }
         }
