@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:19:53
- * @LastEditTime: 2023-04-06 16:27:57
+ * @LastEditTime: 2023-04-06 21:10:25
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.cpp
  */
 #include "Leg.h"
@@ -15,7 +15,7 @@ LegClass::LegClass()
     l3 = 0.200;
     l4 = 0.180;
     l5 = 0.120;
-    F_set = 15.245 / 2 * 9.8;
+    F_set = -15.245 / 2 * 9.8;
     dis = dis_desire = dis_dot = dis_last = 0;
 
     xc = 0, yc = 0.28817;
@@ -25,10 +25,10 @@ LegClass::LegClass()
     Zjie(angle1, angle4, 0);
     L0_set = L0_now; // 初值
     L0_last = L0_now;
-    K << -46.9417, -8.1097, -21.5150, -17.8734, 19.2631, 1.2306,
-        22.3368, 4.1576, 12.1831, 9.7243, 136.0725, 4.2612;
+    K << -74.2432, -14.5119, -22.0338, -21.5889, 12.0461, 0.8456,
+        20.4829, 4.4943, 7.6187, 7.1781, 139.3541, 4.5367;
     X << 0, 0, 0, 0, 0, 0;
-    supportF_pid.update(1.0, 0.0, 0.01, 0);
+    supportF_pid.update(2.0, 0.0, 0.1, 0);
 }
 /**
  * @brief:
@@ -125,9 +125,9 @@ Matrix<float, 2, 1> LegClass::VMC(float F, float Tp)
     Matrix<float, 2, 1> VirtualF;
     Matrix<float, 2, 1> ActualF;
     Trans << l1 * sin(angle0 + angle3) * sin(angle1 - angle2) / sin(angle2 - angle3),
-        -l1 * cos(angle0 + angle3) * sin(angle1 - angle2) / (L0_now * sin(angle2 - angle3)),
+        -l1 * cos(angle0 + angle3) * sin(angle1 - angle2) / (L0_set * sin(angle2 - angle3)),
         l4 * sin(angle0 + angle2) * sin(angle3 - angle4) / sin(angle2 - angle3),
-        -l4 * cos(angle0 + angle2) * sin(angle3 - angle4) / (L0_now * sin(angle2 - angle3));
+        -l4 * cos(angle0 + angle2) * sin(angle3 - angle4) / (L0_set * sin(angle2 - angle3));
     VirtualF << this->F_set, this->Tp_set;
     ActualF = Trans * VirtualF;
     return ActualF;

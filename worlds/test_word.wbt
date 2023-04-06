@@ -144,7 +144,7 @@ Robot {
                       boundingObject USE 小腿
                       physics Physics {
                         density -1
-                        mass 1.24
+                        mass 0.124
                       }
                     }
                   }
@@ -179,7 +179,7 @@ Robot {
             boundingObject USE 大腿
             physics Physics {
               density -1
-              mass 2.8
+              mass 0.28
             }
           }
         }
@@ -245,7 +245,7 @@ Robot {
                       boundingObject USE 小腿
                       physics Physics {
                         density -1
-                        mass 1.24
+                        mass 0.124
                       }
                     }
                   }
@@ -280,7 +280,7 @@ Robot {
             boundingObject USE 大腿
             physics Physics {
               density -1
-              mass 2.8
+              mass 0.28
             }
           }
         }
@@ -395,7 +395,7 @@ Robot {
                       boundingObject USE 小腿
                       physics Physics {
                         density -1
-                        mass 1.24
+                        mass 0.124
                       }
                     }
                   }
@@ -496,7 +496,7 @@ Robot {
                       boundingObject USE 小腿
                       physics Physics {
                         density -1
-                        mass 1.24
+                        mass 0.124
                       }
                     }
                   }
@@ -531,7 +531,7 @@ Robot {
             boundingObject USE 大腿
             physics Physics {
               density -1
-              mass 2.8
+              mass 0.28
             }
           }
         }
@@ -567,7 +567,7 @@ Robot {
       boundingObject USE body
       physics Physics {
         density -1
-        mass 0.001
+        mass 15.245
       }
     }
   ]

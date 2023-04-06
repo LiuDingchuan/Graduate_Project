@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:20:36
- * @LastEditTime: 2023-03-29 14:36:21
+ * @LastEditTime: 2023-04-06 20:27:30
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.h
  */
 #ifndef _LEG_H
@@ -35,7 +35,7 @@ public:
     float xd, yd;
     float xe, ye;
     // 力与力矩
-    float TL_now, TR_now, TWheel_now; // 左腿看左视图，右腿看右视图
+    float TL_now, TR_now, TWheel_now; // 统一看右视图？
     float TL_set, TR_set, TWheel_set;
     float F_set;  // 根据腿长PD控制得到， 初值为上层机构重力
     float Tp_set; // 根据状态反馈矩阵得到
