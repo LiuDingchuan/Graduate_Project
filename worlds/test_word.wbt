@@ -3,8 +3,8 @@ WorldInfo {
   basicTimeStep 20
 }
 Viewpoint {
-  orientation 0.08179933444584511 0.9961622139065608 -0.031140206630590733 0.7300607276294754
-  position 1.288694254923758 0.18633942252562052 1.1995740358266744
+  orientation -0.04210505419003331 0.9991061639825648 0.003746665677458867 0.17765796418025956
+  position 0.4442290178181354 0.3013936711255493 1.5033291775503317
   follow "robot"
 }
 TexturedBackground {
@@ -50,7 +50,7 @@ Robot {
           ]
           endPoint DEF 大腿 Solid {
             translation -0.00034611899746200104 -0.0004892637334860475 -1.3167301224831233e-05
-            rotation 0.7343092250993657 -0.6175087603067274 0.28190936997272337 0.00035190001059644314
+            rotation 0.7343092250993658 -0.6175087603067273 0.28190936997272337 0.00035190001059644314
             children [
               DEF 小腿铰接 Transform {
                 translation -0.09 -0.15588 0.012
@@ -109,7 +109,8 @@ Robot {
                                 name "solid_wheel(1)"
                                 boundingObject USE 车轮
                                 physics Physics {
-                                  density 2700
+                                  density -1
+                                  mass 0.406
                                 }
                               }
                             }
@@ -142,7 +143,8 @@ Robot {
                       name "solid(1)"
                       boundingObject USE 小腿
                       physics Physics {
-                        density 2700
+                        density -1
+                        mass 0.124
                       }
                     }
                   }
@@ -176,7 +178,8 @@ Robot {
             name "solid(4)"
             boundingObject USE 大腿
             physics Physics {
-              density 2700
+              density -1
+              mass 0.28
             }
           }
         }
@@ -201,7 +204,7 @@ Robot {
           ]
           endPoint DEF 大腿 Solid {
             translation -0.00014709585247475517 -1.970493404200734e-05 -1.5941992040358066e-07
-            rotation 0.17400168527216475 -0.9847437327378566 0.0017872761285235028 1.6373060680970635e-05
+            rotation 0.17400168527216478 -0.9847437327378566 0.0017872761285235028 1.6373060680970635e-05
             children [
               DEF 小腿铰接 Transform {
                 translation -0.09 -0.15588 0.012
@@ -241,7 +244,8 @@ Robot {
                       name "solid_xiaotui"
                       boundingObject USE 小腿
                       physics Physics {
-                        density 2700
+                        density -1
+                        mass 0.124
                       }
                     }
                   }
@@ -275,7 +279,8 @@ Robot {
             name "solid(3)"
             boundingObject USE 大腿
             physics Physics {
-              density 2700
+              density -1
+              mass 0.28
             }
           }
         }
@@ -355,7 +360,8 @@ Robot {
                                 name "solid_wheel(1)"
                                 boundingObject USE 车轮
                                 physics Physics {
-                                  density 2700
+                                  density -1
+                                  mass 0.406
                                 }
                               }
                             }
@@ -388,7 +394,8 @@ Robot {
                       name "solid(1)"
                       boundingObject USE 小腿
                       physics Physics {
-                        density 2700
+                        density -1
+                        mass 0.124
                       }
                     }
                   }
@@ -422,7 +429,8 @@ Robot {
             name "solid(2)"
             boundingObject USE 大腿
             physics Physics {
-              density 2700
+              density -1
+              mass 0.28
             }
           }
         }
@@ -487,7 +495,8 @@ Robot {
                       name "solid_xiaotui2"
                       boundingObject USE 小腿
                       physics Physics {
-                        density 2700
+                        density -1
+                        mass 0.124
                       }
                     }
                   }
@@ -521,7 +530,8 @@ Robot {
             name "solid(1)"
             boundingObject USE 大腿
             physics Physics {
-              density 2700
+              density -1
+              mass 0.28
             }
           }
         }
@@ -556,13 +566,15 @@ Robot {
       ]
       boundingObject USE body
       physics Physics {
-        density 2700
+        density -1
+        mass 0.001
       }
     }
   ]
   boundingObject USE body
   physics Physics {
-    density 0.001
+    density -1
+    mass 0.001
   }
   controller "dynamic_lqr"
 }
