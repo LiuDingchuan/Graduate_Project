@@ -75,6 +75,28 @@ void MyRobot::Wait(int ms)
 void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
                             float pitch, float pitch_dot, float dt, float v_set)
 {
+    // 获取当前机器人状态信息
+    leg_L->dis = encoder_wheelL->getValue() * 0.05;
+    leg_R->dis = encoder_wheelR->getValue() * 0.05;
+    leg_L->dis_dot = (leg_L->dis - leg_R->dis_last) * 1000.f / time_step;
+    leg_R->dis_dot = (leg_R->dis - leg_R->dis_last) * 1000.f / time_step;
+    leg_L->dis_last = leg_L->dis;
+    leg_R->dis_last = leg_R->dis;
+    leg_L->TL_now = BL_legmotor->getTorqueFeedback();
+    leg_L->TR_now = FL_legmotor->getTorqueFeedback();
+    leg_R->TL_now = BR_legmotor->getTorqueFeedback();
+    leg_R->TR_now = FR_legmotor->getTorqueFeedback();
+    leg_L->TWheel_now = L_Wheelmotor->getTorqueFeedback();
+    leg_R->TWheel_now = L_Wheelmotor->getTorqueFeedback();
+    // 角度更新，统一从右视图看吧
+    leg_L->angle1 = 2.0 / 3.0 * PI - encoder_FL->getValue();
+    leg_L->angle4 = 1.0 / 3.0 * PI + encoder_BL->getValue();
+    cout << "Left_ang1 " << leg_L->angle1 << " Left_ang4 " << leg_L->angle4 << endl;
+    leg_L->Zjie(leg_L->angle1, leg_L->angle4, pitch);
+    leg_R->angle1 = 2.0 / 3.0 * PI - encoder_FR->getValue();
+    leg_R->angle4 = 1.0 / 3.0 * PI + encoder_BR->getValue();
+    cout << "Right_ang1 " << leg_R->angle1 << " Right_ang4 " << leg_R->angle4 << endl;
+    leg_R->Zjie(leg_R->angle1, leg_R->angle4, pitch);
     // 计算K矩阵数据，根据l0_now拟合得到
     static Matrix<float, 12, 4> K_coeff;
     static Matrix<float, 2, 1> u;
@@ -91,9 +113,9 @@ void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
         65.2285869732094, -83.0146781649621, 38.1801268189101, 13.2200149028407,
         -7.00458321609559, 9.95334225805404, -5.55431360604017, 1.53156019003240,
         11.6338020785579, -14.8445886620617, 6.88039672819413, 1.30268222126150;
-    leg_sim->angle1 = (leg_L->angle4 + PI - leg_R->angle1) / 2;
-    leg_sim->angle4 = (leg_R->angle4 + PI - leg_L->angle1) / 2;
-    cout << "angle1: " << leg_sim->angle1 << " angle4: " << leg_sim->angle4 << endl;
+    leg_sim->angle1 = (leg_L->angle1 + leg_R->angle1) / 2;
+    leg_sim->angle4 = (leg_R->angle4 + leg_R->angle4) / 2;
+    cout << "sim_angle1: " << leg_sim->angle1 << "sim_angle4: " << leg_sim->angle4 << endl;
     float angle0_before = leg_sim->angle0;
     leg_sim->Zjie(leg_sim->angle1, leg_sim->angle4, pitch);
     leg_sim->angle0_dot = (leg_sim->angle0 - angle0_before) / dt;
@@ -132,7 +154,7 @@ void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
     leg_L->L0_dot = (leg_L->L0_now - leg_L->L0_last) / dt;
     leg_L->L0_last = leg_L->L0_now;
     leg_L->F_set += leg_L->supportF_pid.compute(leg_L->L0_set, 0, leg_L->L0_now, leg_L->L0_dot, dt);
-    cout << "F_set: " << leg_L->F_set << endl;
+    cout << "LF_set: " << leg_L->F_set << endl;
     Torque = leg_L->VMC(leg_L->F_set, leg_L->Tp_set);
     leg_L->TR_set = -Torque(0, 0);
     leg_L->TL_set = -Torque(1, 0);
@@ -140,7 +162,7 @@ void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
     leg_R->L0_dot = (leg_R->L0_now - leg_R->L0_last) / dt;
     leg_R->L0_last = leg_R->L0_now;
     leg_R->F_set += leg_R->supportF_pid.compute(leg_R->L0_set, 0, leg_R->L0_now, leg_R->L0_dot, dt);
-    cout << "F_set: " << leg_R->F_set << endl;
+    cout << "RF_set: " << leg_R->F_set << endl;
     Torque = leg_R->VMC(leg_R->F_set, leg_R->Tp_set);
     leg_R->TR_set = -Torque(0, 0);
     leg_R->TL_set = -Torque(1, 0);
@@ -173,26 +195,6 @@ void MyRobot::run()
     yaw_get_last = yaw_get;
     if (time == 0)
         yaw_set = yaw;
-    // 获取当前机器人状态信息
-    leg_L.dis = encoder_wheelL->getValue() * 0.05;
-    leg_R.dis = encoder_wheelR->getValue() * 0.05;
-    leg_L.dis_dot = (leg_L.dis - leg_R.dis_last) * 1000.f / time_step;
-    leg_R.dis_dot = (leg_R.dis - leg_R.dis_last) * 1000.f / time_step;
-    leg_L.dis_last = leg_L.dis;
-    leg_R.dis_last = leg_R.dis;
-    leg_L.TL_now = BL_legmotor->getTorqueFeedback();
-    leg_L.TR_now = FL_legmotor->getTorqueFeedback();
-    leg_R.TL_now = BR_legmotor->getTorqueFeedback();
-    leg_R.TR_now = FR_legmotor->getTorqueFeedback();
-    leg_L.TWheel_now = L_Wheelmotor->getTorqueFeedback();
-    leg_R.TWheel_now = L_Wheelmotor->getTorqueFeedback();
-    // 角度更新
-    leg_L.angle1 = 2.0 / 3.0 * PI - encoder_FL->getValue();
-    leg_L.angle4 = 1.0 / 3.0 * PI + encoder_BL->getValue();
-    leg_L.Zjie(leg_L.angle1, leg_L.angle4, pitch);
-    leg_R.angle1 = 2.0 / 3.0 * PI - encoder_FR->getValue();
-    leg_R.angle4 = 1.0 / 3.0 * PI + encoder_BR->getValue();
-    leg_R.Zjie(leg_R.angle1, leg_R.angle4, pitch);
     // 时序更新
     time = getTime();
 
