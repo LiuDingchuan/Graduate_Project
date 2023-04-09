@@ -90,8 +90,8 @@ void MyRobot::Wait(int ms)
 void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
                             float pitch, float pitch_dot, float dt, float v_set)
 {
-    leg_L->F_set = 16.35 / 2 * 9.81;
-    leg_R->F_set = 16.35 / 2 * 9.81;
+    leg_L->F_set = 16.3 / 2 * 9.81;
+    leg_R->F_set = 16.3 / 2 * 9.81;
     // 获取当前机器人状态信息
     leg_L->dis = encoder_wheelL->getValue() * 0.05;
     leg_R->dis = encoder_wheelR->getValue() * 0.05;
@@ -164,21 +164,30 @@ void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
 
     leg_L->Tp_set = leg_sim->Tp_set / 2.0;
     leg_R->Tp_set = leg_sim->Tp_set / 2.0;
+    // pid补偿
+    float out_L, out_R, out_roll, out_spilt, out_turn;
+    out_L = leg_L->supportF_pid.compute(leg_L->L0_set, 0, leg_L->L0_now, leg_L->L0_dot, dt);
+    out_R = leg_R->supportF_pid.compute(leg_R->L0_set, 0, leg_R->L0_now, leg_R->L0_dot, dt);
+    out_roll = roll_pid.compute(roll_set, 0, roll, roll_dot, dt);
+    out_spilt = split_pid.compute(0, 0, leg_L->angle0 - leg_R->angle0, leg_L->angle0_dot - leg_R->angle0_dot, dt);
+    out_turn = turn_pid.compute(yaw_set, 0, yaw, yaw_dot, dt);
     // 左腿VMC解算
     leg_L->L0_dot = (leg_L->L0_now - leg_L->L0_last) / dt;
     leg_L->L0_last = leg_L->L0_now;
-    float output_L = leg_L->supportF_pid.compute(leg_L->L0_set, 0, leg_L->L0_now, leg_L->L0_dot, dt);
-    leg_L->F_set += output_L;
-    cout << "LF_set: " << leg_L->F_set << " pid " << output_L << " ang1 " << leg_L->angle1 << " ang2 " << leg_L->angle2 << " ang3 " << leg_L->angle3 << " ang4 " << leg_L->angle4 << endl;
+    leg_L->F_set += out_L;
+    leg_L->F_set += out_roll;
+    leg_L->Tp_set += out_spilt; // 这里的正负号没研究过
+    cout << "LF_set: " << leg_L->F_set << " pid " << out_L << " ang1 " << leg_L->angle1 << " ang2 " << leg_L->angle2 << " ang3 " << leg_L->angle3 << " ang4 " << leg_L->angle4 << endl;
     Torque = leg_L->VMC(leg_L->F_set, leg_L->Tp_set);
     leg_L->TL_set = -Torque(0, 0);
     leg_L->TR_set = Torque(1, 0);
     // 右腿VMC解算
     leg_R->L0_dot = (leg_R->L0_now - leg_R->L0_last) / dt;
     leg_R->L0_last = leg_R->L0_now;
-    float output_R = leg_R->supportF_pid.compute(leg_R->L0_set, 0, leg_R->L0_now, leg_R->L0_dot, dt);
-    leg_R->F_set += output_R;
-    cout << "RF_set: " << leg_R->F_set << " pid " << output_R << " ang1 " << leg_R->angle1 << " ang2 " << leg_R->angle2 << " ang3 " << leg_R->angle3 << " ang4 " << leg_R->angle4 << endl;
+    leg_R->F_set += out_R;
+    leg_R->F_set -= out_roll;
+    leg_R->Tp_set -= out_spilt;
+    cout << "RF_set: " << leg_R->F_set << " pid " << out_R << " ang1 " << leg_R->angle1 << " ang2 " << leg_R->angle2 << " ang3 " << leg_R->angle3 << " ang4 " << leg_R->angle4 << endl;
     Torque = leg_R->VMC(leg_R->F_set, leg_R->Tp_set);
     leg_R->TL_set = -Torque(0, 0);
     leg_R->TR_set = Torque(1, 0);
@@ -275,7 +284,7 @@ void MyRobot::run()
     // status_update(&leg_R, encoder_FR, encoder_BR, encoder_wheelR, pitch, pitch_dot, time_step / 1000.f, velocity_set);
 
     cout << "L_TL " << leg_L.TL_now << " L_TR " << leg_L.TR_now << " R_TL " << leg_R.TL_now << " R_TR " << leg_R.TR_now << " L_Wheel " << leg_L.TWheel_now << " R_Wheel " << leg_R.TWheel_now << endl;
-    static int tick = 200;
+    static int tick = 100;
     if (tick == 0)
     {
         /* code */
