@@ -36,6 +36,8 @@ void PID_Controller::clear()
 void PID_Controller::update(float _p, float _i, float _d, float _max_out)
 {
     kp = _p, ki = _i, kd = _d, max_output = _max_out;
+    if (0 == _max_out)
+        max_output = 99999;
 }
 /**
  * @brief:
@@ -86,8 +88,7 @@ float PID_Controller::compute(const float target, const float d_target, const fl
         Limit(this->err_sum, this->max_sum, -this->max_sum);
         output += this->err_sum;
     }
-
-    Limit(output, this->max_sum, -this->max_sum);
-    this->output = output;
-    return output;
+    this->output = Limit(output, this->max_output, -this->max_output);
+    // this->output = (output < 0.01 && output > -0.01) ? 0 : output;
+    return this->output;
 }

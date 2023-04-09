@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:20:36
- * @LastEditTime: 2023-04-06 20:27:30
+ * @LastEditTime: 2023-04-06 21:37:31
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.h
  */
 #ifndef _LEG_H
@@ -47,7 +47,7 @@ public:
     LegClass();
     void Zjie(const float angle1, const float angle4, const float pitch);
     void Njie(const float xc, const float yc);
-    Matrix<float, 2, 1> VMC(float F, float Tp);
+    Matrix<float, 2, 1> VMC(const float F, const float Tp);
 };
 
 #endif

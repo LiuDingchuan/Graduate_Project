@@ -45,12 +45,12 @@ Robot {
             }
             RotationalMotor {
               name "BR_Motor"
-              maxTorque 15
+              maxTorque 22
             }
           ]
           endPoint DEF 大腿 Solid {
-            translation -0.00034611899746200104 -0.0004892637334860475 -1.3167301224831233e-05
-            rotation 0.7343092250993658 -0.6175087603067273 0.28190936997272337 0.00035190001059644314
+            translation -0.0003461189974620152 -0.0004892637334860117 -1.316730122483123e-05
+            rotation 0.7343092250994071 -0.6175087603067266 0.2819093699726174 0.00035190001059644314
             children [
               DEF 小腿铰接 Transform {
                 translation -0.09 -0.15588 0.012
@@ -61,6 +61,7 @@ Robot {
                       axis 0 0 1
                     }
                     endPoint DEF 小腿 Solid {
+                      translation -8.326672684688674e-17 0 0
                       rotation 0 0 1 0
                       children [
                         DEF 车轮铰接 Transform {
@@ -90,7 +91,7 @@ Robot {
                               ]
                               endPoint DEF 车轮 Solid {
                                 translation -0.0025424667025388706 -2.961220368691286e-06 -6.726536987844683e-06
-                                rotation 0.031190896720021687 0.9687824899031462 0.24594230058869807 4.693274422891038e-07
+                                rotation 0.031190896720021684 0.9687824899031461 0.24594230058869804 4.693274422891038e-07
                                 children [
                                   GPS {
                                     translation 0 0.05 0
@@ -199,12 +200,12 @@ Robot {
             }
             RotationalMotor {
               name "FR_Motor"
-              maxTorque 15
+              maxTorque 22
             }
           ]
           endPoint DEF 大腿 Solid {
-            translation -0.00014709585247475517 -1.970493404200734e-05 -1.5941992040358066e-07
-            rotation 0.17400168527216478 -0.9847437327378566 0.0017872761285235028 1.6373060680970635e-05
+            translation -0.0001470958524747365 -1.9704934042019673e-05 -1.5941992043133624e-07
+            rotation 0.17400168527216525 -0.9847437327378566 0.0017872761283570153 1.6373060680970635e-05
             children [
               DEF 小腿铰接 Transform {
                 translation -0.09 -0.15588 0.012
@@ -215,6 +216,7 @@ Robot {
                       axis 0 0 1
                     }
                     endPoint DEF 小腿 Solid {
+                      translation 0 -2.7755575615628914e-17 0
                       rotation 0 0 1 0
                       children [
                         DEF 小腿 Shape {
@@ -299,12 +301,12 @@ Robot {
             }
             RotationalMotor {
               name "BL_Motor"
-              maxTorque 15
+              maxTorque 22
             }
           ]
           endPoint DEF 大腿 Solid {
-            translation -0.00031611320979887264 -0.00037337000909436115 -1.1675555913803756e-05
-            rotation 0.7272682884740947 -0.6442435048758374 0.236708983786543 0.00032628096664076567
+            translation -0.00031611320979887253 -0.0003733700090944314 -1.1675555913803759e-05
+            rotation 0.7272682884741151 -0.6442435048758357 0.23670898378648525 0.00032628096664076567
             children [
               DEF 小腿铰接 Transform {
                 translation -0.09 -0.15588 0.012
@@ -315,6 +317,7 @@ Robot {
                       axis 0 0 1
                     }
                     endPoint DEF 小腿 Solid {
+                      translation 0 5.551115123125783e-17 0
                       rotation 0 0 1 0
                       children [
                         DEF 车轮铰接 Transform {
@@ -450,12 +453,12 @@ Robot {
             }
             RotationalMotor {
               name "FL_Motor"
-              maxTorque 15
+              maxTorque 22
             }
           ]
           endPoint DEF 大腿 Solid {
-            translation -0.00018742644637771886 -1.7581977595061894e-06 3.21924317342459e-07
-            rotation 0.31331484719650793 -0.9489967422750206 -0.035199285186305614 1.8339667324686604e-05
+            translation -0.00018742644637772393 -1.758197759493818e-06 3.219243173424591e-07
+            rotation 0.3133148471965072 -0.9489967422750177 -0.03519928518639368 1.8339667324686604e-05
             children [
               DEF 小腿铰接 Transform {
                 translation -0.09 -0.15588 0.012
@@ -466,6 +469,7 @@ Robot {
                       axis 0 0 1
                     }
                     endPoint DEF 小腿 Solid {
+                      translation 0 0 -5.551115123125783e-17
                       rotation 0 0 1 0
                       children [
                         DEF 小腿 Shape {

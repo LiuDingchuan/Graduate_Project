@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:19:53
- * @LastEditTime: 2023-04-06 21:10:25
+ * @LastEditTime: 2023-04-09 21:35:51
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.cpp
  */
 #include "Leg.h"
@@ -15,7 +15,7 @@ LegClass::LegClass()
     l3 = 0.200;
     l4 = 0.180;
     l5 = 0.120;
-    F_set = -15.245 / 2 * 9.8;
+    F_set = 15.245 / 2 * 9.81;
     dis = dis_desire = dis_dot = dis_last = 0;
 
     xc = 0, yc = 0.28817;
@@ -25,10 +25,10 @@ LegClass::LegClass()
     Zjie(angle1, angle4, 0);
     L0_set = L0_now; // 初值
     L0_last = L0_now;
-    K << -74.2432, -14.5119, -22.0338, -21.5889, 12.0461, 0.8456,
-        20.4829, 4.4943, 7.6187, 7.1781, 139.3541, 4.5367;
+    K << -60.1581, -10.1538, -22.2797, -19.7629, 6.0112, 0.6665,
+        6.8572, 1.2842, 3.8018, 3.0751, 140.9094, 4.6039;
     X << 0, 0, 0, 0, 0, 0;
-    supportF_pid.update(2.0, 0.0, 0.1, 0);
+    supportF_pid.update(50, 0.0, 0.5, 10);
 }
 /**
  * @brief:
@@ -116,19 +116,18 @@ void LegClass::Zjie(const float angle1, const float angle4, const float pitch)
  * @param {float} Tp 杆所受的力矩
  * @return {*}
  */
-Matrix<float, 2, 1> LegClass::VMC(float F, float Tp)
+Matrix<float, 2, 1> LegClass::VMC(const float F, const float Tp)
 {
-    this->F_set = F;
-    this->Tp_set = Tp;
-
     Matrix<float, 2, 2> Trans;
     Matrix<float, 2, 1> VirtualF;
     Matrix<float, 2, 1> ActualF;
-    Trans << l1 * sin(angle0 + angle3) * sin(angle1 - angle2) / sin(angle2 - angle3),
-        -l1 * cos(angle0 + angle3) * sin(angle1 - angle2) / (L0_set * sin(angle2 - angle3)),
-        l4 * sin(angle0 + angle2) * sin(angle3 - angle4) / sin(angle2 - angle3),
-        -l4 * cos(angle0 + angle2) * sin(angle3 - angle4) / (L0_set * sin(angle2 - angle3));
-    VirtualF << this->F_set, this->Tp_set;
+    Trans << -l1 * cos(angle0 + angle3) * sin(angle1 - angle2) / sin(angle2 - angle3),
+        -l1 * sin(angle0 + angle3) * sin(angle1 - angle2) / (L0_now * sin(angle2 - angle3)),
+        -l4 * cos(angle0 + angle2) * sin(angle3 - angle4) / sin(angle2 - angle3),
+        -l4 * sin(angle0 + angle2) * sin(angle3 - angle4) / (L0_now * sin(angle2 - angle3));
+    cout << "VMC_Trans: " << Trans(0, 0) << " " << Trans(0, 1) << endl
+         << Trans(1, 0) << " " << Trans(1, 1) << endl;
+    VirtualF << F, Tp;
     ActualF = Trans * VirtualF;
     return ActualF;
 }
