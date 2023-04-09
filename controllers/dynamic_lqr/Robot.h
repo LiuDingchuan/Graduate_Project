@@ -45,6 +45,7 @@ private:
 
     PID_Controller turn_pid;
     PID_Controller split_pid;
+    PID_Controller roll_pid;
     Matrix<float, 12, 4> K_coeff;
 
     float velocity_set, yaw_set, roll_set;
@@ -61,7 +62,6 @@ public:
     LegClass leg_L, leg_R, leg_simplified;
 
     float balance_angle;
-
     static MyRobot *get()
     {
         static MyRobot robot;
