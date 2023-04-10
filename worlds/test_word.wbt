@@ -571,7 +571,7 @@ Robot {
       boundingObject USE body
       physics Physics {
         density -1
-        mass 15.245
+        mass 12
       }
     }
   ]
