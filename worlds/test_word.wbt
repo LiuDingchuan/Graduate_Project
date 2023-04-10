@@ -87,11 +87,12 @@ Robot {
                                 RotationalMotor {
                                   name "R_Motor"
                                   maxVelocity 80
+                                  maxTorque 22
                                 }
                               ]
                               endPoint DEF 车轮 Solid {
                                 translation -0.0025424667025388706 -2.961220368691286e-06 -6.726536987844683e-06
-                                rotation 0.031190896720021684 0.9687824899031461 0.24594230058869804 4.693274422891038e-07
+                                rotation 0.031190896720021687 0.9687824899031462 0.24594230058869807 4.693274422891038e-07
                                 children [
                                   GPS {
                                     translation 0 0.05 0
@@ -306,7 +307,7 @@ Robot {
           ]
           endPoint DEF 大腿 Solid {
             translation -0.00031611320979887253 -0.0003733700090944314 -1.1675555913803759e-05
-            rotation 0.7272682884741151 -0.6442435048758357 0.23670898378648525 0.00032628096664076567
+            rotation 0.727268288474115 -0.6442435048758356 0.23670898378648522 0.00032628096664076567
             children [
               DEF 小腿铰接 Transform {
                 translation -0.09 -0.15588 0.012
@@ -343,6 +344,7 @@ Robot {
                                 RotationalMotor {
                                   name "L_Motor"
                                   maxVelocity 80
+                                  maxTorque 22
                                 }
                               ]
                               endPoint DEF 车轮 Solid {
