@@ -86,6 +86,8 @@ float PID_Controller::compute(const float target, const float d_target, const fl
     {
         this->err_sum += this->ki * err * dt;
         Limit(this->err_sum, this->max_sum, -this->max_sum);
+        // 死区
+        this->err_sum = (this->err_sum > -0.1 && this->err_sum < 0.1) ? 0 : this->err_sum;
         output += this->err_sum;
     }
     this->output = Limit(output, this->max_output, -this->max_output);
