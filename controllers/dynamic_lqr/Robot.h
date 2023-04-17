@@ -50,8 +50,7 @@ private:
 
     float velocity_set, yaw_set, roll_set;
     float velocity_out, vertical_out, turn_out, leg_out;
-    float pitch, roll, yaw, pitch_dot, roll_dot, yaw_dot;
-    float yaw_get, yaw_get_last;
+    DataStructure yaw, pitch, roll;
 
     u8 stop_flag;
 
@@ -70,8 +69,8 @@ public:
 
     u8 jump(float t_clk, float *leg_L, float *leg_R);
     void status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
-                       float pitch, float pitch_dot, float dt,
-                       float v_set);
+                       DataStructure pitch, DataStructure roll, DataStructure yaw,
+                       float dt, float v_set);
     void MyStep();
     void Wait(int ms);
     void run();

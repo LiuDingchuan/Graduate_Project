@@ -1,0 +1,11 @@
+#将被git忽略的文件后缀
+*.dat
+*.ipch
+*.VC
+*.suo
+*.vsidx
+*.db
+*.obj
+*.o
+*.d
+\controllers\Dynamics_LQR_onVS\.vs

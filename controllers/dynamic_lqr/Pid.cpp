@@ -63,7 +63,6 @@ float PID_Controller::compute(float set, float encoder)
     err_sum += err_lowout;
     err_last = err_lowout;
     err_sum = Limit(err_sum, 15, -15);
-    // cout << "err_sum:" << err_sum << endl;
 
     if (ABS(set) > 0.01f)
     {
@@ -74,8 +73,20 @@ float PID_Controller::compute(float set, float encoder)
     out = Limit(out, max_output, -max_output);
     return -out;
 }
-
-float PID_Controller::compute(const float target, const float d_target, const float input, const float d_input, const float dt)
+/**
+ * @brief: PID
+ * @author: Dandelion
+ * @Date: 2023-04-12 21:23:14
+ * @param {float} target
+ * @param {float} d_target
+ * @param {float} input
+ * @param {float} d_input
+ * @param {float} dt
+ * @return {*}
+ */
+float PID_Controller::compute(const float target, const float d_target,
+                              const float input, const float d_input,
+                              const float dt)
 {
     float output,
         err = target - input,

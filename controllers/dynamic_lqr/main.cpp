@@ -9,6 +9,7 @@
 
 int main(int argc, char **argv)
 {
+    MyRobot wheel_legged;
     ofstream outfile;
     outfile.close();
     remove("data2.dat");
@@ -16,11 +17,10 @@ int main(int argc, char **argv)
     static int i = 0;
     while (True)
     {
-        cout << "第" << ++i << "次循环" << endl;
-        MyRobot::get()->MyStep();
-        MyRobot::get()->run();
+        wheel_legged.MyStep();
+        wheel_legged.run();
         outfile.open("data2.dat", ios::app);
-        outfile << MyRobot::get()->leg_L.TWheel_set << " " << MyRobot::get()->leg_R.TWheel_set << endl;
+        outfile << wheel_legged.leg_L.TWheel_set << " " << wheel_legged.leg_R.TWheel_set << endl;
         outfile.close();
     }
     return 0;

@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:20:36
- * @LastEditTime: 2023-04-06 21:37:31
+ * @LastEditTime: 2023-04-15 17:11:09
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.h
  */
 #ifndef _LEG_H
@@ -13,6 +13,17 @@
 #include "MyDefine.h"
 #include "Pid.h"
 using namespace Eigen;
+
+typedef struct DATA
+{
+    /* data */
+    float now;
+    float last;
+    float set;
+    float dot;  // 微分
+    float ddot; // 二阶微分
+} DataStructure;
+
 class LegClass
 {
 private:
@@ -20,14 +31,10 @@ private:
 
 public:
     // data
-    float angle0, angle1, angle2, angle3, angle4; // 弧度制
-    float angle0_dot;
-    float L0_now, L0_last, L0_dot;
-    float L0_set;
-    float dis_last;
-    float dis;
-    float dis_dot;
-    float dis_desire;
+    float angle1, angle2, angle3, angle4; // 弧度制
+    DataStructure angle0;
+    DataStructure L0;
+    DataStructure dis;
     // 坐标(五连杆坐标系下的，原点在五连杆的中垂线上)
     float xa, ya;
     float xb, yb;

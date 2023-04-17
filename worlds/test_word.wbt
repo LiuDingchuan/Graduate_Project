@@ -3,8 +3,8 @@ WorldInfo {
   basicTimeStep 5
 }
 Viewpoint {
-  orientation -0.7067682306049451 0.7067682306040357 0.03094085351756658 0.12372394233264382
-  position 0.2793907400140454 0.44472201822026197 1.485999846596035
+  orientation -0.33170874264715755 0.942479145515998 0.041259790582069036 0.26243736834447184
+  position 1.4063402154215483 0.71637044300361 3.025791714226402
   follow "robot"
 }
 TexturedBackground {
@@ -87,7 +87,7 @@ Robot {
                                 RotationalMotor {
                                   name "R_Motor"
                                   maxVelocity 80
-                                  maxTorque 22
+                                  maxTorque 15
                                 }
                               ]
                               endPoint DEF 车轮 Solid {
@@ -99,7 +99,7 @@ Robot {
                                   }
                                   DEF 车轮 Shape {
                                     appearance PBRAppearance {
-                                      baseColor 0.333333 0.666667 0.498039
+                                      baseColor 0.333333 0.666667 1
                                       roughness 0.5
                                     }
                                     geometry Cylinder {
@@ -120,6 +120,7 @@ Robot {
                         }
                         DEF 小腿 Shape {
                           appearance PBRAppearance {
+                            baseColor 0 0 0
                             metalness 0.7
                           }
                           geometry IndexedFaceSet {
@@ -154,7 +155,7 @@ Robot {
               }
               DEF 大腿 Shape {
                 appearance PBRAppearance {
-                  baseColor 0.666667 1 1
+                  baseColor 0 0 0
                   roughness 0.4
                 }
                 geometry IndexedFaceSet {
@@ -222,6 +223,7 @@ Robot {
                       children [
                         DEF 小腿 Shape {
                           appearance PBRAppearance {
+                            baseColor 0 0 0
                             metalness 0.7
                           }
                           geometry IndexedFaceSet {
@@ -256,7 +258,7 @@ Robot {
               }
               DEF 大腿 Shape {
                 appearance PBRAppearance {
-                  baseColor 0.666667 1 1
+                  baseColor 0 0 0
                   roughness 0.4
                 }
                 geometry IndexedFaceSet {
@@ -344,7 +346,7 @@ Robot {
                                 RotationalMotor {
                                   name "L_Motor"
                                   maxVelocity 80
-                                  maxTorque 22
+                                  maxTorque 15
                                 }
                               ]
                               endPoint DEF 车轮 Solid {
@@ -353,7 +355,7 @@ Robot {
                                 children [
                                   DEF 车轮 Shape {
                                     appearance PBRAppearance {
-                                      baseColor 0.333333 0.666667 0.498039
+                                      baseColor 0.333333 0.666667 1
                                       roughness 0.5
                                     }
                                     geometry Cylinder {
@@ -374,6 +376,7 @@ Robot {
                         }
                         DEF 小腿 Shape {
                           appearance PBRAppearance {
+                            baseColor 0 0 0
                             metalness 0.7
                           }
                           geometry IndexedFaceSet {
@@ -408,7 +411,7 @@ Robot {
               }
               DEF 大腿 Shape {
                 appearance PBRAppearance {
-                  baseColor 0.666667 1 1
+                  baseColor 0 0 0
                   roughness 0.4
                 }
                 geometry IndexedFaceSet {
@@ -476,6 +479,7 @@ Robot {
                       children [
                         DEF 小腿 Shape {
                           appearance PBRAppearance {
+                            baseColor 0 0 0
                             metalness 0.7
                           }
                           geometry IndexedFaceSet {
@@ -510,7 +514,7 @@ Robot {
               }
               DEF 大腿 Shape {
                 appearance PBRAppearance {
-                  baseColor 0.666667 1 1
+                  baseColor 0 0 0
                   roughness 0.4
                 }
                 geometry IndexedFaceSet {
@@ -547,7 +551,7 @@ Robot {
       children [
         DEF body Shape {
           appearance PBRAppearance {
-            baseColor 0.666667 0.666667 1
+            baseColor 1 0 0
             roughness 0.6
           }
           geometry IndexedFaceSet {
@@ -582,5 +586,5 @@ Robot {
     density -1
     mass 0.001
   }
-  controller "dynamic_lqr"
+  controller "<extern>"
 }
