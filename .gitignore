@@ -1,0 +1,9 @@
+\controllers\Dynamics_LQR_onVS\.vs
+*.ipch
+*.obj
+*.tlog
+*.pdb
+*.iobj
+*.ipdb
+*.log
+*.dat
