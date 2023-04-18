@@ -48,9 +48,7 @@ private:
     PID_Controller roll_pid;
     Matrix<float, 12, 4> K_coeff;
 
-    float velocity_set, yaw_set, roll_set;
-    float velocity_out, vertical_out, turn_out, leg_out;
-    DataStructure yaw, pitch, roll;
+    DataStructure velocity, yaw, pitch, roll;
 
     u8 stop_flag;
 
@@ -74,9 +72,9 @@ public:
     void MyStep();
     void Wait(int ms);
     void run();
-    float balance_yaw(float yaw_set, float yaw_now);
+    float limitVelocity(float speed_set, float L0);
     double getVelNow() { return gps->getSpeed(); };
-    double getVelSet() { return velocity_set; };
+    double getVelSet() { return velocity.set; };
     double getWheelLeftTorque() { return L_Wheelmotor->getTorqueFeedback(); };
     double getWheelRightTorque() { return R_Wheelmotor->getTorqueFeedback(); };
 };

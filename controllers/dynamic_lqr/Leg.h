@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:20:36
- * @LastEditTime: 2023-04-15 17:11:09
+ * @LastEditTime: 2023-04-18 18:28:10
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.h
  */
 #ifndef _LEG_H
@@ -20,6 +20,7 @@ typedef struct DATA
     float now;
     float last;
     float set;
+    float set_dot;
     float dot;  // 微分
     float ddot; // 二阶微分
 } DataStructure;

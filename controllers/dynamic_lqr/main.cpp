@@ -20,7 +20,7 @@ int main(int argc, char **argv)
         wheel_legged.MyStep();
         wheel_legged.run();
         outfile.open("data2.dat", ios::app);
-        outfile << wheel_legged.leg_L.TWheel_set << " " << wheel_legged.leg_R.TWheel_set << endl;
+        outfile << wheel_legged.getTime() << " " << wheel_legged.leg_L.TWheel_set << " " << wheel_legged.leg_R.TWheel_set << endl;
         outfile.close();
     }
     return 0;

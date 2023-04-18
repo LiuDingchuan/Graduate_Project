@@ -25,24 +25,24 @@ MyRobot::MyRobot() : balance_angle(-0.0064)
     BL_legmotor->enableTorqueFeedback(time_step), BR_legmotor->enableTorqueFeedback(time_step), FL_legmotor->enableTorqueFeedback(time_step), FR_legmotor->enableTorqueFeedback(time_step);
     L_Wheelmotor->enableTorqueFeedback(time_step), R_Wheelmotor->enableTorqueFeedback(time_step);
     // 参数初始化
-    roll_set = 0, yaw.set = 0, velocity_set = 0;
+    roll.set = 0, yaw.set = 0, velocity.set = 0;
     // 调参
-    turn_pid.update(1.0, 0.0, 0.01, 0);
+    turn_pid.update(1.0, 0.0, 0.01, 0.1); // 针对角速度进行PD控制
     split_pid.update(5.0, 0.0, 0.5, 0);
     roll_pid.update(50, 0.0, 0.5, 5);
 
-    K_coeff << -64.8514955814788, 88.8287457455019, -58.0468300989671, -38.2739635886375,
-        -225.794552414589, 308.707128464600, -155.036203000140, 30.8796260774293,
-        13.5827287726877, -14.3490848814024, -5.24453913450503, -4.20911711372000,
-        -21.1684728626557, 29.6703609535489, -15.4748734160391, 3.36279562153281,
-        -3.07593168259110, 3.65198160363263, -1.50569510801103, -4.25237536412151,
-        -29.0380727699917, 39.2060272063285, -19.3812304676001, 3.76888667869286,
-        14.7811357012004, -18.9956679604013, 8.57218322858485, -8.25462347236922,
-        -54.8372318769331, 71.8244716205884, -34.2089959588822, 6.34202356923289,
-        -229.566122017227, 309.950859926968, -153.222080329443, 29.7956653686764,
-        97.2695004074363, -115.485798373412, 47.6142600208101, 134.471916167180,
-        -10.7102282846357, 14.6545751217460, -7.55471115824260, 1.66743331979285,
-        3.41776165925051, -4.10246545269155, 1.72151782380153, 3.97764994859375;
+    K_coeff << -337.156965474803, 445.715979955305, -225.703393446753, -64.1704861425325,
+        -452.345600366896, 767.525574335724, -511.727955698910, 149.808328426971,
+        -50.3382547286708, 67.9113043808181, -44.7455815601258, -16.4340410200775,
+        -126.388939901182, 205.380163632784, -132.609101924750, 38.9301054426120,
+        -12.4433624353760, 16.1972927417783, -7.59722648585278, -3.13735426855726,
+        -26.8932648332864, 43.1060566109115, -27.1320734506484, 7.48035266585729,
+        -8.27466611263866, 10.4630107133929, -4.25392311755986, -10.0958143661441,
+        -105.907017403434, 153.474717663901, -86.2524970820000, 21.0802851489338,
+        -212.609926488053, 340.783299605597, -214.497874370321, 59.1373803138301,
+        393.493670515745, -512.203369972584, 240.245395969958, 99.2118531532478,
+        -10.4874865555492, 15.2740304186593, -8.83250339360177, 2.38181411522644,
+        11.7001781934250, -15.0773738988387, 7.00673017087242, 3.01193811305051;
 }
 MyRobot::~MyRobot()
 {
@@ -82,7 +82,7 @@ void MyRobot::Wait(int ms)
  */
 void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
                             const DataStructure pitch, const DataStructure roll, const DataStructure yaw,
-                            const float dt, const float v_set)
+                            const float dt, float v_set)
 {
     leg_L->F_set = 12 / 2 * 9.81;
     leg_R->F_set = 12 / 2 * 9.81;
@@ -121,9 +121,11 @@ void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
     leg_sim->Zjie(leg_sim->angle1, leg_sim->angle4, pitch.now);
     leg_sim->angle0.dot = (leg_sim->angle0.now - leg_sim->angle0.last) / dt;
     // 限幅
+    v_set = limitVelocity(v_set, leg_sim->L0.now);
     // pitch_dot = Deadzone(pitch_dot, 0.01);
     // leg_sim->dis.dot = Deadzone(leg_sim->dis.dot, 0.01);
     // leg_sim->angle0_dot = Deadzone(leg_sim->angle0_dot, 0.1);
+    // 根据当前杆长计算K矩阵的各项值
     for (size_t col = 0; col < 6; col++)
     {
         /* code */
@@ -151,44 +153,46 @@ void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
     leg_R->Tp_set = leg_sim->Tp_set / 2.0;
     // pid补偿
     float out_L, out_R, out_roll, out_spilt, out_turn;
-    out_L = leg_L->supportF_pid.compute(leg_L->L0.set, 0, leg_L->L0.now, leg_L->L0.dot, dt);
-    out_R = leg_R->supportF_pid.compute(leg_R->L0.set, 0, leg_R->L0.now, leg_R->L0.dot, dt);
     out_roll = roll_pid.compute(roll.set, 0, roll.now, roll.dot, dt);
     out_spilt = split_pid.compute(0, 0, leg_L->angle0.now - leg_R->angle0.now, leg_L->angle0.dot - leg_R->angle0.dot, dt);
-    out_turn = turn_pid.compute(yaw.set, 0, yaw.now, yaw.dot, dt);
+    out_turn = turn_pid.compute(yaw.set_dot, 0, yaw.dot, yaw.ddot, dt);
     // 左腿VMC解算
     leg_L->L0.dot = (leg_L->L0.now - leg_L->L0.last) / dt;
     leg_L->L0.last = leg_L->L0.now;
+    out_L = leg_L->supportF_pid.compute(leg_L->L0.set, 0, leg_L->L0.now, leg_L->L0.dot, dt);
     leg_L->F_set += out_L;
     leg_L->F_set += out_roll;
     leg_L->Tp_set += out_spilt; // 这里的正负号没研究过，完全是根据仿真工程上得来的（其实这样也更快）
     Torque_L = leg_L->VMC(leg_L->F_set, leg_L->Tp_set);
     leg_L->TL_set = -Torque_L(0, 0);
     leg_L->TR_set = Torque_L(1, 0);
+    leg_L->TWheel_set += out_turn;
     // 右腿VMC解算
     leg_R->L0.dot = (leg_R->L0.now - leg_R->L0.last) / dt;
     leg_R->L0.last = leg_R->L0.now;
+    out_R = leg_R->supportF_pid.compute(leg_R->L0.set, 0, leg_R->L0.now, leg_R->L0.dot, dt);
     leg_R->F_set += out_R;
     leg_R->F_set -= out_roll;
     leg_R->Tp_set -= out_spilt;
     Torque_R = leg_R->VMC(leg_R->F_set, leg_R->Tp_set);
     leg_R->TL_set = -Torque_R(0, 0);
     leg_R->TR_set = Torque_R(1, 0);
+    leg_R->TWheel_set -= out_turn;
 }
 
 void MyRobot::run()
 {
     static int last_key;
 
-    static PID_Controller turn_pid(12, 0, 0.3, 0);
-    static PID_Controller roll_pid(0.18, 0, 0.02, 0);
-
+    velocity.now = gps->getSpeed();
     pitch.now = imu->getRollPitchYaw()[1];
     pitch.dot = gyro->getValues()[2];
     roll.now = imu->getRollPitchYaw()[0];
     roll.dot = gyro->getValues()[0];
     yaw.now = imu->getRollPitchYaw()[2];
+    float yaw_dot_last = yaw.dot;
     yaw.dot = gyro->getValues()[1];
+    yaw.ddot = (yaw.dot - yaw_dot_last) / (time_step / 1000.f);
     float robot_x = gps->getValues()[0];
     pitch.now -= balance_angle; // 得到相对于平衡pitch的角度
 
@@ -213,25 +217,25 @@ void MyRobot::run()
         switch (key)
         {
         case kboard.UP:
-            velocity_set += 0.02f;
+            velocity.set += 0.02f;
             break;
         case kboard.DOWN:
-            velocity_set -= 0.02f;
+            velocity.set -= 0.02f;
             break;
         case kboard.RIGHT:
-            if (ABS(velocity_set) > 0.1)
-                yaw.set = yaw.now - 0.1f;
+            if (ABS(velocity.set) > 0.1)
+                yaw.set_dot -= 0.01f;
             else
-                yaw.set = yaw.now - 0.2f;
+                yaw.set_dot -= 0.02f;
             break;
         case kboard.LEFT:
-            if (ABS(velocity_set) > 0.1)
-                yaw.set = yaw.now + 0.1f;
+            if (ABS(velocity.set) > 0.1)
+                yaw.set_dot += 0.01f;
             else
-                yaw.set = yaw.now + 0.2f;
+                yaw.set_dot += 0.02f;
             break;
         case kboard.END:
-            velocity_set = 0;
+            velocity.set = 0;
             break;
         case 'W':
             leg_L.L0.set += 0.0002f;
@@ -242,10 +246,10 @@ void MyRobot::run()
             leg_R.L0.set -= 0.0002f;
             break;
         case 'A':
-            roll_set -= 0.02f;
+            roll.set -= 0.02f;
             break;
         case 'D':
-            roll_set += 0.02f;
+            roll.set += 0.02f;
             break;
         case ' ':
             if (last_key != key)
@@ -256,25 +260,17 @@ void MyRobot::run()
         key = mkeyboard->getKey();
     }
 
-    velocity_set = Limit(velocity_set, 3, -3);
-    leg_L.L0.set = Limit(leg_L.L0.set, 0.35, 0.2);
-    leg_R.L0.set = Limit(leg_R.L0.set, 0.35, 0.2);
+    leg_L.L0.set = Limit(leg_L.L0.set, 0.32, 0.2);
+    leg_R.L0.set = Limit(leg_R.L0.set, 0.32, 0.2);
+    velocity.set = Limit(velocity.set, 3.5, -3.5);
 
-    status_update(&leg_simplified, &leg_L, &leg_R, this->pitch, this->roll, this->yaw, time_step / 1000.f, velocity_set);
+    status_update(&leg_simplified, &leg_L, &leg_R, this->pitch, this->roll, this->yaw, time_step / 1000.f, velocity.set);
 
-    static int tick = 0;
-    if (tick == 0)
-    {
-        /* code */
-        BL_legmotor->setTorque(leg_L.TL_set);
-        FL_legmotor->setTorque(leg_L.TR_set);
-        BR_legmotor->setTorque(leg_R.TL_set);
-        FR_legmotor->setTorque(leg_R.TR_set);
-    }
-    else
-    {
-        tick--;
-    }
+    /*输出力矩*/
+    BL_legmotor->setTorque(leg_L.TL_set);
+    FL_legmotor->setTorque(leg_L.TR_set);
+    BR_legmotor->setTorque(leg_R.TL_set);
+    FR_legmotor->setTorque(leg_R.TR_set);
 
     L_Wheelmotor->setTorque(leg_L.TWheel_set);
     R_Wheelmotor->setTorque(leg_R.TWheel_set);
@@ -283,4 +279,16 @@ void MyRobot::run()
     // outfile.open("data2.dat", ios::trunc);
     // outfile << time << ' ' << pitch << ' ' << disL_dot << ' ' << robot_x << ' ' << L_Torque << endl;
     // outfile.close();
+}
+/**
+ * @brief: 限制速度
+ * @author: Dandelion
+ * @Date: 2023-04-18 19:45:57
+ * @param {float} L0
+ * @return {*}
+ */
+float MyRobot::limitVelocity(float speed_set, float L0)
+{
+    float speed_max = -30 * L0 + 10.7;
+    return (speed_set > speed_max) ? speed_max : speed_set;
 }

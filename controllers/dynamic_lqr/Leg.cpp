@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:19:53
- * @LastEditTime: 2023-04-15 17:22:23
+ * @LastEditTime: 2023-04-18 19:40:52
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.cpp
  */
 #include "Leg.h"
@@ -23,10 +23,10 @@ LegClass::LegClass()
     angle1 = PI / 3 * 2;
     angle4 = PI / 3;
     Zjie(angle1, angle4, 0);
-    L0.set = L0.now; // 初值
-    L0.last = L0.now;
-    K << -63.5110, -10.7148, -9.9776, -17.1770, 4.2289, 0.6818,
-        6.2855, 1.1290, 1.3373, 2.2081, 126.2080, 11.4607;
+    L0.set = 0.260; // 初值
+    L0.last = 0.260;
+    K << -49.1767, -6.5870, -4.4566, -7.0081, 5.8871, 0.4510,
+        6.4352, 0.8607, 0.7447, 1.1362, 140.9304, 4.2148;
     X << 0, 0, 0, 0, 0, 0;
     supportF_pid.update(800, 50.0, 200.0, 20);
 }

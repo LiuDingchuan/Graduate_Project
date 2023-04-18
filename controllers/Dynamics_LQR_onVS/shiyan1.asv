@@ -1,0 +1,14 @@
+data = load('data2.dat');
+t = data(:,1);
+TorqueL = data()
+plot(data.t, data.TorqueL);
+xlabel("t(s)");
+ylabel("Torque(Nm)");
+grid on;
+
+%%
+plot(data.t, data.TorqueR);
+xlabel("t(s)");
+ylabel("Torque(Nm)");
+grid on;
+
