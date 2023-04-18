@@ -6,6 +6,12 @@
 *.vsidx
 *.db
 *.obj
+*.pdb
+*.tlog
+*.iobj
+*.ipdb
+*.log
 *.o
 *.d
 \controllers\Dynamics_LQR_onVS\.vs
+\controllers\Dynamics_LQR_onVS\x64
