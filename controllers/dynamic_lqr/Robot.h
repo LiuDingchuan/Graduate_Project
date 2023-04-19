@@ -32,8 +32,9 @@ class MyRobot : public Robot
 {
 private:
     /* data */
-    u8 time_step; // 毫秒
-    float time;   // 秒
+    u8 time_step;        // 毫秒
+    float time;          // 秒
+    float sampling_time; // 开始检测的时间,秒
 
     Camera *camera;
     Gyro *gyro;
@@ -48,7 +49,7 @@ private:
     PID_Controller roll_pid;
     Matrix<float, 12, 4> K_coeff;
 
-    DataStructure velocity, yaw, pitch, roll;
+    float acc_up_max, acc_down_max, acc_now;
 
     u8 stop_flag;
 
@@ -56,7 +57,10 @@ public:
     MyRobot();
     ~MyRobot();
 
+    u8 sampling_flag;
+
     LegClass leg_L, leg_R, leg_simplified;
+    DataStructure velocity, yaw, pitch, roll;
 
     float balance_angle;
     static MyRobot *get()
@@ -73,7 +77,7 @@ public:
     void Wait(int ms);
     void run();
     float limitVelocity(float speed_set, float L0);
-    double getVelNow() { return gps->getSpeed(); };
+    double getVelNow() { return velocity.now; };
     double getVelSet() { return velocity.set; };
     double getWheelLeftTorque() { return L_Wheelmotor->getTorqueFeedback(); };
     double getWheelRightTorque() { return R_Wheelmotor->getTorqueFeedback(); };

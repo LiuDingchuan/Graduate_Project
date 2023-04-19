@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:19:53
- * @LastEditTime: 2023-04-18 19:40:52
+ * @LastEditTime: 2023-04-19 18:48:50
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.cpp
  */
 #include "Leg.h"
@@ -28,7 +28,7 @@ LegClass::LegClass()
     K << -49.1767, -6.5870, -4.4566, -7.0081, 5.8871, 0.4510,
         6.4352, 0.8607, 0.7447, 1.1362, 140.9304, 4.2148;
     X << 0, 0, 0, 0, 0, 0;
-    supportF_pid.update(800, 50.0, 200.0, 20);
+    supportF_pid.update(800, 50.0, 500.0, 20);
 }
 /**
  * @brief: 运动学逆解

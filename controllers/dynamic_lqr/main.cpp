@@ -19,9 +19,21 @@ int main(int argc, char **argv)
     {
         wheel_legged.MyStep();
         wheel_legged.run();
-        outfile.open("data2.dat", ios::app);
-        outfile << wheel_legged.getTime() << " " << wheel_legged.leg_L.TWheel_set << " " << wheel_legged.leg_R.TWheel_set << endl;
-        outfile.close();
+        if (wheel_legged.getTime() > 0.5)
+        {
+            outfile.open("data2.dat", ios::app);
+            outfile << wheel_legged.getTime() << " "
+                    << wheel_legged.leg_L.TWheel_set << " "
+                    << wheel_legged.leg_R.TWheel_set << " "
+                    << wheel_legged.getVelNow() << " "
+                    << wheel_legged.getVelSet() << " "
+                    << wheel_legged.leg_simplified.angle0.now << " "
+                    << wheel_legged.leg_simplified.angle0.dot << " "
+                    << wheel_legged.pitch.now << " "
+                    << wheel_legged.pitch.dot << " "
+                    << endl;
+            outfile.close();
+        }
     }
     return 0;
 }

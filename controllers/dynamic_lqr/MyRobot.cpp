@@ -25,25 +25,27 @@ MyRobot::MyRobot() : balance_angle(-0.0064)
     BL_legmotor->enableTorqueFeedback(time_step), BR_legmotor->enableTorqueFeedback(time_step), FL_legmotor->enableTorqueFeedback(time_step), FR_legmotor->enableTorqueFeedback(time_step);
     L_Wheelmotor->enableTorqueFeedback(time_step), R_Wheelmotor->enableTorqueFeedback(time_step);
     // 参数初始化
-    roll.set = 0, yaw.set = 0, velocity.set = 0;
+    roll.set = 0, yaw.set = 0, velocity.set = 0, velocity.now = 0;
+    acc_up_max = 1.0, acc_down_max = 1.0;
     // 调参
     turn_pid.update(1.0, 0.0, 0.01, 0.1); // 针对角速度进行PD控制
     split_pid.update(5.0, 0.0, 0.5, 0);
     roll_pid.update(50, 0.0, 0.5, 5);
 
-    K_coeff << -337.156965474803, 445.715979955305, -225.703393446753, -64.1704861425325,
-        -452.345600366896, 767.525574335724, -511.727955698910, 149.808328426971,
-        -50.3382547286708, 67.9113043808181, -44.7455815601258, -16.4340410200775,
-        -126.388939901182, 205.380163632784, -132.609101924750, 38.9301054426120,
-        -12.4433624353760, 16.1972927417783, -7.59722648585278, -3.13735426855726,
-        -26.8932648332864, 43.1060566109115, -27.1320734506484, 7.48035266585729,
-        -8.27466611263866, 10.4630107133929, -4.25392311755986, -10.0958143661441,
-        -105.907017403434, 153.474717663901, -86.2524970820000, 21.0802851489338,
-        -212.609926488053, 340.783299605597, -214.497874370321, 59.1373803138301,
-        393.493670515745, -512.203369972584, 240.245395969958, 99.2118531532478,
-        -10.4874865555492, 15.2740304186593, -8.83250339360177, 2.38181411522644,
-        11.7001781934250, -15.0773738988387, 7.00673017087242, 3.01193811305051;
+    K_coeff << -429.480926399657, 571.526174116835, -314.019443652643, -76.7785349323096,
+        -488.342988794160, 866.554903419461, -604.589464686117, 187.374037158340,
+        -39.1298616447598, 54.1668612217607, -54.6200131352883, -17.1139770542784,
+        -115.547990878676, 191.388298044994, -128.196609773182, 41.2434052112891,
+        -63.2278520669541, 82.3347397662138, -38.6593779466379, -15.5512990394007,
+        -135.216572481170, 216.484966320896, -136.272802114251, 37.7080095081746,
+        -18.4556994189321, 23.6791102688333, -11.7061092639569, -24.4451326540678,
+        -254.410522452798, 368.774314958874, -207.734577177161, 51.2893902825330,
+        -213.796173188225, 342.292786349747, -215.466218898256, 59.6215980376592,
+        399.888048199063, -520.730616452063, 244.503374478194, 98.3550510772689,
+        -12.5522846786203, 18.0661909101152, -10.3282537945708, 2.79215478157118,
+        17.7525913251454, -22.7623099599658, 10.5441659120560, 2.38704789005868;
 }
+
 MyRobot::~MyRobot()
 {
 }
@@ -97,7 +99,7 @@ void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
 
     leg_L->dis.last = leg_L->dis.now;
     leg_R->dis.last = leg_R->dis.now;
-    leg_sim->dis.last = (leg_L->dis.last + leg_R->dis.last) / 2;
+    leg_sim->dis.last = leg_sim->dis.now;
 
     leg_L->TL_now = BL_legmotor->getTorqueFeedback();
     leg_L->TR_now = FL_legmotor->getTorqueFeedback();
@@ -192,7 +194,7 @@ void MyRobot::run()
     yaw.now = imu->getRollPitchYaw()[2];
     float yaw_dot_last = yaw.dot;
     yaw.dot = gyro->getValues()[1];
-    yaw.ddot = (yaw.dot - yaw_dot_last) / (time_step / 1000.f);
+    yaw.ddot = (yaw.dot - yaw_dot_last) / (time_step * 0.001);
     float robot_x = gps->getValues()[0];
     pitch.now -= balance_angle; // 得到相对于平衡pitch的角度
 
@@ -251,6 +253,10 @@ void MyRobot::run()
         case 'D':
             roll.set += 0.02f;
             break;
+        case 'O':
+            sampling_flag = 1;
+            sampling_time = time;
+            break;
         case ' ':
             if (last_key != key)
                 stop_flag = True;
@@ -259,12 +265,37 @@ void MyRobot::run()
         last_key = key;
         key = mkeyboard->getKey();
     }
-
     leg_L.L0.set = Limit(leg_L.L0.set, 0.32, 0.2);
     leg_R.L0.set = Limit(leg_R.L0.set, 0.32, 0.2);
-    velocity.set = Limit(velocity.set, 3.5, -3.5);
 
-    status_update(&leg_simplified, &leg_L, &leg_R, this->pitch, this->roll, this->yaw, time_step / 1000.f, velocity.set);
+    if (sampling_flag == 1)
+    {
+        if (time - sampling_time < 1)
+        {
+            velocity.set = 0;
+        }
+        else if (time - sampling_time < 4)
+        {
+            // velocity.set += acc_up_max * time_step * 0.001;
+            velocity.set = 2;
+        }
+        // else if (time < 6)
+        // {
+        //     velocity.set = 3;
+        // }
+        // else if (time < 9)
+        // {
+        //     velocity.set -= acc_down_max * time_step * 0.001;
+        // }
+        else
+        {
+            velocity.set = 0;
+            sampling_flag = 0;
+        }
+    }
+
+    velocity.set = Limit(velocity.set, 3.5, 0);
+    status_update(&leg_simplified, &leg_L, &leg_R, this->pitch, this->roll, this->yaw, time_step * 0.001, velocity.set);
 
     /*输出力矩*/
     BL_legmotor->setTorque(leg_L.TL_set);
