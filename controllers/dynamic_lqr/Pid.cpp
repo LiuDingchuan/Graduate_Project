@@ -88,14 +88,13 @@ float PID_Controller::compute(const float target, const float d_target,
                               const float input, const float d_input,
                               const float dt)
 {
-    float output,
-        err = target - input,
-        d_err = d_target - d_input;
+    this->err_now = target - input;
+    this->err_dot = d_target - d_input;
 
-    output = this->kp * err + this->kd * d_err;
-    if (this->ki)
+    this->output = this->kp * err_now + this->kd * err_dot;
+    if (this->ki > 1e-6 && this->ki < -1e-6)
     {
-        this->err_sum += this->ki * err * dt;
+        this->err_sum += this->ki * err_now * dt;
         Limit(this->err_sum, this->max_sum, -this->max_sum);
         // 死区
         this->err_sum = (this->err_sum > -0.1 && this->err_sum < 0.1) ? 0 : this->err_sum;
