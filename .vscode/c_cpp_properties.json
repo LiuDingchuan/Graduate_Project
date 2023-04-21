@@ -6,7 +6,8 @@
                 "${workspaceFolder}/**",
                 "D:\\Webots2020\\include\\controller\\cpp",
                 "D:\\Webots2020\\include\\controller\\c",
-                "D:\\Eigen-C++\\eigen-3.4.0\\Eigen"
+                "D:\\Eigen-C++\\eigen-3.4.0\\Eigen",
+                "D:/Webots2020/include/controller/cpp"
             ],
             "defines": [
                 "_DEBUG",

@@ -28,22 +28,22 @@ MyRobot::MyRobot() : balance_angle(-0.0064)
     roll.set = 0, yaw.set = 0, velocity.set = 0, velocity.now = 0;
     acc_up_max = 1.0, acc_down_max = 1.0;
     // 调参
-    turn_pid.update(1.0, 0.0, 0.01, 0.1); // 针对角速度进行PD控制
-    split_pid.update(5.0, 0.0, 0.5, 0);
-    roll_pid.update(50, 0.0, 0.5, 5);
+    turn_pid.update(1.0, 0.0, 0.01, 1); // 针对角速度进行PD控制
+    split_pid.update(50.0, 0.0, 3, 0);
+    roll_pid.update(1000, 0.0, 10, 25);
 
-    K_coeff << -429.480926399657, 571.526174116835, -314.019443652643, -76.7785349323096,
-        -488.342988794160, 866.554903419461, -604.589464686117, 187.374037158340,
-        -39.1298616447598, 54.1668612217607, -54.6200131352883, -17.1139770542784,
-        -115.547990878676, 191.388298044994, -128.196609773182, 41.2434052112891,
-        -63.2278520669541, 82.3347397662138, -38.6593779466379, -15.5512990394007,
-        -135.216572481170, 216.484966320896, -136.272802114251, 37.7080095081746,
-        -18.4556994189321, 23.6791102688333, -11.7061092639569, -24.4451326540678,
-        -254.410522452798, 368.774314958874, -207.734577177161, 51.2893902825330,
-        -213.796173188225, 342.292786349747, -215.466218898256, 59.6215980376592,
-        399.888048199063, -520.730616452063, 244.503374478194, 98.3550510772689,
-        -12.5522846786203, 18.0661909101152, -10.3282537945708, 2.79215478157118,
-        17.7525913251454, -22.7623099599658, 10.5441659120560, 2.38704789005868;
+    K_coeff << -173.141925006921, 225.250787439111, -119.986865560481, -38.4105589195630,
+        -280.720083854922, 447.302093313230, -268.763857341446, 66.3559824115911,
+        -11.3231167763322, 14.9697902403273, -17.1718513191102, -8.81430269313946,
+        -68.5166182787264, 106.418449731373, -62.8996183910394, 15.7159650214711,
+        -9.87028962388092, 12.2893295128278, -5.39101668832757, -3.61798344774329,
+        -33.2652414916405, 50.0355059362131, -28.3272584751289, 6.53920811567580,
+        -1.71537907288718, 1.38537516688768, -0.178263260550300, -8.25512432254332,
+        -81.3103928200248, 115.519369097306, -61.4811294618912, 13.2925573156089,
+        -262.984825078108, 395.565406598063, -223.946641625723, 51.6969793486257,
+        312.125963763516, -388.622721761437, 170.478916388282, 114.410682316896,
+        -10.9509278848779, 15.8449335834584, -8.84231648277662, 2.16821363645632,
+        8.71561806875577, -10.8678624380870, 4.78716711424219, 3.47117059761584;
 }
 
 MyRobot::~MyRobot()
@@ -86,16 +86,16 @@ void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
                             const DataStructure pitch, const DataStructure roll, const DataStructure yaw,
                             const float dt, float v_set)
 {
-    leg_L->F_set = 12 / 2 * 9.81;
-    leg_R->F_set = 12 / 2 * 9.81;
+    leg_L->F_set = -12 / 2 * 9.81;
+    leg_R->F_set = -12 / 2 * 9.81;
     // 获取当前机器人状态信息
     leg_L->dis.now = encoder_wheelL->getValue() * 0.05;
     leg_R->dis.now = encoder_wheelR->getValue() * 0.05;
     leg_sim->dis.now = (leg_L->dis.now + leg_R->dis.now) / 2.0;
 
-    leg_L->dis.dot = (leg_L->dis.now - leg_R->dis.last) * 1000.f / time_step;
+    leg_L->dis.dot = (leg_L->dis.now - leg_L->dis.last) * 1000.f / time_step;
     leg_R->dis.dot = (leg_R->dis.now - leg_R->dis.last) * 1000.f / time_step;
-    leg_sim->dis.dot = (leg_L->dis.dot + leg_R->dis.dot) / 2.0;
+    leg_sim->dis.dot = (leg_sim->dis.now - leg_sim->dis.last) * 1000.f / time_step;
 
     leg_L->dis.last = leg_L->dis.now;
     leg_R->dis.last = leg_R->dis.now;
@@ -111,10 +111,12 @@ void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
     leg_L->angle1 = 2.0 / 3.0 * PI - encoder_FL->getValue();
     leg_L->angle4 = 1.0 / 3.0 * PI + encoder_BL->getValue();
     leg_L->Zjie(leg_L->angle1, leg_L->angle4, pitch.now);
+    leg_L->angle0.dot = (leg_L->angle0.now - leg_L->angle0.last) / dt;
 
     leg_R->angle1 = 2.0 / 3.0 * PI - encoder_FR->getValue();
     leg_R->angle4 = 1.0 / 3.0 * PI + encoder_BR->getValue();
     leg_R->Zjie(leg_R->angle1, leg_R->angle4, pitch.now);
+    leg_R->angle0.dot = (leg_R->angle0.now - leg_R->angle0.now) / dt;
     // 计算K矩阵数据，根据L0.now拟合得到
     static Matrix<float, 2, 1> u;
     static Matrix<float, 2, 1> Torque_L, Torque_R;
@@ -151,8 +153,8 @@ void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
     leg_L->TWheel_set = leg_sim->TWheel_set / 2.0;
     leg_R->TWheel_set = leg_sim->TWheel_set / 2.0;
 
-    leg_L->Tp_set = leg_sim->Tp_set / 2.0;
-    leg_R->Tp_set = leg_sim->Tp_set / 2.0;
+    leg_L->Tp_set = -leg_sim->Tp_set / 2.0;
+    leg_R->Tp_set = -leg_sim->Tp_set / 2.0;
     // pid补偿
     float out_L, out_R, out_roll, out_spilt, out_turn;
     out_roll = roll_pid.compute(roll.set, 0, roll.now, roll.dot, dt);
@@ -162,24 +164,24 @@ void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
     leg_L->L0.dot = (leg_L->L0.now - leg_L->L0.last) / dt;
     leg_L->L0.last = leg_L->L0.now;
     out_L = leg_L->supportF_pid.compute(leg_L->L0.set, 0, leg_L->L0.now, leg_L->L0.dot, dt);
-    leg_L->F_set += out_L;
-    leg_L->F_set += out_roll;
-    leg_L->Tp_set += out_spilt; // 这里的正负号没研究过，完全是根据仿真工程上得来的（其实这样也更快）
+    leg_L->F_set -= out_L;
+    leg_L->F_set -= out_roll;
+    leg_L->Tp_set -= out_spilt; // 这里的正负号没研究过，完全是根据仿真工程上得来的（其实这样也更快）
     Torque_L = leg_L->VMC(leg_L->F_set, leg_L->Tp_set);
     leg_L->TL_set = -Torque_L(0, 0);
     leg_L->TR_set = Torque_L(1, 0);
-    leg_L->TWheel_set += out_turn;
+    leg_L->TWheel_set -= out_turn;
     // 右腿VMC解算
     leg_R->L0.dot = (leg_R->L0.now - leg_R->L0.last) / dt;
     leg_R->L0.last = leg_R->L0.now;
     out_R = leg_R->supportF_pid.compute(leg_R->L0.set, 0, leg_R->L0.now, leg_R->L0.dot, dt);
-    leg_R->F_set += out_R;
-    leg_R->F_set -= out_roll;
-    leg_R->Tp_set -= out_spilt;
+    leg_R->F_set -= out_R;
+    leg_R->F_set += out_roll;
+    leg_R->Tp_set += out_spilt;
     Torque_R = leg_R->VMC(leg_R->F_set, leg_R->Tp_set);
     leg_R->TL_set = -Torque_R(0, 0);
     leg_R->TR_set = Torque_R(1, 0);
-    leg_R->TWheel_set -= out_turn;
+    leg_R->TWheel_set += out_turn;
 }
 
 void MyRobot::run()
@@ -274,10 +276,10 @@ void MyRobot::run()
         {
             velocity.set = 0;
         }
-        else if (time - sampling_time < 4)
+        else if (time - sampling_time < 5)
         {
             // velocity.set += acc_up_max * time_step * 0.001;
-            velocity.set = 2;
+            velocity.set = 1.2;
         }
         // else if (time < 6)
         // {
@@ -294,7 +296,8 @@ void MyRobot::run()
         }
     }
 
-    velocity.set = Limit(velocity.set, 3.5, 0);
+    velocity.set = Limit(velocity.set, 2, 0);
+    yaw.set_dot = Limit(yaw.set_dot, 3.0, -3.0);
     status_update(&leg_simplified, &leg_L, &leg_R, this->pitch, this->roll, this->yaw, time_step * 0.001, velocity.set);
 
     /*输出力矩*/

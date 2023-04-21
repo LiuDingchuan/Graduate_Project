@@ -3,26 +3,23 @@ WorldInfo {
   basicTimeStep 5
 }
 Viewpoint {
-  orientation -0.33170874264715755 0.942479145515998 0.041259790582069036 0.26243736834447184
-  position 1.4063402154215483 0.71637044300361 3.025791714226402
-  follow "robot"
+  orientation 0.9922270341788905 -0.07924940327358333 -0.09594292431098868 6.050798521267431
+  position 1.3209904123172764 0.9985115525701185 4.628822502585344
+  follow "uneven terrain"
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 UnevenTerrain {
-  translation 0 -0.01 0
   size 50 0 50
   appearance Grass {
   }
 }
 Robot {
-  translation 0 0.289 0
+  translation 2.40001e-10 0.289 0
   rotation 0 0 1 -0.006
   children [
-    GPS {
-    }
     InertialUnit {
       translation 0 0.05 0
       name "imu"
@@ -94,7 +91,7 @@ Robot {
                               ]
                               endPoint DEF 车轮 Solid {
                                 translation -0.0025424667025388706 -2.961220368691286e-06 -6.726536987844683e-06
-                                rotation 0.031190896720021687 0.9687824899031462 0.24594230058869807 4.693274422891038e-07
+                                rotation 0.031190896720021684 0.9687824899031461 0.24594230058869804 4.693274422891038e-07
                                 children [
                                   GPS {
                                     translation 0 0.05 0
@@ -589,4 +586,56 @@ Robot {
     mass 0.001
   }
   controller "<extern>"
+}
+Solid {
+  translation 2 0.025 -0.5
+  children [
+    DEF 斜坡 Transform {
+      children [
+        DEF 斜坡 Shape {
+          appearance Appearance {
+            material Material {
+              ambientIntensity 1
+              diffuseColor 1 1 1
+              emissiveColor 0.21 0.21 0.21
+              shininess 0.21
+              specularColor 0.88 0.88 0.88
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.095 -0.047248 0
+                -0.095 -0.047248 0.5
+                0.413296 0.028701 0
+                0.413296 0.028701 0.5
+                0.921313 0.028701 0
+                0.921313 0.028701 0.5
+                1.250959 -0.047248 0
+                1.250959 -0.047248 0.5
+              ]
+            }
+            normal Normal {
+              vector [
+                -0.147779 0.98902 0
+                0 -1 0
+                0 0 -1
+                0 0 1
+                0 1 0
+                0.224514 0.974471 0
+              ]
+            }
+            coordIndex [
+              1, 3, 0, -1, 0, 3, 2, -1, 7, 1, 6, -1, 6, 1, 0, -1, 5, 7, 4, -1, 4, 7, 6, -1, 3, 5, 2, -1, 2, 5, 4, -1, 1, 7, 3, -1, 3, 7, 5, -1, 4, 6, 2, -1, 2, 6, 0, -1
+            ]
+            normalIndex [
+              0, 0, 0, -1, 0, 0, 0, -1, 1, 1, 1, -1, 1, 1, 1, -1, 5, 5, 5, -1, 5, 5, 5, -1, 4, 4, 4, -1, 4, 4, 4, -1, 3, 3, 3, -1, 3, 3, 3, -1, 2, 2, 2, -1, 2, 2, 2, -1
+            ]
+          }
+        }
+      ]
+    }
+  ]
+  boundingObject USE 斜坡
+  locked TRUE
 }
