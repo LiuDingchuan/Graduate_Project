@@ -25,10 +25,11 @@ MyRobot::MyRobot() : balance_angle(-0.0064)
     BL_legmotor->enableTorqueFeedback(time_step), BR_legmotor->enableTorqueFeedback(time_step), FL_legmotor->enableTorqueFeedback(time_step), FR_legmotor->enableTorqueFeedback(time_step);
     L_Wheelmotor->enableTorqueFeedback(time_step), R_Wheelmotor->enableTorqueFeedback(time_step);
     // 参数初始化
-    roll.set = 0, yaw.set = 0, velocity.set = 0, velocity.now = 0;
+    roll.set = 0, yaw.set = 0, yaw.set_dot = 0,
+    velocity.set = 0, velocity.now = 0;
     acc_up_max = 1.0, acc_down_max = 1.0;
     // 调参
-    turn_pid.update(1.0, 0.0, 0.01, 1); // 针对角速度进行PD控制
+    turn_pid.update(6.0, 0.1, 0.1, 3); // 针对角速度进行PD控制
     split_pid.update(50.0, 0.0, 3, 0);
     roll_pid.update(1000, 0.0, 10, 25);
 
@@ -186,6 +187,8 @@ void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
 
 void MyRobot::run()
 {
+    time = getTime();
+
     static int last_key;
 
     velocity.now = gps->getSpeed();
@@ -193,26 +196,25 @@ void MyRobot::run()
     pitch.dot = gyro->getValues()[2];
     roll.now = imu->getRollPitchYaw()[0];
     roll.dot = gyro->getValues()[0];
-    yaw.now = imu->getRollPitchYaw()[2];
+    yaw_get = imu->getRollPitchYaw()[2];
     float yaw_dot_last = yaw.dot;
     yaw.dot = gyro->getValues()[1];
     yaw.ddot = (yaw.dot - yaw_dot_last) / (time_step * 0.001);
     float robot_x = gps->getValues()[0];
     pitch.now -= balance_angle; // 得到相对于平衡pitch的角度
 
-    if (yaw.now - yaw.last > 1.5 * PI)
-        yaw.now += yaw.now - yaw.last - 2 * PI;
+    if (yaw_get - yaw.last > 1.5 * PI)
+        yaw.now += yaw_get - yaw.last - 2 * PI;
     else if (yaw.now - yaw.last < -1.5 * PI)
-        yaw.now += yaw.now - yaw.last + 2 * PI;
+        yaw.now += yaw_get - yaw.last + 2 * PI;
     else
-        yaw.now += yaw.now - yaw.last;
+        yaw.now += yaw_get - yaw.last;
 
     yaw.last = yaw.now;
     if (time == 0)
         yaw.set = yaw.now;
 
     // 时序更新
-    time = getTime();
 
     int key = mkeyboard->getKey();
     while (key > 0)
@@ -297,7 +299,8 @@ void MyRobot::run()
     }
 
     velocity.set = Limit(velocity.set, 2, 0);
-    yaw.set_dot = Limit(yaw.set_dot, 3.0, -3.0);
+    yaw.set_dot = Limit(yaw.set_dot, 2.0, -2.0);
+    yaw.set += yaw.set_dot * time_step * 0.001;
     status_update(&leg_simplified, &leg_L, &leg_R, this->pitch, this->roll, this->yaw, time_step * 0.001, velocity.set);
 
     /*输出力矩*/

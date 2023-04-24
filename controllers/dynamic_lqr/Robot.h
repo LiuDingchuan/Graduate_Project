@@ -35,6 +35,7 @@ private:
     u8 time_step;        // 毫秒
     float time;          // 秒
     float sampling_time; // 开始检测的时间,秒
+    float yaw_get;
 
     Camera *camera;
     Gyro *gyro;

@@ -31,6 +31,9 @@ int main(int argc, char **argv)
                     << wheel_legged.leg_simplified.angle0.dot << " "
                     << wheel_legged.pitch.now << " "
                     << wheel_legged.pitch.dot << " "
+                    << wheel_legged.yaw.now << " "
+                    << wheel_legged.yaw.set << " "
+                    << wheel_legged.yaw.dot << ""
                     << endl;
             outfile.close();
         }

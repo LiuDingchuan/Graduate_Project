@@ -8,6 +8,10 @@ theta0 = data(:,6);
 theta0_dot = data(:, 7);
 pitch = data(:, 8);
 pitch_dot = data(:, 9);
+yaw = data(:, 10);
+yaw_set = data(:, 11);
+yaw_dot = data(:, 12);
+
 
 figure;
 subplot(7,1,1);
@@ -47,16 +51,16 @@ ylabel("theta0 dot");
 grid on;
 
 subplot(7, 1, 6);
-plot(t, pitch);
-legend("pitch");
+plot(t, yaw, t, yaw_set);
+legend("yaw", "yaw_{set}");
 xlabel("t(s)");
-ylabel("pitch");
+ylabel("yaw");
 grid on;
 
 subplot(7, 1, 7);
-plot(t, pitch_dot);
-legend("pitch dot");
+plot(t, yaw_dot);
+legend("yaw_{dot}");
 xlabel("t(s)");
-ylabel("pitch dot");
+ylabel("yaw dot");
 grid on;
 
