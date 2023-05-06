@@ -31,9 +31,16 @@ int main(int argc, char **argv)
                     << wheel_legged.leg_simplified.angle0.dot << " "
                     << wheel_legged.pitch.now << " "
                     << wheel_legged.pitch.dot << " "
-                    << wheel_legged.yaw.now << " "
-                    << wheel_legged.yaw.set << " "
-                    << wheel_legged.yaw.dot << ""
+                    << wheel_legged.roll.now << " "
+                    << wheel_legged.roll.set << " "
+                    << wheel_legged.yaw.dot << " "
+                    << wheel_legged.yaw.set_dot << " "
+                    << wheel_legged.leg_L.L0.now << " "
+                    << wheel_legged.leg_R.L0.now << " "
+                    << wheel_legged.leg_L.angle0.now << " "
+                    << wheel_legged.leg_R.angle0.now << " "
+                    << wheel_legged.leg_L.L0.set << " "
+                    << wheel_legged.leg_R.L0.set << " "
                     << endl;
             outfile.close();
         }

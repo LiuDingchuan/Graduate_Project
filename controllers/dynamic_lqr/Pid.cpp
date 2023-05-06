@@ -92,7 +92,7 @@ float PID_Controller::compute(const float target, const float d_target,
     this->err_dot = d_target - d_input;
 
     this->output = this->kp * err_now + this->kd * err_dot;
-    if (this->ki > 1e-6 && this->ki < -1e-6)
+    if (this->ki > 1e-6 || this->ki < -1e-6)
     {
         this->err_sum += this->ki * err_now * dt;
         Limit(this->err_sum, this->max_sum, -this->max_sum);
