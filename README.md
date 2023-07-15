@@ -3,7 +3,11 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-05-11 12:31:34
- * @LastEditTime: 2023-07-15 19:33:08
+<<<<<<< HEAD
+ * @LastEditTime: 2023-07-15 19:44:24
+=======
+ * @LastEditTime: 2023-07-15 18:27:45
+>>>>>>> 0792d8e368bad9424ecb953d3755c115bcde5f80
  * @FilePath: \webots_sim\README.md
 -->
 # 双轮腿式机器人控制系统设计
