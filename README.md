@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-05-11 12:31:34
- * @LastEditTime: 2023-07-15 16:25:15
+ * @LastEditTime: 2023-07-15 18:27:45
  * @FilePath: \webots_sim\README.md
 -->
 # 双轮腿式机器人控制系统设计
@@ -44,4 +44,24 @@
 请参考[Webots仿真: 使用Visual Studio作为IDE并Debug调试](https://zhuanlan.zhihu.com/p/621739488)
 
 ## 仿真使用介绍
+
+将main分支下载到本地后，解压，进入worlds文件夹。
+test_world.wbt——平地试验功能
+起伏路段——带有斜坡和弧度坡的环境
+起伏路段_双腿——带有大宽度的斜坡，可以供双腿通过
+
+进入仿真世界后，如果是想使用webots自身的IDE进行调试，将controller项选择为"dynamic_lqr"即可；
+如果是想使用Visual Studio作为IDE进行调试并debug，需要将controller项选择为"extern",并打开...\controllers\Dynamics_LQR_onVS中的.sln文件，先运行程序，再运行仿真，即可开始debug。
+
+仿真运行后的功能按键映射如下：
+|按键|功能|
+|---|---|
+|↑|前进|
+|↓|后退|
+|←|逆时针旋转|
+|→|顺时针旋转|
+|W|高度升高|
+|S|高度降低|
+|A|左倾|
+|D|右倾|
 
