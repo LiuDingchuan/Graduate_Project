@@ -47,7 +47,7 @@
 ###
 ### ---- Linked libraries ----
 ### if your program needs additional libraries:
- INCLUDE = -I D:/Eigen-C++/eigen-3.4.0/Eigen
+ INCLUDE = -I E:/eigen-3.4.0/Eigen
 ### LIBRARIES = -L"/path/to/my/library" -lmy_library -lmy_other_library
 ###
 ### ---- Linking options ----

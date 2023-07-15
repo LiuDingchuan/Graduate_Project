@@ -242,6 +242,7 @@ void MyRobot::run()
             break;
         case kboard.END:
             velocity.set = 0;
+            yaw.set_dot = 0;
             break;
         case 'W':
             leg_L.L0.set += 0.0002f;
@@ -271,34 +272,34 @@ void MyRobot::run()
     }
     leg_L.L0.set = Limit(leg_L.L0.set, 0.35, 0.2);
     leg_R.L0.set = Limit(leg_R.L0.set, 0.35, 0.2);
+    /*测试用的，追踪一个持续4s的速度期望*/
+    // if (sampling_flag == 1)
+    // {
+    //     if (time - sampling_time < 1)
+    //     {
+    //         velocity.set = 0;
+    //     }
+    //     else if (time - sampling_time < 5)
+    //     {
+    //         // velocity.set += acc_up_max * time_step * 0.001;
+    //         velocity.set = 1.0;
+    //     }
+    //     // else if (time < 6)
+    //     // {
+    //     //     velocity.set = 3;
+    //     // }
+    //     // else if (time < 9)
+    //     // {
+    //     //     velocity.set -= acc_down_max * time_step * 0.001;
+    //     // }
+    //     else
+    //     {
+    //         velocity.set = 0;
+    //         sampling_flag = 0;
+    //     }
+    // }
 
-    if (sampling_flag == 1)
-    {
-        if (time - sampling_time < 1)
-        {
-            velocity.set = 0;
-        }
-        else if (time - sampling_time < 5)
-        {
-            // velocity.set += acc_up_max * time_step * 0.001;
-            velocity.set = 1.0;
-        }
-        // else if (time < 6)
-        // {
-        //     velocity.set = 3;
-        // }
-        // else if (time < 9)
-        // {
-        //     velocity.set -= acc_down_max * time_step * 0.001;
-        // }
-        else
-        {
-            velocity.set = 0;
-            sampling_flag = 0;
-        }
-    }
-
-    velocity.set = Limit(velocity.set, 2, 0);
+    velocity.set = Limit(velocity.set, 2.5, -2.5);
     yaw.set_dot = Limit(yaw.set_dot, 2.0, -2.0);
     yaw.set += yaw.set_dot * time_step * 0.001;
     status_update(&leg_simplified, &leg_L, &leg_R, this->pitch, this->roll, this->yaw, time_step * 0.001, velocity.set);
