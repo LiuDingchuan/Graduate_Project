@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{B2AA53B0-6416-4406-8FF5-6D43BBA8B305}</ProjectGuid>
+    <RootNamespace>Dynamics_LQR_onVS</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)</OutDir>
+    <IncludePath>E:\Webots2020\include\controller\c;E:\eigen-3.4.0\Eigen;E:\Webots2020\include\controller\cpp;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Webots2020\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>E:\eigen-3.4.0\Eigen;$(WEBOTS_HOME)/include/controller/c;$(WEBOTS_HOME)/include/controller/cpp</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(WEBOTS_HOME)/lib/controller</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;Controller.lib;car.lib;driver.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>Dynamics_LQR_onVS.exe</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\dynamic_lqr\Leg.cpp" />
+    <ClCompile Include="..\dynamic_lqr\main.cpp" />
+    <ClCompile Include="..\dynamic_lqr\MyRobot.cpp" />
+    <ClCompile Include="..\dynamic_lqr\Pid.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Accelerometer.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Brake.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Camera.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Compass.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Connector.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Device.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\DifferentialWheels.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Display.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\DistanceSensor.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Emitter.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Field.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\GPS.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Gyro.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\InertialUnit.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Joystick.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Keyboard.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\LED.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Lidar.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\LightSensor.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Motion.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Motor.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Mouse.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Node.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Pen.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\PositionSensor.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Radar.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\RangeFinder.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Receiver.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Robot.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Skin.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Speaker.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Supervisor.cpp" />
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\TouchSensor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\dynamic_lqr\Leg.h" />
+    <ClInclude Include="..\dynamic_lqr\MyDefine.h" />
+    <ClInclude Include="..\dynamic_lqr\Pid.h" />
+    <ClInclude Include="..\dynamic_lqr\Robot.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="E:\Webots2020\resources\languages\cpp\Makefile" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

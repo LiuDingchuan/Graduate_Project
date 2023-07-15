@@ -1,0 +1,67 @@
+data = load('data2.dat');
+t = data(:,1);
+TorqueL = data(:,2);
+TorqueR = data(:,3);
+velocity_now = data(:, 4);
+velocity_set = data(:, 5);
+theta0 = data(:,6);
+theta0_dot = data(:, 7);
+pitch = data(:, 8);
+pitch_dot = data(:, 9);
+roll = data(:, 10);
+roll_set = data(:, 11);
+yaw = data(:, 12);
+yaw_now = data(:, 13);
+
+
+figure;
+subplot(7,1,1);
+plot(t, TorqueL);
+legend("Torque Left");
+xlabel("t(s)");
+ylabel("Torque(Nm)");
+grid on;
+
+subplot(7,1,2);
+plot(t, TorqueR);
+legend("Torque Right")
+xlabel("t(s)");
+ylabel("Torque(Nm)");
+grid on;
+
+subplot(7,1,3);
+ylim([0 2]);
+plot(t, velocity_now, 'b', t, velocity_set, 'r');
+legend('v_{now}', 'v_{set}');
+xlabel("t(s)");
+ylabel("Torque(Nm)");
+grid on;
+
+subplot(7, 1, 4);
+plot(t, theta0);
+legend("theta0");
+xlabel("t(s)");
+ylabel("theta0");
+grid on;
+
+subplot(7, 1, 5);
+plot(t, theta0_dot);
+legend("theta0 dot");
+xlabel("t(s)");
+ylabel("theta0 dot");
+grid on;
+
+subplot(7, 1, 6);
+plot(t, roll, t, roll_set);
+legend("yaw", "yaw_{set}");
+xlabel("t(s)");
+ylabel("yaw");
+grid on;
+
+subplot(7, 1, 7);
+plot(t, yaw_dot);
+legend("yaw_{dot}");
+xlabel("t(s)");
+ylabel("yaw dot");
+grid on;
+

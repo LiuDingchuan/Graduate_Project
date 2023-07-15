@@ -586,5 +586,5 @@ Robot {
     density -1
     mass 0.001
   }
-  controller "dynamic_lqr"
+  controller "<extern>"
 }

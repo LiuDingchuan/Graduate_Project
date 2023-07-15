@@ -3,7 +3,11 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:19:53
- * @LastEditTime: 2023-04-10 20:41:05
+<<<<<<< HEAD
+ * @LastEditTime: 2023-07-15 16:51:53
+=======
+ * @LastEditTime: 2023-04-29 23:21:02
+>>>>>>> VS_Controller
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.cpp
  */
 #include "Leg.h"
@@ -15,20 +19,20 @@ LegClass::LegClass()
     l3 = 0.200;
     l4 = 0.180;
     l5 = 0.120;
-    F_set = 13.17 / 2 * 9.81;
-    dis = dis_desire = dis_dot = dis_last = 0;
+    F_set = -12 / 2 * 9.81;
+    dis.now = dis.last = dis.dot = dis.last = 0;
 
     xc = 0, yc = 0.28817;
-    angle0 = 0;
+    angle0.now = 0;
     angle1 = PI / 3 * 2;
     angle4 = PI / 3;
     Zjie(angle1, angle4, 0);
-    L0_set = L0_now; // 初值
-    L0_last = L0_now;
-    K << -63.5110, -10.7148, -9.9776, -17.1770, 4.2289, 0.6818,
-        6.2855, 1.1290, 1.3373, 2.2081, 126.2080, 11.4607;
+    L0.set = 0.260; // 初值
+    L0.last = 0.260;
+    K << -55.6021, -13.3377, -9.7707, -11.4781, 15.0562, 0.7386,
+        19.9343, 5.5433, 4.2585, 4.9211, 138.1783, 4.1289;
     X << 0, 0, 0, 0, 0, 0;
-    supportF_pid.update(800, 50.0, 200.0, 10);
+    supportF_pid.update(1000, 20.0, 500.0, 20);
 }
 /**
  * @brief: 运动学逆解
@@ -93,11 +97,11 @@ void LegClass::Zjie(const float angle1, const float angle4, const float pitch)
     float C0 = pow(l2, 2) + pow(lbd, 2) - pow(l3, 2);
     float D0 = pow(l3, 2) + pow(lbd, 2) - pow(l2, 2);
     angle2 = 2 * atan((B0 + sqrt(pow(A0, 2) + pow(B0, 2) - pow(C0, 2))) / (A0 + C0));
-    angle3 = M_PI - 2 * atan((B0 + sqrt(pow(A0, 2) + pow(B0, 2) - pow(D0, 2))) / (A0 + D0));
+    angle3 = PI - 2 * atan((B0 + sqrt(pow(A0, 2) + pow(B0, 2) - pow(D0, 2))) / (A0 + D0));
     xc = xb + l2 * cos(angle2);
     yc = yb + l2 * sin(angle2);
 
-    L0_now = sqrt(pow(xc, 2) + pow(yc, 2));
+    L0.now = sqrt(pow(xc, 2) + pow(yc, 2));
     // 乘以pitch的旋转矩阵
     Matrix<float, 2, 2> matrix_R;
     Matrix<float, 2, 1> cor_XY;
@@ -106,7 +110,8 @@ void LegClass::Zjie(const float angle1, const float angle4, const float pitch)
         sin(pitch), cos(pitch);
     cor_XY << xc, yc;
     cor_XY_then = matrix_R * cor_XY;
-    angle0 = atan(cor_XY_then(0, 0) / cor_XY_then(1, 0));
+    angle0.last = angle0.now;
+    angle0.now = atan(cor_XY_then(0, 0) / cor_XY_then(1, 0));
 }
 /**
  * @brief: VMC（虚拟力算法）
@@ -121,12 +126,10 @@ Matrix<float, 2, 1> LegClass::VMC(const float F, const float Tp)
     Matrix<float, 2, 2> Trans;
     Matrix<float, 2, 1> VirtualF;
     Matrix<float, 2, 1> ActualF;
-    Trans << -l1 * cos(angle0 + angle3) * sin(angle1 - angle2) / sin(angle2 - angle3),
-        -l1 * sin(angle0 + angle3) * sin(angle1 - angle2) / (L0_now * sin(angle2 - angle3)),
-        -l4 * cos(angle0 + angle2) * sin(angle3 - angle4) / sin(angle2 - angle3),
-        -l4 * sin(angle0 + angle2) * sin(angle3 - angle4) / (L0_now * sin(angle2 - angle3));
-    cout << "VMC_Trans: " << Trans(0, 0) << " " << Trans(0, 1) << endl
-         << Trans(1, 0) << " " << Trans(1, 1) << endl;
+    Trans << l1 * cos(angle0.now + angle3) * sin(angle1 - angle2) / sin(angle2 - angle3),
+        l1 * sin(angle0.now + angle3) * sin(angle1 - angle2) / (L0.now * sin(angle2 - angle3)),
+        l4 * cos(angle0.now + angle2) * sin(angle3 - angle4) / sin(angle2 - angle3),
+        l4 * sin(angle0.now + angle2) * sin(angle3 - angle4) / (L0.now * sin(angle2 - angle3));
     VirtualF << F, Tp;
     ActualF = Trans * VirtualF;
     return ActualF;

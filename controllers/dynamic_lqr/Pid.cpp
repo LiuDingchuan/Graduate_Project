@@ -63,7 +63,6 @@ float PID_Controller::compute(float set, float encoder)
     err_sum += err_lowout;
     err_last = err_lowout;
     err_sum = Limit(err_sum, 15, -15);
-    // cout << "err_sum:" << err_sum << endl;
 
     if (ABS(set) > 0.01f)
     {
@@ -74,17 +73,28 @@ float PID_Controller::compute(float set, float encoder)
     out = Limit(out, max_output, -max_output);
     return -out;
 }
-
-float PID_Controller::compute(const float target, const float d_target, const float input, const float d_input, const float dt)
+/**
+ * @brief: PID
+ * @author: Dandelion
+ * @Date: 2023-04-12 21:23:14
+ * @param {float} target
+ * @param {float} d_target
+ * @param {float} input
+ * @param {float} d_input
+ * @param {float} dt
+ * @return {*}
+ */
+float PID_Controller::compute(const float target, const float d_target,
+                              const float input, const float d_input,
+                              const float dt)
 {
-    float output,
-        err = target - input,
-        d_err = d_target - d_input;
+    this->err_now = target - input;
+    this->err_dot = d_target - d_input;
 
-    output = this->kp * err + this->kd * d_err;
-    if (this->ki)
+    this->output = this->kp * err_now + this->kd * err_dot;
+    if (this->ki > 1e-6 || this->ki < -1e-6)
     {
-        this->err_sum += this->ki * err * dt;
+        this->err_sum += this->ki * err_now * dt;
         Limit(this->err_sum, this->max_sum, -this->max_sum);
         // 死区
         this->err_sum = (this->err_sum > -0.1 && this->err_sum < 0.1) ? 0 : this->err_sum;

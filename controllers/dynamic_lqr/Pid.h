@@ -17,7 +17,7 @@ class PID_Controller
 private:
     /* data */
     float kp, ki, kd;
-    float err_now, err_last, err_sum;
+    float err_now, err_last, err_sum, err_dot;
     float output, max_output, max_sum;
 
     float a_Filter; // 滤波

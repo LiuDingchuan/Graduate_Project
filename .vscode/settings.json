@@ -12,6 +12,11 @@
         "istream": "cpp",
         "ostream": "cpp",
         "sstream": "cpp",
+<<<<<<< HEAD
         "iostream": "cpp"
+=======
+        "iostream": "cpp",
+        "cmath": "cpp"
+>>>>>>> VS_Controller
     }
 }

@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\dynamic_lqr\Leg.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dynamic_lqr\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dynamic_lqr\Pid.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dynamic_lqr\MyRobot.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Accelerometer.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Brake.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Camera.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Compass.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Connector.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Device.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\DifferentialWheels.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Display.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\DistanceSensor.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Emitter.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Field.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\GPS.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Gyro.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\InertialUnit.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Joystick.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Keyboard.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\LED.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Lidar.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\LightSensor.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Motion.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Motor.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Mouse.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Node.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Pen.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\PositionSensor.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Radar.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\RangeFinder.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Receiver.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Robot.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Skin.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Speaker.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Supervisor.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Webots2020\resources\languages\cpp\TouchSensor.cpp">
+      <Filter>Webots C++ wrappers</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\dynamic_lqr\Leg.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dynamic_lqr\Pid.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dynamic_lqr\Robot.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dynamic_lqr\MyDefine.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="inc">
+      <UniqueIdentifier>{e4d33d17-cc84-484f-ba62-fbc394cfe903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{c528882d-abd8-4166-bfac-f2a6e103b531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Webots C++ wrappers">
+      <UniqueIdentifier>{1cd464fd-7ee8-4d4c-9ee8-52f21e0b34b8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="E:\Webots2020\resources\languages\cpp\Makefile">
+      <Filter>Webots C++ wrappers</Filter>
+    </None>
+  </ItemGroup>
+</Project>

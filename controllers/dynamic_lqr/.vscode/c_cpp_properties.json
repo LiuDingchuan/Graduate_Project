@@ -4,9 +4,9 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}",
-                "D:\\Webots2020\\include\\controller\\cpp",
-                "D:\\Webots2020\\include\\controller\\c",
-                "D:\\Eigen-C++\\eigen-3.4.0\\Eigen"
+                "E:\\Webots2020\\include\\controller\\cpp",
+                "E:\\Webots2020\\include\\controller\\c",
+                "E:\\eigen-3.4.0\\Eigen"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
