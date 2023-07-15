@@ -253,10 +253,10 @@ void MyRobot::run()
             leg_R.L0.set -= 0.0002f;
             break;
         case 'A':
-            roll.set -= 0.02f;
+            roll.set -= 0.002f;
             break;
         case 'D':
-            roll.set += 0.02f;
+            roll.set += 0.002f;
             break;
         case 'O':
             sampling_flag = 1;
