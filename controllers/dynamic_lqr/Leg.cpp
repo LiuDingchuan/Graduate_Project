@@ -3,11 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:19:53
-<<<<<<< HEAD
- * @LastEditTime: 2023-07-15 16:51:53
-=======
- * @LastEditTime: 2023-04-29 23:21:02
->>>>>>> VS_Controller
+ * @LastEditTime: 2023-07-28 23:23:01
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.cpp
  */
 #include "Leg.h"
@@ -52,7 +48,7 @@ void LegClass::Njie(const float xc, const float yc)
 
     A = 2 * l1 * yc;
     B = 2 * l1 * (xc + l5 / 2);
-    C = l2 * l2 - l1 * l1 - xc * xc - yc * yc - l5 * l5 / 4;
+    C = l2 * l2 - l1 * l1 - xc * xc - yc * yc - l5 * l5 / 4 + xc * l5;
     angle1 = 2 * atan((A + sqrt(A * A + B * B - C * C)) / (B - C));
     if (angle1 < 0)
         angle1 += 2 * PI;
@@ -69,7 +65,7 @@ void LegClass::Njie(const float xc, const float yc)
     A = 2 * y1 * l4;
     B = 2 * l4 * (x1 - l5 / 2);
     // c = l3 * l3 + 2 * l5 * x1 - l4 * l4 - l5 * l5 - x1 * x1 - y1 * y1;
-    C = l3 * l3 + 2 * l5 * x1 - l4 * l4 - l5 * l5 / 4 - x1 * x1 - y1 * y1;
+    C = l3 * l3 + l5 * x1 - l4 * l4 - l5 * l5 / 4 - x1 * x1 - y1 * y1;
     angle4 = 2 * atan((A - sqrt(A * A + B * B - C * C)) / (B - C));
     // nije_5((void *)0, &angle2, x1, y1, l1, l2, l3, l4, l5);        //计算c4 ,
 }
