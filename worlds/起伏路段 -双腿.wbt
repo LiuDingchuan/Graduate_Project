@@ -1,11 +1,18 @@
 #VRML_SIM R2020a utf8
 WorldInfo {
   basicTimeStep 5
+  contactProperties [
+    ContactProperties {
+      coulombFriction [
+        0.5
+      ]
+    }
+  ]
 }
 Viewpoint {
-  orientation 0.49823658255324216 0.8668812678490873 0.016648581261634106 5.936943429266377
-  position -0.2615019356510615 0.9988461031521317 4.042246610989868
-  follow "solid"
+  orientation 0.4543005028268988 0.8907934260268955 -0.009905820435106525 5.991185320677864
+  position -0.17959413624053722 0.8332413055283252 4.152910424081427
+  follow "robot:solid"
 }
 TexturedBackground {
 }
@@ -17,8 +24,8 @@ UnevenTerrain {
   }
 }
 Robot {
-  translation 2.40001e-10 0.289 0
-  rotation 0 0 1 -0.006
+  translation 0.0007927213008786662 0.2941372382970834 -0.0003191074224390005
+  rotation -0.40271547316722733 -0.5323203826105553 0.7446175245916848 -0.0035234824504731008
   children [
     InertialUnit {
       translation 0 0.05 0
@@ -36,6 +43,7 @@ Robot {
       children [
         HingeJoint {
           jointParameters HingeJointParameters {
+            position 0.023920484231534776
             axis 0 0 1
           }
           device [
@@ -48,8 +56,8 @@ Robot {
             }
           ]
           endPoint DEF 大腿 Solid {
-            translation -0.0003461189974620152 -0.0004892637334860117 -1.316730122483123e-05
-            rotation 0.7343092250994071 -0.6175087603067266 0.2819093699726174 0.00035190001059644314
+            translation -0.00033431766998660265 -0.0004974023088441681 -1.3167301224831197e-05
+            rotation 0.010864602005706409 -0.008916822481400988 0.9999012204713488 0.024022060802065925
             children [
               DEF 小腿铰接 Transform {
                 translation -0.09 -0.15588 0.012
@@ -57,11 +65,12 @@ Robot {
                 children [
                   HingeJoint {
                     jointParameters HingeJointParameters {
+                      position -0.03999600674103764
                       axis 0 0 1
                     }
                     endPoint DEF 小腿 Solid {
-                      translation -8.326672684688674e-17 0 0
-                      rotation 0 0 1 0
+                      translation -8.320013564273403e-17 3.329448726846544e-18 0
+                      rotation 0 0 -1 0.03999600674104114
                       children [
                         DEF 车轮铰接 Transform {
                           translation -0.13229 -0.15 -0.018
@@ -69,6 +78,7 @@ Robot {
                           children [
                             DEF 另一小腿铰接 HingeJoint {
                               jointParameters HingeJointParameters {
+                                position -0.04001789256046246
                                 axis 0 -1 0
                               }
                               endPoint SolidReference {
@@ -77,6 +87,7 @@ Robot {
                             }
                             DEF 车轮铰接 HingeJoint {
                               jointParameters HingeJointParameters {
+                                position 0.6534677132796447
                                 axis 0 -1 0
                               }
                               device [
@@ -90,8 +101,8 @@ Robot {
                                 }
                               ]
                               endPoint DEF 车轮 Solid {
-                                translation -0.0025424667025388706 -2.961220368691286e-06 -6.726536987844683e-06
-                                rotation 0.031190896720021687 0.9687824899031462 0.24594230058869807 4.693274422891038e-07
+                                translation -0.0020145793845583104 -2.9612203686912758e-06 -0.0015510164677176544
+                                rotation -3.6115020837075826e-08 -0.9999999999999835 1.7762698817425317e-07 0.6534672586034468
                                 children [
                                   GPS {
                                     translation 0 0.05 0
@@ -113,6 +124,8 @@ Robot {
                                   density -1
                                   mass 3
                                 }
+                                linearVelocity -0.020480490094267837 0.0001938835061634755 -0.0007672677488400674
+                                angularVelocity -0.01434522796971633 0.0037131747223472433 0.4095824269511045
                               }
                             }
                           ]
@@ -148,6 +161,8 @@ Robot {
                         density -1
                         mass 0.124
                       }
+                      linearVelocity -0.04046805957407702 -0.019930866710911002 -0.0015094641180156765
+                      angularVelocity -0.01458444490153378 0.003950965600918189 0.2713846615693014
                     }
                   }
                 ]
@@ -183,6 +198,8 @@ Robot {
               density -1
               mass 0.28
             }
+            linearVelocity -0.032179981296850374 -0.053053507024770005 -0.003761577974347093
+            angularVelocity -0.015519903945486435 0.004921073666773064 -0.29082450167365864
           }
         }
       ]
@@ -193,6 +210,7 @@ Robot {
       children [
         HingeJoint {
           jointParameters HingeJointParameters {
+            position 0.01087869918521393
             axis 0 0 1
           }
           device [
@@ -205,8 +223,8 @@ Robot {
             }
           ]
           endPoint DEF 大腿 Solid {
-            translation -0.0001470958524747365 -1.9704934042019673e-05 -1.5941992043133624e-07
-            rotation 0.17400168527216525 -0.9847437327378566 0.0017872761283570153 1.6373060680970635e-05
+            translation -0.00014687278862890031 -2.130394802003226e-05 -1.594199204313363e-07
+            rotation 0.0002699404474423934 -0.0014806505496278907 0.999998867402411 0.010878740769344523
             children [
               DEF 小腿铰接 Transform {
                 translation -0.09 -0.15588 0.012
@@ -214,11 +232,12 @@ Robot {
                 children [
                   HingeJoint {
                     jointParameters HingeJointParameters {
+                      position -0.03482106476809479
                       axis 0 0 1
                     }
                     endPoint DEF 小腿 Solid {
-                      translation 0 -2.7755575615628914e-17 0
-                      rotation 0 0 1 0
+                      translation -9.662833977361286e-19 -2.7738750407149854e-17 0
+                      rotation 0 0 -1 0.03482106476808944
                       children [
                         DEF 小腿 Shape {
                           appearance PBRAppearance {
@@ -251,6 +270,8 @@ Robot {
                         density -1
                         mass 0.124
                       }
+                      linearVelocity 0.0013053339426913526 -0.02391880562898784 -0.0022793232932665592
+                      angularVelocity -0.015561719249648394 0.0049637163560177795 -0.3166978655941069
                     }
                   }
                 ]
@@ -286,6 +307,8 @@ Robot {
               density -1
               mass 0.28
             }
+            linearVelocity 0.0028395121707741047 -0.056604504485333704 -0.004706728743504749
+            angularVelocity -0.01458265345477983 0.004185230833618944 0.21435789591952792
           }
         }
       ]
@@ -295,6 +318,7 @@ Robot {
       children [
         HingeJoint {
           jointParameters HingeJointParameters {
+            position 0.024177041045400843
             axis 0 0 1
           }
           device [
@@ -307,8 +331,8 @@ Robot {
             }
           ]
           endPoint DEF 大腿 Solid {
-            translation -0.00031611320979887253 -0.0003733700090944314 -1.1675555913803759e-05
-            rotation 0.7272682884741151 -0.6442435048758357 0.23670898378648525 0.00032628096664076567
+            translation -0.0003069947229422243 -0.00038090282906031196 -1.1675555913803749e-05
+            rotation 0.00988703467636361 -0.008547274656227502 0.9999145916733386 0.024256346172005543
             children [
               DEF 小腿铰接 Transform {
                 translation -0.09 -0.15588 0.012
@@ -316,11 +340,12 @@ Robot {
                 children [
                   HingeJoint {
                     jointParameters HingeJointParameters {
+                      position -0.040243398672743264
                       axis 0 0 1
                     }
                     endPoint DEF 小腿 Solid {
-                      translation 0 5.551115123125783e-17 0
-                      rotation 0 0 1 0
+                      translation 2.233354444683786e-18 5.546620627863398e-17 0
+                      rotation 0 0 -1 0.040243398672739426
                       children [
                         DEF 车轮铰接 Transform {
                           translation -0.13229 -0.15 0.01
@@ -328,6 +353,7 @@ Robot {
                           children [
                             DEF 另一小腿铰接 HingeJoint {
                               jointParameters HingeJointParameters {
+                                position -0.04019808104163593
                                 axis 0 -1 0
                               }
                               endPoint SolidReference {
@@ -336,6 +362,7 @@ Robot {
                             }
                             DEF 车轮铰接 HingeJoint {
                               jointParameters HingeJointParameters {
+                                position 0.007445224418692422
                                 axis 0 -1 0
                               }
                               device [
@@ -349,8 +376,8 @@ Robot {
                                 }
                               ]
                               endPoint DEF 车轮 Solid {
-                                translation -0.0025431804722263283 -2.9260230063055115e-06 -6.5827141941248325e-06
-                                rotation 0.0330280333790675 0.9665825314928167 0.25421911577229866 4.4404460268471747e-07
+                                translation -0.002543060977235634 -2.9260230063054984e-06 -2.55169061760003e-05
+                                rotation 1.9091866887254645e-06 -0.9999999998836292 1.513594807201908e-05 0.007444796181553825
                                 children [
                                   DEF 车轮 Shape {
                                     appearance PBRAppearance {
@@ -369,6 +396,8 @@ Robot {
                                   density -1
                                   mass 3
                                 }
+                                linearVelocity -0.016953578352141077 -0.00024583898663253887 -0.0006734500638181098
+                                angularVelocity -0.014491813503435013 0.003842400568508966 0.33918016163073295
                               }
                             }
                           ]
@@ -404,6 +433,8 @@ Robot {
                         density -1
                         mass 0.124
                       }
+                      linearVelocity -0.03930537544986273 -0.023812315890342252 -0.0014640100904402815
+                      angularVelocity -0.014538461661506099 0.003907772180955286 0.30223863055011896
                     }
                   }
                 ]
@@ -439,6 +470,8 @@ Robot {
               density -1
               mass 0.28
             }
+            linearVelocity -0.03345849779741892 -0.05883790557932916 -0.0037418471909657497
+            angularVelocity -0.01551432716120776 0.004913402912398257 -0.2855638904058492
           }
         }
       ]
@@ -449,6 +482,7 @@ Robot {
       children [
         HingeJoint {
           jointParameters HingeJointParameters {
+            position 0.010772255539311992
             axis 0 0 1
           }
           device [
@@ -461,8 +495,8 @@ Robot {
             }
           ]
           endPoint DEF 大腿 Solid {
-            translation -0.00018742644637772393 -1.758197759493818e-06 3.219243173424591e-07
-            rotation 0.3133148471965072 -0.9489967422750177 -0.03519928518639368 1.8339667324686604e-05
+            translation -0.0001873966324716309 -3.7770622759004937e-06 3.219243173424598e-07
+            rotation 0.0005421429408728113 -0.0016128597336130378 0.9999985523812079 0.010771625590748955
             children [
               DEF 小腿铰接 Transform {
                 translation -0.09 -0.15588 0.012
@@ -470,11 +504,12 @@ Robot {
                 children [
                   HingeJoint {
                     jointParameters HingeJointParameters {
+                      position -0.034903986332160526
                       axis 0 0 1
                     }
                     endPoint DEF 小腿 Solid {
-                      translation 0 0 -5.551115123125783e-17
-                      rotation 0 0 1 0
+                      translation 0 0 -5.551115123125794e-17
+                      rotation 0 0 -1 0.03490398633216445
                       children [
                         DEF 小腿 Shape {
                           appearance PBRAppearance {
@@ -507,6 +542,8 @@ Robot {
                         density -1
                         mass 0.124
                       }
+                      linearVelocity 0.005279480620200901 -0.02501866096044908 -0.0022520080310843137
+                      angularVelocity -0.015579546722079762 0.004972327603676127 -0.3223118235004156
                     }
                   }
                 ]
@@ -542,6 +579,8 @@ Robot {
               density -1
               mass 0.28
             }
+            linearVelocity 0.003950958919377428 -0.05990155396087206 -0.0046956055042273025
+            angularVelocity -0.014516045318598708 0.004131668214570665 0.2509824060637704
           }
         }
       ]
@@ -580,15 +619,18 @@ Robot {
       }
     }
   ]
+  contactMaterial "rubber"
   boundingObject USE body
   physics Physics {
     density -1
     mass 0.001
   }
-  controller "<extern>"
+  controller "dynamic_lqr"
+  linearVelocity -0.012685988408444818 -0.06713680446121663 -0.0052775630361815646
+  angularVelocity -0.014984387967863751 0.004500108991121139 -0.002232382456189037
 }
 DEF 斜坡 Solid {
-  translation 2 0.025 -0.5
+  translation 2 0.025 -1.5
   children [
     DEF 斜坡 Transform {
       children [
@@ -640,7 +682,7 @@ DEF 斜坡 Solid {
   locked TRUE
 }
 DEF 弧度坡 Solid {
-  translation 1.7 0.02578 0.15
+  translation 1.7 0.02578 1
   rotation 0 1 0 3.14
   children [
     DEF 弧度坡 Transform {

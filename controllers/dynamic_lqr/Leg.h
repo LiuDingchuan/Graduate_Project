@@ -47,6 +47,8 @@ public:
     float TL_set, TR_set, TWheel_set;
     float F_set;  // 根据腿长PD控制得到， 初值为上层机构重力
     float Tp_set; // 根据状态反馈矩阵得到
+    float ForceEstimate;//足端纵向力
+    float OmegaEstimate;//估计得到的转速信息
 
     Matrix<float, 2, 6> K;     // 反馈矩阵
     Matrix<float, 6, 1> X, Xd; // 状态矩阵，[theta, theta_dot, x, x_dot, phi, phi_dot]

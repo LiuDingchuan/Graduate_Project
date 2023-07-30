@@ -1,11 +1,15 @@
 #VRML_SIM R2020a utf8
 WorldInfo {
   basicTimeStep 5
+  contactProperties [
+    ContactProperties {
+    }
+  ]
 }
 Viewpoint {
-  orientation 0.49823658255324216 0.8668812678490873 0.016648581261634106 5.936943429266377
-  position -0.2615019356510615 0.9988461031521317 4.042246610989868
-  follow "solid"
+  orientation 0.26259959524142595 0.9649036257281276 -0.001563852855229242 5.8895131723506875
+  position -0.7153335944201404 0.8401865049445156 3.760682335343932
+  follow "robot:solid"
 }
 TexturedBackground {
 }
@@ -91,7 +95,7 @@ Robot {
                               ]
                               endPoint DEF 车轮 Solid {
                                 translation -0.0025424667025388706 -2.961220368691286e-06 -6.726536987844683e-06
-                                rotation 0.031190896720021687 0.9687824899031462 0.24594230058869807 4.693274422891038e-07
+                                rotation 0.031190896720021684 0.9687824899031461 0.24594230058869804 4.693274422891038e-07
                                 children [
                                   GPS {
                                     translation 0 0.05 0
@@ -308,7 +312,7 @@ Robot {
           ]
           endPoint DEF 大腿 Solid {
             translation -0.00031611320979887253 -0.0003733700090944314 -1.1675555913803759e-05
-            rotation 0.7272682884741151 -0.6442435048758357 0.23670898378648525 0.00032628096664076567
+            rotation 0.727268288474115 -0.6442435048758356 0.23670898378648522 0.00032628096664076567
             children [
               DEF 小腿铰接 Transform {
                 translation -0.09 -0.15588 0.012
@@ -585,10 +589,10 @@ Robot {
     density -1
     mass 0.001
   }
-  controller "<extern>"
+  controller "dynamic_lqr"
 }
 DEF 斜坡 Solid {
-  translation 2 0.025 -0.5
+  translation 2 0.025 -1.5
   children [
     DEF 斜坡 Transform {
       children [
@@ -640,7 +644,7 @@ DEF 斜坡 Solid {
   locked TRUE
 }
 DEF 弧度坡 Solid {
-  translation 1.7 0.02578 0.15
+  translation 1.7 0.02578 1
   rotation 0 1 0 3.14
   children [
     DEF 弧度坡 Transform {
