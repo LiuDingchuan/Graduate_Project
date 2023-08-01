@@ -4,7 +4,7 @@
  * @Author: Dandelion
  * @Date: 2023-05-11 12:31:34
 <<<<<<< HEAD
- * @LastEditTime: 2023-07-15 19:44:24
+ * @LastEditTime: 2023-08-01 10:46:50
 =======
  * @LastEditTime: 2023-07-15 18:27:45
 >>>>>>> 0792d8e368bad9424ecb953d3755c115bcde5f80
@@ -29,7 +29,7 @@
 
 ### eigen库
 
-由于lqr计算中设计高维矩阵，需要用到C++的eigen库，其下载和后续的环境配置详见[Webots：VSCode作为控制器IDE并调用Eigen库](https://blog.csdn.net/qq413886183/article/details/124692107?spm=1001.2014.3001.5501)
+由于lqr计算中涉及高维矩阵，需要用到C++的eigen库，其下载和后续的环境配置详见[Webots：VSCode作为控制器IDE并调用Eigen库](https://blog.csdn.net/qq413886183/article/details/124692107?spm=1001.2014.3001.5501)
 
 ### VSCode
 
