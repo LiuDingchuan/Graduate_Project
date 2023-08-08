@@ -115,7 +115,7 @@ void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
     leg_R->angle1 = 2.0 / 3.0 * PI - encoder_FR->getValue();
     leg_R->angle4 = 1.0 / 3.0 * PI + encoder_BR->getValue();
     leg_R->Zjie(leg_R->angle1, leg_R->angle4, pitch.now);
-    leg_R->angle0.dot = (leg_R->angle0.now - leg_R->angle0.now) / dt;
+    leg_R->angle0.dot = (leg_R->angle0.now - leg_R->angle0.last) / dt;
     // 计算K矩阵数据，根据L0.now拟合得到
     static Matrix<float, 2, 1> u;
     static Matrix<float, 2, 1> Torque_L, Torque_R;

@@ -71,8 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)</OutDir>
-    <IncludePath>E:\Webots2020\include\controller\c;E:\eigen-3.4.0\Eigen;E:\Webots2020\include\controller\cpp;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Webots2020\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Webots2020\include\controller\c;D:\Eigen-C++\eigen-3.4.0\Eigen;D:\Webots2020\include\controller\cpp;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Webots2020\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -112,7 +112,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\eigen-3.4.0\Eigen;$(WEBOTS_HOME)/include/controller/c;$(WEBOTS_HOME)/include/controller/cpp</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\eigen-3.4.0\Eigen;$(WEBOTS_HOME)\include\controller\c;$(WEBOTS_HOME)\include\controller\cpp</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -123,43 +123,43 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Accelerometer.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Brake.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Camera.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Compass.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Connector.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Device.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\DifferentialWheels.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Display.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\DistanceSensor.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Emitter.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Field.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\GPS.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Gyro.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\InertialUnit.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Joystick.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Keyboard.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\LED.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Lidar.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\LightSensor.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Motion.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Motor.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Mouse.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Node.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Pen.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\PositionSensor.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Radar.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\RangeFinder.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Receiver.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Robot.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Skin.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Speaker.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Supervisor.cpp" />
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\TouchSensor.cpp" />
     <ClCompile Include="..\dynamic_lqr\Leg.cpp" />
     <ClCompile Include="..\dynamic_lqr\main.cpp" />
     <ClCompile Include="..\dynamic_lqr\MyRobot.cpp" />
     <ClCompile Include="..\dynamic_lqr\Pid.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Accelerometer.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Brake.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Camera.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Compass.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Connector.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Device.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\DifferentialWheels.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Display.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\DistanceSensor.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Emitter.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Field.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\GPS.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Gyro.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\InertialUnit.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Joystick.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Keyboard.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\LED.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Lidar.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\LightSensor.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Motion.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Motor.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Mouse.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Node.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Pen.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\PositionSensor.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Radar.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\RangeFinder.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Receiver.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Robot.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Skin.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Speaker.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Supervisor.cpp" />
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\TouchSensor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\dynamic_lqr\Leg.h" />
@@ -168,7 +168,7 @@
     <ClInclude Include="..\dynamic_lqr\Robot.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="E:\Webots2020\resources\languages\cpp\Makefile" />
+    <None Include="..\..\..\..\Webots2020\resources\languages\cpp\Makefile" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
