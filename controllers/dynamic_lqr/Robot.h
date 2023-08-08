@@ -1,6 +1,14 @@
+/*
+ * @Description:
+ * @Version: 2.0
+ * @Author: Dandelion
+ * @Date: 2023-05-11 12:33:50
+ * @LastEditTime: 2023-07-25 17:14:12
+ * @FilePath: \webots_sim\controllers\dynamic_lqr\Robot.h
+ */
 /***
  * @CreatedTime   2022-04-23 19:57:04
- * @LastEditors   未定义
+ * @LastEditors: Please set LastEditors
  * @LastEditTime  2022-04-25 15:29:11
  * @FilePath      \bishe\Robot.h
  */
@@ -82,6 +90,7 @@ public:
     double getVelSet() { return velocity.set; };
     double getWheelLeftTorque() { return L_Wheelmotor->getTorqueFeedback(); };
     double getWheelRightTorque() { return R_Wheelmotor->getTorqueFeedback(); };
+    Matrix<float, 2, 1> WheelForceEstimate(double omega, float Torque);
 };
 
 #endif

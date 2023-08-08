@@ -1,3 +1,11 @@
+/*
+ * @Description:
+ * @Version: 2.0
+ * @Author: Dandelion
+ * @Date: 2023-05-11 12:33:50
+ * @LastEditTime: 2023-07-21 14:14:07
+ * @FilePath: \webots_sim\controllers\dynamic_lqr\main.cpp
+ */
 /***
  * @CreatedTime   2022-04-23 17:02:54
  * @LastEditors   未定义
@@ -19,7 +27,7 @@ int main(int argc, char **argv)
     {
         wheel_legged.MyStep();
         wheel_legged.run();
-        if (wheel_legged.getTime() > 0.5)
+        if (wheel_legged.getTime() > 0.5 && wheel_legged.sampling_flag == 1)
         {
             outfile.open("data2.dat", ios::app);
             outfile << wheel_legged.getTime() << " "
@@ -41,6 +49,8 @@ int main(int argc, char **argv)
                     << wheel_legged.leg_R.angle0.now << " "
                     << wheel_legged.leg_L.L0.set << " "
                     << wheel_legged.leg_R.L0.set << " "
+                    << wheel_legged.leg_L.ForceEstimate<< " "
+                    << wheel_legged.leg_R.ForceEstimate<< " "
                     << endl;
             outfile.close();
         }

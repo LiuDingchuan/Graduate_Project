@@ -18,6 +18,8 @@ theta0_L = data(:, 16);
 theta0_R = data(:, 17);
 L0_L_set = data(:, 18);
 L0_R_set = data(:, 19);
+ForceEstimate_L = data(:, 20);
+ForceEstimate_R = data(:, 21);
 
 figure;
 subplot(3,3,1);
@@ -85,9 +87,15 @@ ylabel("L0(mm)");
 grid on;
 
 subplot(3, 3, 9);
-plot(t, L0_R*1000, t, L0_R_set*1000);
-legend("L0 R","L0 Rset");
+plot(t, ForceEstimate_L, t, ForceEstimate_R);
+legend("F L","F R");
 xlabel("t(s)");
-ylabel("L0(mm)");
+ylabel("F(N)");
 grid on;
+% subplot(3, 3, 9);
+% plot(t, L0_R*1000, t, L0_R_set*1000);
+% legend("L0 R","L0 Rset");
+% xlabel("t(s)");
+% ylabel("L0(mm)");
+% grid on;
 

@@ -183,6 +183,13 @@ void MyRobot::status_update(LegClass *leg_sim, LegClass *leg_L, LegClass *leg_R,
     leg_R->TL_set = -Torque_R(0, 0);
     leg_R->TR_set = Torque_R(1, 0);
     leg_R->TWheel_set += out_turn;
+    /*限幅*/
+    leg_L->TL_set = MIN(22, leg_L->TL_set);
+    leg_L->TR_set = MIN(22, leg_L->TR_set);
+    leg_L->TWheel_set = MIN(15, leg_L->TWheel_set);
+    leg_R->TL_set = MIN(22, leg_R->TL_set);
+    leg_R->TR_set = MIN(22, leg_R->TR_set);
+    leg_R->TWheel_set = MIN(22, leg_R->TWheel_set);
 }
 
 void MyRobot::run()
@@ -273,37 +280,46 @@ void MyRobot::run()
     leg_L.L0.set = Limit(leg_L.L0.set, 0.35, 0.2);
     leg_R.L0.set = Limit(leg_R.L0.set, 0.35, 0.2);
     /*测试用的，追踪一个持续4s的速度期望*/
-    // if (sampling_flag == 1)
-    // {
-    //     if (time - sampling_time < 1)
-    //     {
-    //         velocity.set = 0;
-    //     }
-    //     else if (time - sampling_time < 5)
-    //     {
-    //         // velocity.set += acc_up_max * time_step * 0.001;
-    //         velocity.set = 1.0;
-    //     }
-    //     // else if (time < 6)
-    //     // {
-    //     //     velocity.set = 3;
-    //     // }
-    //     // else if (time < 9)
-    //     // {
-    //     //     velocity.set -= acc_down_max * time_step * 0.001;
-    //     // }
-    //     else
-    //     {
-    //         velocity.set = 0;
-    //         sampling_flag = 0;
-    //     }
-    // }
+    if (sampling_flag == 1)
+    {
+        if (time - sampling_time < 1)
+        {
+            velocity.set = 0;
+        }
+        else if (time - sampling_time < 5)
+        {
+            // velocity.set += acc_up_max * time_step * 0.001;
+            velocity.set = 1.0;
+        }
+        // else if (time < 6)
+        // {
+        //     velocity.set = 3;
+        // }
+        // else if (time < 9)
+        // {
+        //     velocity.set -= acc_down_max * time_step * 0.001;
+        // }
+        else
+        {
+            velocity.set = 0;
+            if (time - sampling_time > 8)
+            {
+                sampling_flag = 0;
+            }
+        }
+        Matrix<float, 2, 1> tempLeft = WheelForceEstimate(L_Wheelmotor->getVelocity(), leg_L.TWheel_set);
+        Matrix<float, 2, 1> tempRight = WheelForceEstimate(R_Wheelmotor->getVelocity(), leg_R.TWheel_set);
+        leg_L.OmegaEstimate = tempLeft(0, 0);
+        leg_L.ForceEstimate = tempLeft(1, 0);
+        leg_R.OmegaEstimate = tempRight(0, 0);
+        leg_R.ForceEstimate = tempRight(1, 0);
+
+    }
 
     velocity.set = Limit(velocity.set, 2.5, -2.5);
     yaw.set_dot = Limit(yaw.set_dot, 2.0, -2.0);
     yaw.set += yaw.set_dot * time_step * 0.001;
     status_update(&leg_simplified, &leg_L, &leg_R, this->pitch, this->roll, this->yaw, time_step * 0.001, velocity.set);
-
     /*输出力矩*/
     BL_legmotor->setTorque(leg_L.TL_set);
     FL_legmotor->setTorque(leg_L.TR_set);
@@ -329,4 +345,54 @@ float MyRobot::limitVelocity(float speed_set, float L0)
 {
     float speed_max = -30 * L0 + 10.7;
     return (speed_set > speed_max) ? speed_max : speed_set;
+}
+
+static int first_init = 1;
+Matrix<float, 2, 1> MyRobot::WheelForceEstimate(double omega, float Torque)
+{
+    static float J_w = 0.00375805;
+    static float R_w = 0.05;
+    static float ts = 0.005;
+    Matrix<float, 2, 2> A;
+    Matrix<float, 2, 1> B;
+    Matrix<float, 1, 2> H;
+    A << 1, -R_w * ts / J_w,
+        0, 1;
+    B << ts / J_w,
+        0;
+    H << 1, 0;
+
+    Matrix<float, 2, 1> w_k, v_k;
+    Matrix<float, 1, 1> u_k, z_k, R;
+    Matrix<float, 2, 2> Q;
+    static Matrix<float, 2, 1> X_k;
+    static Matrix<float, 2, 2> P_k;
+    if (first_init == 1)
+    {
+        P_k << 0, 0;
+        0, 0;
+        X_k << (float)omega,
+            Torque;
+        first_init = 0;
+    }
+    z_k << omega;
+    u_k << Torque;
+    Q << 0.1, 0,
+        0, 0.1;
+    R << 0.1;
+    // 根据上一时刻状态量及过程噪声计算先验估计值
+    X_k = A * X_k + B * u_k;
+    P_k = A * P_k * A.transpose() + Q;
+    // 计算卡尔曼增益
+    Matrix<float, 2, 1> K_k;
+    Matrix<float, 1, 1> temp;
+    temp = H * P_k * H.transpose() + R;
+    K_k = P_k * H.transpose() * temp.inverse();
+    // 对先验估计进行校正
+    X_k = X_k + K_k * (z_k - H * X_k);
+    Matrix<float, 2, 2> I;
+    I << 1, 0,
+        0, 1;
+    P_k = (I - K_k * H) * P_k;
+    return X_k;
 }
