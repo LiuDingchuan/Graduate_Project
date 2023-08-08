@@ -1,5 +1,3 @@
-
-
 #include "Robot.h"
 
 MyRobot::MyRobot() : balance_angle(-0.0064)
@@ -313,7 +311,6 @@ void MyRobot::run()
         leg_L.ForceEstimate = tempLeft(1, 0);
         leg_R.OmegaEstimate = tempRight(0, 0);
         leg_R.ForceEstimate = tempRight(1, 0);
-
     }
 
     velocity.set = Limit(velocity.set, 2.5, -2.5);
