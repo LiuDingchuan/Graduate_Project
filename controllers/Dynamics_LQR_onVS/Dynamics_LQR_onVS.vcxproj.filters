@@ -13,104 +13,104 @@
     <ClCompile Include="..\dynamic_lqr\MyRobot.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Accelerometer.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Accelerometer.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Brake.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Brake.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Camera.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Camera.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Compass.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Compass.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Connector.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Connector.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Device.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Device.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\DifferentialWheels.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\DifferentialWheels.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Display.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Display.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\DistanceSensor.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\DistanceSensor.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Emitter.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Emitter.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Field.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Field.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\GPS.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\GPS.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Gyro.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Gyro.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\InertialUnit.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\InertialUnit.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Joystick.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Joystick.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Keyboard.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Keyboard.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\LED.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\LED.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Lidar.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Lidar.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\LightSensor.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\LightSensor.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Motion.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Motion.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Motor.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Motor.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Mouse.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Mouse.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Node.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Node.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Pen.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Pen.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\PositionSensor.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\PositionSensor.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Radar.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Radar.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\RangeFinder.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\RangeFinder.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Receiver.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Receiver.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Robot.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Robot.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Skin.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Skin.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Speaker.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Speaker.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\Supervisor.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\Supervisor.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Webots2020\resources\languages\cpp\TouchSensor.cpp">
-      <Filter>Webots C++ wrappers</Filter>
+    <ClCompile Include="..\..\..\..\Webots2020\resources\languages\cpp\TouchSensor.cpp">
+      <Filter>Webots C++ Wrapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,13 +134,13 @@
     <Filter Include="src">
       <UniqueIdentifier>{c528882d-abd8-4166-bfac-f2a6e103b531}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Webots C++ wrappers">
-      <UniqueIdentifier>{1cd464fd-7ee8-4d4c-9ee8-52f21e0b34b8}</UniqueIdentifier>
+    <Filter Include="Webots C++ Wrapper">
+      <UniqueIdentifier>{92aeaf46-af36-4438-9ed1-9c9665a7390b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="E:\Webots2020\resources\languages\cpp\Makefile">
-      <Filter>Webots C++ wrappers</Filter>
+    <None Include="..\..\..\..\Webots2020\resources\languages\cpp\Makefile">
+      <Filter>Webots C++ Wrapper</Filter>
     </None>
   </ItemGroup>
 </Project>

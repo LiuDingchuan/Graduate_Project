@@ -1,10 +1,3 @@
-/***
- * @CreatedTime   2021-12-13 15:01:01
- * @LastEditors   未定义
- * @LastEditTime  2021-12-13 15:03:41
- * @FilePath      \dog_ctrl1\MyDefine.h
- */
-
 /* some const */
 #define True 1
 #define False 0
