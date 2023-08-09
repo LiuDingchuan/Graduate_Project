@@ -27,7 +27,7 @@ g = 9.81;
 
 %列出替代方程
 Nm(t) = M*diff(diff(x+(L+Lm)*sin(theta)-l*sin(phi),t) , t);
-Pm(t)= M*g + M*diff(diff(x+(L+Lm)*sin(theta)-l*cos(phi),t), t);
+Pm(t)= M*g + M*diff(diff(x+(L+Lm)*sin(theta)+l*cos(phi),t), t);
 N(t) = Nm(t) + mp*diff(diff(x + L*sin(theta), t), t);
 P(t) = Pm(t) + mp*g + mp*diff(diff(L*cos(theta), t), t);
 %简化，用字母替代
