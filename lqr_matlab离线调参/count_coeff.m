@@ -17,8 +17,8 @@ ml4 = 0.28*2;
 global Il1 Il2 Il3 Il4;
 Il1 = 0.000858771 * 2;
 Il2 = 0.000469931 * 2;
-Il3 = Il2 * 2;
-Il4 = Il1 * 2;
+Il3 = Il2;
+Il4 = Il1;
 
 num_data = 20;
 L_lib = [];
