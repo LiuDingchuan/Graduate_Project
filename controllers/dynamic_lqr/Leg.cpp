@@ -3,7 +3,7 @@
  * @Version: 2.0
  * @Author: Dandelion
  * @Date: 2023-03-24 17:19:53
- * @LastEditTime: 2023-07-28 23:23:01
+ * @LastEditTime: 2023-12-11 18:17:37
  * @FilePath: \webots_sim\controllers\dynamic_lqr\Leg.cpp
  */
 #include "Leg.h"
@@ -93,7 +93,8 @@ void LegClass::Zjie(const float angle1, const float angle4, const float pitch)
     float C0 = pow(l2, 2) + pow(lbd, 2) - pow(l3, 2);
     float D0 = pow(l3, 2) + pow(lbd, 2) - pow(l2, 2);
     angle2 = 2 * atan((B0 + sqrt(pow(A0, 2) + pow(B0, 2) - pow(C0, 2))) / (A0 + C0));
-    angle3 = PI - 2 * atan((B0 + sqrt(pow(A0, 2) + pow(B0, 2) - pow(D0, 2))) / (A0 + D0));
+    angle3 = PI - 2 * atan((-B0 + sqrt(pow(A0, 2) + pow(B0, 2) - pow(D0, 2))) / (A0 + D0));
+    ang3 = PI - 2 * atan((B0 + sqrt(pow(A0, 2) + pow(B0, 2) - pow(D0, 2))) / (A0 + D0));
     xc = xb + l2 * cos(angle2);
     yc = yb + l2 * sin(angle2);
 

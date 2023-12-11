@@ -1,4 +1,4 @@
-% function [T1, T2] = VMC(F, Tp)
+function [T1, T2] = VMC(F, Tp)
 syms phi0(t) phi1(t) phi2(t) phi3(t) phi4(t) phi_dot_1 phi_dot_4 
 syms l0 l1 l2 l3 l4 l5 theta0 theta1 theta2 theta3 theta4;
 x_B = l1*cos(phi1);
@@ -37,11 +37,11 @@ M = [0    1/l0;
 T = simplify(J.'*R*M)
 symdisp(T)
 
-% T = subs(T, ...
-%     [phi0(t), phi1(t), phi2(t), phi3(t), phi4(t)], ...
-%     [theta0, theta1, theta2, theta3, theta4]);
-% torque = double(T)*[F;Tp];
-% disp(double(T));
-% T1 = torque(1);
-% T2 = torque(2);
-% end
+T = subs(T, ...
+    [phi0(t), phi1(t), phi2(t), phi3(t), phi4(t)], ...
+    [theta0, theta1, theta2, theta3, theta4]);
+torque = double(T)*[F;Tp];
+disp(double(T));
+T1 = torque(1);
+T2 = torque(2);
+end

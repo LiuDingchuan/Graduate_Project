@@ -32,7 +32,7 @@ private:
 
 public:
     // data
-    float angle1, angle2, angle3, angle4; // 弧度制
+    float angle1, angle2, angle3, angle4, ang3; // 弧度制
     DataStructure angle0;
     DataStructure L0;
     DataStructure dis;

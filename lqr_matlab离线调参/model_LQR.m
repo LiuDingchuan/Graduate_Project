@@ -63,7 +63,7 @@ vars = [x_dot_dot theta_dot_dot phi_dot_dot];
 
 [x_dot_dot, theta_dot_dot, phi_dot_dot] = solve(eqns, vars);
 %对平衡点进行线性化
-X = [theta(t); theta_dot; x(t); x_dot; phi(t); phi_dot];
+X = [theta(t); theta_dot; x(t); x_dot; phi(t); phi_dot]
 u = [T(t);Tp(t)];
 X_dot = [theta_dot; theta_dot_dot; x_dot; x_dot_dot; phi_dot; phi_dot_dot];
 A = jacobian(X_dot, X);
