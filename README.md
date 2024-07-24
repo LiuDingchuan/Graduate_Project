@@ -4,11 +4,11 @@
  * @Author: Dandelion
  * @Date: 2023-05-11 12:31:34
 <<<<<<< HEAD
- * @LastEditTime: 2023-08-01 10:46:50
+ * @LastEditTime: 2024-07-24 17:31:47
 =======
  * @LastEditTime: 2023-07-15 18:27:45
 >>>>>>> 0792d8e368bad9424ecb953d3755c115bcde5f80
- * @FilePath: \webots_sim\README.md
+ * @FilePath: \Graduate_Project\README.md
 -->
 # 双轮腿式机器人控制系统设计
 
@@ -30,6 +30,11 @@
 ### eigen库
 
 由于lqr计算中涉及高维矩阵，需要用到C++的eigen库，其下载和后续的环境配置详见[Webots：VSCode作为控制器IDE并调用Eigen库](https://blog.csdn.net/qq413886183/article/details/124692107?spm=1001.2014.3001.5501)
+由于这个文章需要CSDN会员，所以这里简单介绍一下：
+
+1. 下载eigen库最新的stable版
+2. 打开webots/resources/Makefile.include，搜索“Linked libraries”，加入INCLUDE = -I"(你的Eigen安装目录)/Eigen"
+3. webots中编译，不会报错即为成功
 
 ### VSCode
 
